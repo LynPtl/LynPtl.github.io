@@ -73,6 +73,403 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-128最长连续序列" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T12:18:01.000Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/">128.最长连续序列</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="128-最长连续序列"><a href="#128-最长连续序列" class="headerlink" title="128 最长连续序列"></a>128 最长连续序列</h1><p>给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。<br>请你设计并实现时间复杂度为 O(n) 的算法解决此问题。  </p>
+<p>时间复杂度o(n)就意味着不能使用sorted遍历。因为排序的时间复杂度是o(nlogn)。  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuiduxec4vIMjEuIlQS8YKmXA" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-1两数之和" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T12:18:01.000Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">1.两数之和</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1 两数之和"></a>1 两数之和</h1><p>其实C++才是最适合研究算法的语言，但是我已经很多年没有碰cpp了，上一次碰的时候应该还是大二打第二次蓝桥杯的时候用的，或许我都快把万能头怎么写给忘掉了。</p>
+<p>#include&lt;bits&#x2F;stdc++.h&gt;<br>using namespace std;<br>结果居然是用Python写的这道题。因为最近几乎只是用过这一种语言。<br>一开始犯了很愚蠢的错误，我没有看清变量名，反而把初始化的数据结构名当作变量名了。<br>算法题的函数传参似乎都比较严格。在函数声明的时候就已经规范好了数据类型。<br>写了一个很基础的n^2遍历。</p>
+<p>这里有一个时间复杂度更低的方法O(1)就是哈希表 hash table。<br>unordered_map<br>值得一提的是，我看了人家hashtable的c++题解之后，立刻提出了一个问题：<br>“在不考虑内部顺序和哈希冲突的情况下，hash table的功能是否和dictionary数据类型有点相似呢？”  </p>
+<hr>
+<p>是的，在不考虑内部顺序和哈希冲突的情况下，哈希表(hash table)的功能确实与字典(dictionary)数据类型非常相似。<br>实际上，Python的字典(dict)就是使用哈希表作为其底层实现的。这两者之间的关系非常紧密：</p>
+<p>键值对存储：两者都是通过键值对(key-value pairs)来存储数据。<br>快速查找：两者都提供接近O(1)的时间复杂度进行查找操作。也就是说，无论字典有多大，查找一个键所需的时间基本是常数时间。<br>通过键访问：两者都是通过键来访问对应的值，而不是通过索引位置。</p>
+<p>不过，当我们考虑内部顺序和哈希冲突时，确实会发现一些区别：</p>
+<p>内部顺序：传统的哈希表通常不保证顺序，而Python的字典从Python 3.7开始保证了插入顺序。<br>哈希冲突处理：不同哈希表实现可能使用不同的哈希冲突解决策略，例如开放寻址法或链式哈希。Python的字典使用开放寻址法来处理哈希冲突。  </p>
+<hr>
+<pre><code>class Solution {
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
+        unordered_map&lt;int, int&gt; hashtable;
+        for (int i = 0; i &lt; nums.size(); ++i) {
+            auto it = hashtable.find(target - nums[i]);
+            if (it != hashtable.end()) {
+                return {it-&gt;second, i};
+            }
+            hashtable[nums[i]] = i;
+        }
+        return {};
+    }
+};
+
+作者：御三五 🥇
+链接：https://leetcode.cn/problems/two-sum/solutions/657225/tu-jie-guan-fang-tui-jian-ti-jie-liang-s-02xs/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+</code></pre>
+<hr>
+<pre><code>class Solution:
+    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
+        hashtable = dict()
+        for i, num in enumerate(nums):
+            if target - num in hashtable:
+                return [hashtable[target - num], i]
+            hashtable[nums[i]] = i
+        return []
+
+作者：御三五 🥇
+链接：https://leetcode.cn/problems/two-sum/solutions/657225/tu-jie-guan-fang-tui-jian-ti-jie-liang-s-02xs/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+</code></pre>
+<hr>
+<pre><code>class Solution:
+    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
+        length = len(nums)
+        for i in range(length):
+            for j in range(i+1, length):
+                if nums[i]+nums[j] == target:
+                    result = [i,j]
+                    return result
+</code></pre>
+<h2 id="C-容器"><a href="#C-容器" class="headerlink" title="C++容器"></a>C++容器</h2><p>对于.find() 方法对于所有 C++ 标准库中的 unordered_ 系列容器基本上都是一样的。这些容器包括：<br>-unordered_map<br>-unordered_multimap<br>-unordered_set<br>-unordered_multiset<br>所有这些容器的 .find() 都返回一个迭代器，如果找到了元素，返回指向该元素的迭代器，如果没找到元素，返回 容器.end()    </p>
+<p>时间复杂度：<br>平均情况：O(1)（常数时间）<br>最坏情况：O(n)（当哈希冲突严重时）</p>
+<p>用法：  </p>
+<pre><code>auto it = container.find(key);
+if (it != container.end()) {
+    // 找到了元素
+}
+</code></pre>
+<p>这里auto是自动分配类型，因为这里是一个容器类型，通常就直接用auto自动适配了。<br>对于map而言，find()搜索的是key。  </p>
+<p>对于unordered_map&lt;int,int&gt; example访问key和value：<br>example-&gt;first 访问key<br>example-&gt;second 访问value<br>此外，如果要返回容器类型，那么是用{}来包裹值。  </p>
+<pre><code>// 创建并初始化vector
+vector&lt;int&gt; nums = {1, 2, 3, 4, 5};  // 初始化一个包含5个元素的vector
+
+// 直接构造
+vector&lt;int&gt; nums2 {1, 2, 3, 4, 5};   // 等同于上面的写法
+
+// 函数返回
+return {1, 2};                      // 如果函数返回类型是vector&lt;int&gt;，这会创建并返回包含两个元素的vector
+</code></pre>
+<p>C++11 引入了花括号初始化（uniform initialization）作为一种通用的初始化容器的方式<br>适用于所有标准容器类型（vector, map, set 等）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidkMJDP7GBRfZ9jJvlmUlhE" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-3无重复字符的最大字串" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T12:18:01.000Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/">3.无重复字符的最大字串</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="无重复字符的最大子串"><a href="#无重复字符的最大子串" class="headerlink" title="无重复字符的最大子串"></a>无重复字符的最大子串</h1><h2 id="暴力遍历"><a href="#暴力遍历" class="headerlink" title="暴力遍历"></a>暴力遍历</h2><p>暴力的思路还是非常简单的，一个n^2的暴力循环。第一个循环是第一位是哪一位，第二个循环是后面满足条件的最大位数。<br>第一反应没能写出来是因为没有想到set。对于稍微有些特别的数据结构并不是特别敏感。  </p>
+<pre><code>def lengthOfLongestSubstring(s: str) -&gt; int:
+    n = len(s)
+    max_length = 0
+    
+    # 遍历每个可能的起始位置
+    for i in range(n):
+        # 使用集合来跟踪已经出现的字符
+        char_set = set()
+        current_length = 0
+        
+        # 从起始位置向后扩展
+        for j in range(i, n):
+            # 如果当前字符已经在集合中，表示遇到了重复字符
+            if s[j] in char_set:
+                break
+            
+            # 将当前字符添加到集合中，并增加当前子串长度
+            char_set.add(s[j])
+            current_length += 1
+        
+        # 更新最大长度
+        max_length = max(max_length, current_length)
+    
+    return max_length
+</code></pre>
+<p>但是对于C++而言，这里又要用到stl标准库中的unordered_set&lt;&gt;容器。回想我当时学习C++的时候，几乎就没有怎么用过这些stl容器。。但是对于这种题目使用这种容器几乎是唯一解法，因为不使用stl会使其极度复杂，因为你需要自己定义这种结构体。<br>所以现在学习算法的时候我会顺带学习一下C++的常用stl。<br><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-libs-unordered_set.html">https://www.runoob.com/cplusplus/cpp-libs-unordered_set.html</a>  </p>
+<pre><code>#include &lt;string&gt;
+#include &lt;unordered_set&gt;
+#include &lt;algorithm&gt;
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(std::string s) {
+        int n = s.length();
+        int maxLength = 0;
+        
+        // 遍历每个可能的起始位置
+        for (int i = 0; i &lt; n; i++) {
+            // 使用unordered_set来跟踪已经出现的字符
+            std::unordered_set&lt;char&gt; charSet;
+            int currentLength = 0;
+            
+            // 从起始位置向后扩展
+            for (int j = i; j &lt; n; j++) {
+                // 如果当前字符已经在集合中，表示遇到了重复字符
+                if (charSet.find(s[j]) != charSet.end()) {
+                    break;
+                }
+                
+                // 将当前字符添加到集合中，并增加当前子串长度
+                charSet.insert(s[j]);
+                currentLength++;
+            }
+            
+            // 更新最大长度
+            maxLength = std::max(maxLength, currentLength);
+        }
+        
+        return maxLength;
+    }
+};
+</code></pre>
+<h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><p>理解成一个小窗口在移动，一直划选着符合条件的内容。<br>窗口初始化为0，将第一个元素添加进窗口，随后检测第二个元素是否存在于窗口：<br>如果不存在则添加进窗口。如果存在则循环删除窗口内最左侧元素直到满足条件。<br>满足条件后记录目前的长度并和最大长度进行比较。  </p>
+<pre><code>class Solution:
+    def lengthOfLongestSubstring(self, s: str) -&gt; int:
+        if not s:return 0
+        left = 0
+        lookup = set()
+        n = len(s)
+        max_len = 0
+        cur_len = 0
+        for i in range(n):
+            cur_len += 1
+            while s[i] in lookup:
+                lookup.remove(s[left])
+                left += 1
+                cur_len -= 1
+            if cur_len &gt; max_len:max_len = cur_len
+            lookup.add(s[i])
+        return max_len
+
+作者：powcai
+链接：https://leetcode.cn/problems/longest-substring-without-repeating-characters/solutions/3982/hua-dong-chuang-kou-by-powcai/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。  
+</code></pre>
+<hr>
+<pre><code>class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.size() == 0) return 0;
+        unordered_set&lt;char&gt; lookup;
+        int maxStr = 0;
+        int left = 0;
+        for(int i = 0; i &lt; s.size(); i++){
+            while (lookup.find(s[i]) != lookup.end()){
+                lookup.erase(s[left]);
+                left ++;
+            }
+            maxStr = max(maxStr,i-left+1);
+            lookup.insert(s[i]);
+    }
+        return maxStr;
+        
+    }
+};
+
+作者：powcai
+链接：https://leetcode.cn/problems/longest-substring-without-repeating-characters/solutions/3982/hua-dong-chuang-kou-by-powcai/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+</code></pre>
+<p>时间复杂度分析：<br>乍一看，这段代码似乎有嵌套循环（外部for循环和内部while循环），可能让人觉得时间复杂度是O(n²)。但实际上，这个算法的总体时间复杂度是O(n)，其中n是字符串的长度。<br>原因如下：</p>
+<p>外部的for循环明确执行n次，每次处理字符串中的一个字符。<br>关键在于内部的while循环：虽然它看起来可能在最坏情况下对每个字符都执行多次，但实际上，字符串中的每个字符最多只会被处理两次:</p>
+<p>一次是在外部for循环中被添加到窗口（lookup集合）<br>一次是在while循环中被移出窗口</p>
+<p>左指针left在整个过程中最多移动n次（从0到n-1）。<br>每次执行while循环体，left指针都会向右移动一位。所以while循环体的总执行次数不会超过n次。</p>
+<p>所以，虽然代码中有嵌套的循环结构，但内部while循环的总执行次数受到字符串长度n的限制，使得整体时间复杂度仍然是O(n)。<br>详细解释为什么while循环总执行次数不超过n：</p>
+<p>每次执行while循环，left指针都会向右移动一位<br>left指针在整个算法执行过程中只会从0移动到最多n-1<br>因此，while循环的总执行次数不能超过n</p>
+<p>空间复杂度：<br>空间复杂度是O(min(m, n))，其中m是字符集的大小，n是字符串长度。因为在最坏情况下，lookup集合最多包含min(m, n)个字符。<br>这就是为什么滑动窗口是解决这类问题的高效方法，它避免了暴力解法中的重复计算，将时间复杂度从O(n²)降低到O(n)。</p>
+<p>此外，insert方法和erase方法分别是添加和删除。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidXkJxE_LGtGHCp7fqatfDk" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-49字母异位词分组" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T12:18:01.000Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/">49.字母异位词分组</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="无重复字符的最大子串"><a href="#无重复字符的最大子串" class="headerlink" title="无重复字符的最大子串"></a>无重复字符的最大子串</h1><p>一眼就是使用哈希来做，python的话就是字典。<br>我第一想到的是用counter分别计算每个单词的counter然后找相同的。<br>这个思路是错误的，因为需要一个标记visited的数组并且需要反复多次遍历。  </p>
+<h2 id="正解"><a href="#正解" class="headerlink" title="正解"></a>正解</h2><p>注意到每个字母异位词实际上是sort之后相同的词汇。不妨把单词sorted之后得到的东西作为key，把原单词加入进value。</p>
+<p>python  </p>
+<pre><code>from collections import defaultdict
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -&gt; List[List[str]]:
+        dict = defaultdict(list)
+        for word in strs:
+            sorted_word = &quot;&quot;.join(sorted(word))
+            dict[sorted_word].append(word)
+        return list(dict.values())
+</code></pre>
+<p>C++</p>
+<pre><code>class Solution {
+public:
+    vector&lt;vector&lt;string&gt;&gt; groupAnagrams(vector&lt;string&gt;&amp; strs) {
+        unordered_map&lt;string, vector&lt;string&gt;&gt; m;
+        for (string&amp; s : strs) {
+            string sorted_s = s;
+            ranges::sort(sorted_s); // 把 s 排序，作为哈希表的 key
+            m[sorted_s].push_back(s); // 排序后相同的字符串分到同一组
+        }
+        vector&lt;vector&lt;string&gt;&gt; ans;
+        ans.reserve(m.size()); // 预分配空间
+        for (auto&amp; [_, value] : m) {
+            ans.push_back(value); // 哈希表的 value 保存分组后的结果
+        }
+        return ans;
+    }
+};
+</code></pre>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>时间复杂度：O(nmlogm)，其中 n 为 strs 的长度，m 为 strs[i] 的长度。每个字符串排序需要 O(mlogm) 的时间。我们有 n 个字符串，所以总的时间复杂度为 O(nmlogm)。<br>空间复杂度：O(nm)。  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuid65ZadD6mE3tor8dVLkVlr" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-搭建个人-团队专属永久图床" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" class="article-date">
@@ -229,7 +626,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuidqdJ8EAb7QhsLSO5a-TYc1" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuidmNdf10eQ6JTgbROfYyosh" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -399,7 +796,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuidfcnSd1UZgjxdkBZ3_SGiw" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuidkFty8e4iOCRv37BbBSjci" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -414,7 +811,7 @@
     <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/02/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2025-10-02T03:44:29.928Z" itemprop="datePublished">2025-10-02</time>
+  <time class="dt-published" datetime="2025-10-02T03:49:23.527Z" itemprop="datePublished">2025-10-02</time>
 </a>
     
   </div>
@@ -450,7 +847,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/hello-world/" data-id="cuidBb43ArFu277Hz18vt4-s0" data-title="Hello World" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/hello-world/" data-id="cuideSsN-GsmDI4xD8GVlQf2J" data-title="Hello World" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -472,7 +869,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
     </div>
   </div>
 
@@ -500,15 +897,23 @@
       <ul>
         
           <li>
+            <a href="/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/">128.最长连续序列</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">1.两数之和</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/">3.无重复字符的最大字串</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/">49.字母异位词分组</a>
+          </li>
+        
+          <li>
             <a href="/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/">使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/">Windows平台SSH远程开发环境配置与排错SOP</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/02/hello-world/">Hello World</a>
           </li>
         
       </ul>

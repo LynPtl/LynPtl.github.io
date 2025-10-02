@@ -104,8 +104,3 @@ deploy:
   type: 'git'
   repo: https://github.com/LynPtl/LynPtl.github.io.git
   branch: gh-pages
-
-menu:
-  Home: /
-  Archives: /archives
-  图床: /image-bed.html

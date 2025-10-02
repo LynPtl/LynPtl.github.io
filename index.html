@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LynPtl&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="LynPtl&#39;s Blog">
+<meta property="og:url" content="https://lynptl.github.io/index.html">
+<meta property="og:site_name" content="LynPtl&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="LynPtl">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="LynPtl's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LynPtl&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://LynPtl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-搭建个人-团队专属永久图床" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T12:16:20.000Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/">使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="使用-Cloudflare-R2-ShareX-搭建个人-团队专属“永久”图床"><a href="#使用-Cloudflare-R2-ShareX-搭建个人-团队专属“永久”图床" class="headerlink" title="使用 Cloudflare R2 + ShareX 搭建个人&#x2F;团队专属“永久”图床"></a>使用 Cloudflare R2 + ShareX 搭建个人&#x2F;团队专属“永久”图床</h1><p>本指南旨在提供一个从零开始，利用 Cloudflare R2 的免费套餐和 ShareX 的强大功能，搭建一个高性能、高可靠性、几乎零成本且数据完全由自己掌控的图床的完整流程。</p>
+<p><strong>最终效果</strong>：通过一个快捷键截图，图片自动上传到你的专属存储空间，或手动上传自己的图片，自动将 Markdown 格式的链接复制到剪贴板，实现无缝写作。</p>
+<hr>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%E9%85%8D%E7%BD%AE-cloudflare-r2-%E4%BA%91%E7%AB%AF%E5%AD%98%E5%82%A8">第一部分：配置 Cloudflare R2 (云端存储)</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%E9%85%8D%E7%BD%AE-sharex-%E6%A1%8C%E9%9D%A2%E5%AE%A2%E6%88%B7%E7%AB%AF">第二部分：配置 ShareX (桌面客户端)</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%E4%BC%98%E5%8C%96-sharex-%E5%B7%A5%E4%BD%9C%E6%B5%81">第三部分：优化 ShareX 工作流</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-faq-%E4%B8%8E%E6%8E%92%E9%94%99">常见问题 (F.A.Q) 与排错</a></li>
+</ol>
+<hr>
+<h2 id="第一部分：配置-Cloudflare-R2-云端存储"><a href="#第一部分：配置-Cloudflare-R2-云端存储" class="headerlink" title="第一部分：配置 Cloudflare R2 (云端存储)"></a>第一部分：配置 Cloudflare R2 (云端存储)</h2><p>首先来到Cloudflare开通R2存储。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/%E5%9B%BE%E7%89%87_20250927143514.png"></p>
+<h3 id="1-1-创建-R2-存储桶-Bucket"><a href="#1-1-创建-R2-存储桶-Bucket" class="headerlink" title="1.1 创建 R2 存储桶 (Bucket)"></a>1.1 创建 R2 存储桶 (Bucket)</h3><p>存储桶是存放你所有图片的容器。</p>
+<ol>
+<li>登录 Cloudflare 控制台，在左侧菜单进入 <strong>R2</strong>。</li>
+<li>点击 <strong>Create bucket (创建存储桶)</strong>。</li>
+<li><strong>Bucket name</strong>: 输入一个全局唯一的存储桶名称 (例如 <code>your-org-images-2025</code>)。</li>
+<li><strong>Location</strong>: 保持默认的 <strong>Automatic</strong>。</li>
+<li>点击 <strong>Create bucket</strong>。</li>
+</ol>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/xrRAVMB2Sz.png"></p>
+<h3 id="1-2-开放存储桶的公开访问权限"><a href="#1-2-开放存储桶的公开访问权限" class="headerlink" title="1.2 开放存储桶的公开访问权限"></a>1.2 开放存储桶的公开访问权限</h3><p>为了让上传的图片能被外部访问，需要开启公共访问。</p>
+<ol>
+<li>进入你刚创建的存储桶，点击顶部的 <strong>Settings (设置)</strong> 选项卡。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/1r0AU3aWkD.png" alt="1r0AU3aWkD.png"></li>
+<li>在 <strong>下方Public Development URL</strong> 部分，点击右侧的 <strong>Enable</strong>。</li>
+<li>输入确认信息。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/fgc4amk7S7.png" alt="fgc4amk7S7.png"></li>
+<li><strong>记下</strong>这里显示的 <code>https://pub-....r2.dev</code> 格式的 URL，这是你的公共访问域名。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/RmQwxSxpLi.png" alt="RmQwxSxpLi.png"></li>
+</ol>
+<h3 id="1-3-创建用于上传的-API-Token"><a href="#1-3-创建用于上传的-API-Token" class="headerlink" title="1.3 创建用于上传的 API Token"></a>1.3 创建用于上传的 API Token</h3><p>API Token 是让 ShareX 有权限上传文件到 R2 的“钥匙”。</p>
+<ol>
+<li>回到 R2 的主页（概览页面），点击右上角的 <strong>Manage API Tokens (管理 R2 API 令牌)</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/CTzhiiSl04.png" alt="CTzhiiSl04.png"></li>
+<li>点击 <strong>Create Account API token (创建 API 令牌)</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/FBEzXXohz7.png" alt="FBEzXXohz7.png"></li>
+<li><strong>Permissions (权限)</strong>: <strong>务必选择 <code>Object Read &amp; Write</code> (对象读和写)</strong>。这是最关键的一步，只读权限会导致上传失败。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/xB4pYQOeEI.png" alt="xB4pYQOeEI.png"></li>
+<li>点击 <strong>Create API token</strong>。</li>
+<li><strong>⚠️ 立即复制并保存！</strong> 页面上会显示 <code>Access Key ID</code> 和 <code>Secret Access Key</code>。<strong>这两个密钥只会出现这一次</strong>，请立刻将它们复制并粘贴到一个安全的地方。最下方的Default endpoints链接也需要保存一下。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/kg9E8tEozI.png" alt="kg9E8tEozI.png"></li>
+</ol>
+<hr>
+<h2 id="第二部分：配置-ShareX-桌面客户端"><a href="#第二部分：配置-ShareX-桌面客户端" class="headerlink" title="第二部分：配置 ShareX (桌面客户端)"></a>第二部分：配置 ShareX (桌面客户端)</h2><h3 id="2-1-下载并安装-ShareX"><a href="#2-1-下载并安装-ShareX" class="headerlink" title="2.1 下载并安装 ShareX"></a>2.1 下载并安装 ShareX</h3><p>从官网下载最新版本：<a target="_blank" rel="noopener" href="https://getsharex.com/">https://getsharex.com/</a></p>
+<h3 id="2-2-配置-S3-上传目标"><a href="#2-2-配置-S3-上传目标" class="headerlink" title="2.2 配置 S3 上传目标"></a>2.2 配置 S3 上传目标</h3><p>这是整个配置过程的核心。</p>
+<ol>
+<li>打开 ShareX，在主界面点击 <code>Destination settings...</code>。</li>
+<li>在弹出的窗口左侧选择 <code>Amazon S3</code>，在右侧输入你的配置信息。</li>
+<li>按照下表精确填写你的 R2 信息：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>ShareX 设置项</th>
+<th>填写内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Access key ID</strong></td>
+<td>粘贴你保存的 <code>Access Key ID</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Secret access key</strong></td>
+<td>粘贴你保存的 <code>Secret Access Key</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Region</strong></td>
+<td>留空</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Endpoints</strong></td>
+<td>留空</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Endpoint</strong></td>
+<td><code>https://&lt;你的AccountID&gt;.r2.cloudflarestorage.com</code></td>
+<td>如果你在刚才保存过可以直接复制，切记最后没有<code>/</code>。</td>
+</tr>
+<tr>
+<td><strong>Bucket name</strong></td>
+<td>你的 R2 存储桶名称 (例如 <code>your-org-images-2025</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Upload path</strong></td>
+<td><code>img/%y/%mo/%d/</code></td>
+<td>按 <code>img/年/月/日/</code> 格式存放图片，有助于管理。ShareX 的变量格式是 <code>%</code>。（也可自定义）</td>
+</tr>
+<tr>
+<td><strong>Use custom domain</strong></td>
+<td><strong>勾选此项</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>(自定义域名输入框)</td>
+<td><code>https://&lt;你记下的r2.dev公共URL&gt;</code></td>
+<td><strong>注意</strong>：这里只填刚才你记下的Public Development URL，不要加后面的 <code>$key$</code>。ShareX 新版本会自动处理。</td>
+</tr>
+</tbody></table>
+<h4 id="2-2-1-关键的高级-Advanced-设置"><a href="#2-2-1-关键的高级-Advanced-设置" class="headerlink" title="2.2.1 关键的高级 (Advanced) 设置"></a>2.2.1 关键的高级 (Advanced) 设置</h4><p>在 S3 配置窗口的最下方，找到 <strong>Advanced</strong> 区域，进行如下设置：</p>
+<ul>
+<li><code>Set public-read ACL on file</code>: <strong>必须取消勾选</strong>。R2 不支持此功能，勾选会导致 <code>403 Forbidden</code> 错误。</li>
+<li><code>Use path style request</code>: <strong>必须勾选</strong>。R2 需要这种格式的请求 URL。</li>
+</ul>
+<h3 id="2-3-将-S3-设置为默认图片上传器"><a href="#2-3-将-S3-设置为默认图片上传器" class="headerlink" title="2.3 将 S3 设置为默认图片上传器"></a>2.3 将 S3 设置为默认图片上传器</h3><ol>
+<li>回到 ShareX 主界面。</li>
+<li>点击 <code>Destinations</code> -&gt; <code>Image uploader</code> -&gt; <code>File uploader</code> -&gt; 选择 <code>Amazon S3</code>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/Code_nqStY1UhqR.png" alt="Code_nqStY1UhqR.png"></li>
+</ol>
+<hr>
+<h2 id="第三部分：优化-ShareX-工作流"><a href="#第三部分：优化-ShareX-工作流" class="headerlink" title="第三部分：优化 ShareX 工作流"></a>第三部分：优化 ShareX 工作流</h2><h3 id="3-1-自动复制-Markdown-链接"><a href="#3-1-自动复制-Markdown-链接" class="headerlink" title="3.1 自动复制 Markdown 链接"></a>3.1 自动复制 Markdown 链接</h3><ol>
+<li>在 ShareX 主界面，点击 <code>Task settings...</code>。</li>
+<li>在弹出的窗口左侧选择下方的 <strong><code>Advanced</code></strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_ZWFVlZZu0W.png" alt="ShareX_ZWFVlZZu0W.png"></li>
+<li>接着，点击 <code>After upload</code> 下方的 <code>ClipboardContentFormat</code>。</li>
+<li>将里面的内容替换为markdown格式 <code>![$filename]($result)</code> 。</li>
+</ol>
+<h3 id="3-2-打开自动复制到剪切板"><a href="#3-2-打开自动复制到剪切板" class="headerlink" title="3.2 打开自动复制到剪切板"></a>3.2 打开自动复制到剪切板</h3><ol>
+<li>在主页面的 <code>After upload tasks</code> -&gt; 右侧选择 <code>Copy URL to clipboard</code>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_zf6qftjnu6.png" alt="ShareX_zf6qftjnu6.png"></li>
+</ol>
+<h3 id="3-3-修改热键"><a href="#3-3-修改热键" class="headerlink" title="3.3 修改热键"></a>3.3 修改热键</h3><p>在主页面的 <code>Hotkey settings</code> 中可以修改热键，实现截图直接上传并复制markdown到剪贴板一条龙。</p>
+<hr>
+<h2 id="常见问题-F-A-Q-与排错"><a href="#常见问题-F-A-Q-与排错" class="headerlink" title="常见问题 (F.A.Q) 与排错"></a>常见问题 (F.A.Q) 与排错</h2><p><strong>Q1: 上传时报错 <code>(403) Forbidden</code>，怎么办？</strong><br><strong>A1:</strong> 这是最常见的问题，请检查以下两项 S3 高级设置：</p>
+<ol>
+<li>确保 <strong><code>Set public-read ACL on file</code></strong> <strong>没有</strong>被勾选。</li>
+<li>确保 <strong><code>Use path style request</code></strong> <strong>已经</strong>被勾选。</li>
+<li>如果依然报错，请重新生成一个<strong>权限为 <code>Object Read &amp; Write</code> 的 API Token</strong> 并更新到 ShareX 中。</li>
+</ol>
+<p><strong>Q2: 我不是想上传截图，我想上传我自己本地的别的图片</strong><br><strong>A2:</strong><br><strong>使用左侧的upload选项卡</strong>: 在选项卡内选择你需要的上传内容。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_34TAgHco1T.png" alt="ShareX_34TAgHco1T.png"></p>
+<p><strong>Q3: PicGo 为什么不能用？</strong><br><strong>A3:</strong> 在我的测试中，PicGo 的 S3 插件与 Cloudflare R2 存在一些兼容性问题，导致文件名和路径处理不正确。ShareX 的 S3 实现更标准，是目前更可靠的选择。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuid5OUFQGaJQlRXKWJPl-D0W" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-远程开发环境配置与排错" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T12:15:06.000Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/">Windows平台SSH远程开发环境配置与排错SOP</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="文档：Windows-平台-SSH-远程开发环境配置与排错-SOP"><a href="#文档：Windows-平台-SSH-远程开发环境配置与排错-SOP" class="headerlink" title="文档：Windows 平台 SSH 远程开发环境配置与排错 SOP"></a><strong>文档：Windows 平台 SSH 远程开发环境配置与排错 SOP</strong></h3><h4 id="1-目标与环境"><a href="#1-目标与环境" class="headerlink" title="1. 目标与环境"></a><strong>1. 目标与环境</strong></h4><ul>
+<li><strong>目标</strong>: 在一台Windows主机（服务端）上配置OpenSSH服务，允许另一台Windows主机（客户端）通过互联网进行安全的、基于密钥的无密码远程连接，以实现远程开发。</li>
+<li><strong>服务端环境</strong>:<ul>
+<li><strong>操作系统</strong>: Windows 11</li>
+<li><strong>内网IP</strong>: <code>192.168.1.103</code> (通过DHCP保留实现静态分配)</li>
+<li><strong>账户名</strong>: <code>yan02</code></li>
+</ul>
+</li>
+<li><strong>客户端环境</strong>:<ul>
+<li><strong>操作系统</strong>: Windows 11</li>
+<li><strong>账户名</strong>: <code>ptlan</code></li>
+</ul>
+</li>
+<li><strong>网络环境</strong>:<ul>
+<li><strong>路由器</strong>: TP-Link (管理地址 <code>http://192.168.1.1</code>)</li>
+<li><strong>公网IP</strong>: <code>124.168.121.187</code> (示例,可通过<a target="_blank" rel="noopener" href="https://whatismyipaddress.com/">该网站</a>查询公网ip)</li>
+</ul>
+</li>
+<li><strong>核心工具</strong>:<ul>
+<li><code>OpenSSH for Windows</code></li>
+<li><code>Visual Studio Code (Remote Development 扩展)</code></li>
+<li><code>Windows PowerShell</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="2-配置流程与排错记录"><a href="#2-配置流程与排错记录" class="headerlink" title="2. 配置流程与排错记录"></a><strong>2. 配置流程与排错记录</strong></h4><h5 id="步骤-2-1-服务端-配置静态内网IP-DHCP保留"><a href="#步骤-2-1-服务端-配置静态内网IP-DHCP保留" class="headerlink" title="步骤 2.1: 服务端 - 配置静态内网IP (DHCP保留)"></a><strong>步骤 2.1: 服务端 - 配置静态内网IP (DHCP保留)</strong></h5><ul>
+<li><strong>操作</strong>: 为服务端电脑分配一个固定的局域网IP地址，防止因IP地址变化导致端口转发失效。</li>
+<li><strong>工具</strong>: 浏览器，访问路由器管理后台。</li>
+<li><strong>路径</strong>: <code>Network</code> &gt; <code>LAN Settings</code> &gt; <code>Address Reservation</code>。</li>
+<li><strong>配置</strong>: 基于服务端网卡的MAC地址（<code>90:65:84:...</code>），添加一条地址保留规则，将其IP地址固定为 <code>192.168.1.103</code>。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/689625cb4af8b.png"><img src="https://youke1.picui.cn/s1/2025/08/09/689625cb4af8b.png" alt="固定ip.png"></a></li>
+</ul>
+<h5 id="步骤-2-2-服务端-安装与启动-OpenSSH-Server"><a href="#步骤-2-2-服务端-安装与启动-OpenSSH-Server" class="headerlink" title="步骤 2.2: 服务端 - 安装与启动 OpenSSH Server"></a><strong>步骤 2.2: 服务端 - 安装与启动 OpenSSH Server</strong></h5><ul>
+<li><strong>操作</strong>: 安装并启动SSH服务。</li>
+<li><strong>工具</strong>: <code>Windows 设置</code>，<code>Windows PowerShell (管理员)</code>。</li>
+<li><strong>流程</strong>:<ol>
+<li>通过 <code>设置 &gt; 应用 &gt; 可选功能</code> 安装 <code>OpenSSH 服务器</code>。</li>
+<li>在管理员PowerShell中执行以下命令以启动并自启服务：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Start-Service</span> sshd</span><br><span class="line"><span class="built_in">Set-Service</span> <span class="literal">-Name</span> sshd <span class="literal">-StartupType</span> <span class="string">&#x27;Automatic&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>执行以下命令，创建防火墙入站规则以允许TCP <code>22</code> 端口的通信：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">New-NetFirewallRule</span> <span class="literal">-Name</span> sshd <span class="literal">-DisplayName</span> <span class="string">&#x27;OpenSSH Server (sshd)&#x27;</span> <span class="literal">-Enabled</span> True <span class="literal">-Direction</span> Inbound <span class="literal">-Protocol</span> TCP <span class="literal">-Action</span> Allow <span class="literal">-LocalPort</span> <span class="number">22</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h5 id="步骤-2-3-路由器-配置端口转发"><a href="#步骤-2-3-路由器-配置端口转发" class="headerlink" title="步骤 2.3: 路由器 - 配置端口转发"></a><strong>步骤 2.3: 路由器 - 配置端口转发</strong></h5><ul>
+<li><strong>操作</strong>: 将公网的特定端口映射至服务端的SSH端口。</li>
+<li><strong>工具</strong>: 浏览器，访问路由器管理后台。</li>
+<li><strong>路径</strong>: <code>NAT Forwarding</code> &gt; <code>Virtual Servers</code>。</li>
+<li><strong>配置</strong>: 添加新规则，具体参数如下：<ul>
+<li><strong>Service Type</strong>: <code>VSCodeSSH</code> (自定义名称)</li>
+<li><strong>External Port</strong>: <code>22222</code></li>
+<li><strong>Internal IP</strong>: <code>192.168.1.103</code></li>
+<li><strong>Internal Port</strong>: <code>22</code></li>
+<li><strong>Protocol</strong>: <code>TCP</code></li>
+<li><strong>Status</strong>: <code>Enabled</code><br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/689625cacc2ab.png"><img src="https://youke1.picui.cn/s1/2025/08/09/689625cacc2ab.png" alt="内网穿透.png"></a></li>
+</ul>
+</li>
+</ul>
+<h5 id="步骤-2-4-客户端-首次连接与密码认证问题"><a href="#步骤-2-4-客户端-首次连接与密码认证问题" class="headerlink" title="步骤 2.4: 客户端 - 首次连接与密码认证问题"></a><strong>步骤 2.4: 客户端 - 首次连接与密码认证问题</strong></h5><ul>
+<li><strong>操作</strong>: 客户端使用VS Code或<code>ssh</code>命令尝试连接。</li>
+<li><strong>命令</strong>: <code>ssh yan02@124.168.121.187 -p 22222</code></li>
+<li><strong>现象</strong>: 连接时被要求输入密码，但服务端账户（<code>yan02</code>）未设置密码，仅使用PIN登录。</li>
+<li><strong>原因分析</strong>:<ol>
+<li>SSH协议认证基于账户<strong>密码(Password)</strong>，而非设备<strong>PIN码</strong>。</li>
+<li>OpenSSH Server默认配置（<code>sshd_config</code>）禁止空密码账户登录。</li>
+</ol>
+</li>
+<li><strong>解决方案</strong>: 在服务端，通过 <code>设置 &gt; 账户 &gt; 登录选项</code> 为<code>yan02</code>账户添加一个强密码。</li>
+</ul>
+<h5 id="步骤-2-5-客户端-服务端-配置SSH密钥对"><a href="#步骤-2-5-客户端-服务端-配置SSH密钥对" class="headerlink" title="步骤 2.5: 客户端&#x2F;服务端 - 配置SSH密钥对"></a><strong>步骤 2.5: 客户端&#x2F;服务端 - 配置SSH密钥对</strong></h5><ul>
+<li><p><strong>操作</strong>: 在客户端生成密钥对。</p>
+<ul>
+<li><strong>工具 (客户端)</strong>: <code>PowerShell</code>。</li>
+<li><strong>命令</strong>: <code>ssh-keygen -t rsa -b 4096</code> (使用默认选项)。</li>
+</ul>
+</li>
+<li><p><strong>操作</strong>: 将公钥部署至服务端。</p>
+<ul>
+<li><strong>流程</strong>:<ol>
+<li>在客户端，复制 <code>C:\Users\ptlan\.ssh\id_rsa.pub</code> 文件内容。</li>
+<li>在服务端，创建 <code>C:\Users\yan02\.ssh\authorized_keys</code> 文件，并将公钥内容粘贴进去。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><strong>操作</strong>: 在服务端禁用密码认证。</p>
+<ul>
+<li><strong>工具 (服务端)</strong>: <code>Notepad++ (管理员)</code>。</li>
+<li><strong>文件</strong>: <code>C:\ProgramData\ssh\sshd_config</code>。</li>
+<li><strong>修改</strong>: 将 <code>PasswordAuthentication yes</code> 修改为 <code>PasswordAuthentication no</code>（并移除行首<code>#</code>）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="步骤-2-6-排错回合一-Permission-Denied"><a href="#步骤-2-6-排错回合一-Permission-Denied" class="headerlink" title="步骤 2.6: 排错回合一 - Permission Denied"></a><strong>步骤 2.6: 排错回合一 - <code>Permission Denied</code></strong></h5><ul>
+<li><strong>现象</strong>: 完成密钥配置并重启<code>sshd</code>服务后，连接失败，报错 <code>Permission denied (publickey, keyboard-interactive)</code>。</li>
+<li><strong>诊断</strong>: 使用客户端<code>ssh -v</code>命令，日志显示公钥被服务端拒绝。问题定位在服务端。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/68962752bbb66.png"><img src="https://youke1.picui.cn/s1/2025/08/09/68962752bbb66.png" alt="-v.png"></a></li>
+</ul>
+<h5 id="步骤-2-7-排错回合二-authorized-keys-文件格式与-sshd-config-配置"><a href="#步骤-2-7-排错回合二-authorized-keys-文件格式与-sshd-config-配置" class="headerlink" title="步骤 2.7: 排错回合二 - authorized_keys 文件格式与 sshd_config 配置"></a><strong>步骤 2.7: 排错回合二 - <code>authorized_keys</code> 文件格式与 <code>sshd_config</code> 配置</strong></h5><ul>
+<li><p><strong>问题</strong>: <code>sshd_config</code> 文件末尾的 <code>Match Group administrators</code> 配置块，将管理员的密钥文件路径重定向至 <code>C:\ProgramData\ssh\administrators_authorized_keys</code>。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/6896271581a69.png"><img src="https://youke1.picui.cn/s1/2025/08/09/6896271581a69.png" alt="match group.png"></a></p>
+<ul>
+<li><strong>解决方案</strong>: 将该配置块的两行用 <code>#</code> 注释掉，使其失效。</li>
+</ul>
+</li>
+</ul>
+<h5 id="步骤-2-8-排错回合三-网络连通性验证与日志缺失"><a href="#步骤-2-8-排错回合三-网络连通性验证与日志缺失" class="headerlink" title="步骤 2.8: 排错回合三 - 网络连通性验证与日志缺失"></a><strong>步骤 2.8: 排错回合三 - 网络连通性验证与日志缺失</strong></h5><ul>
+<li><strong>现象</strong>: 修复上述问题后，连接依然失败。同时，在<code>sshd_config</code>中设置<code>LogLevel DEBUG3</code>后，服务端的<code>事件查看器 &gt; OpenSSH &gt; Operational</code> 日志为空。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/689626ac8e83c.png"><img src="https://youke1.picui.cn/s1/2025/08/09/689626ac8e83c.png" alt="空日志.png"></a></li>
+<li><strong>诊断</strong>: 使用<a target="_blank" rel="noopener" href="https://www.portcheckers.com/">在线端口检查工具</a>测试公网IP的<code>22222</code>端口，结果显示<strong>Open (开启)</strong>。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/68962675a7d52.png"><img src="https://youke1.picui.cn/s1/2025/08/09/68962675a7d52.png" alt="unnamed.png"></a></li>
+<li><strong>结论</strong>: TCP网络路径通畅。问题是<code>sshd</code>服务在收到连接后、记入日志前即发生错误，推断为Windows文件系统ACL权限问题。</li>
+</ul>
+<h5 id="步骤-2-9-最终修复-Windows-文件系统-ACL-权限"><a href="#步骤-2-9-最终修复-Windows-文件系统-ACL-权限" class="headerlink" title="步骤 2.9: 最终修复 - Windows 文件系统 ACL 权限"></a><strong>步骤 2.9: 最终修复 - Windows 文件系统 ACL 权限</strong></h5><ul>
+<li><strong>原因分析</strong>: <code>sshd</code>服务以<code>SYSTEM</code>账户身份运行，但<code>SYSTEM</code>账户无权访问属于<code>yan02</code>用户目录下的<code>authorized_keys</code>文件。</li>
+<li><strong>解决方案</strong>: 在服务端，以管理员身份运行PowerShell，执行以下脚本以精确重置文件权限。<ul>
+<li><strong>命令</strong>:<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$authorizedKeysFile</span> = <span class="string">&quot;C:\Users\yan02\.ssh\authorized_keys&quot;</span></span><br><span class="line"><span class="variable">$acl</span> = <span class="built_in">Get-Acl</span> <span class="variable">$authorizedKeysFile</span></span><br><span class="line"><span class="variable">$acl</span>.SetOwner([<span class="type">System.Security.Principal.NTAccount</span>]<span class="string">&quot;yan02&quot;</span>)</span><br><span class="line"><span class="variable">$acl</span>.Access | <span class="built_in">ForEach-Object</span> &#123; <span class="variable">$acl</span>.RemoveAccessRule(<span class="variable">$_</span>) &#125; | <span class="built_in">Out-Null</span></span><br><span class="line"><span class="variable">$acl</span>.SetAccessRuleProtection(<span class="variable">$true</span>, <span class="variable">$false</span>)</span><br><span class="line"><span class="variable">$acl</span>.AddAccessRule((<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="string">&quot;yan02&quot;</span>, <span class="string">&quot;FullControl&quot;</span>, <span class="string">&quot;Allow&quot;</span>)))</span><br><span class="line"><span class="variable">$acl</span>.AddAccessRule((<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="string">&quot;SYSTEM&quot;</span>, <span class="string">&quot;FullControl&quot;</span>, <span class="string">&quot;Allow&quot;</span>)))</span><br><span class="line"><span class="variable">$acl</span>.AddAccessRule((<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="string">&quot;Administrators&quot;</span>, <span class="string">&quot;FullControl&quot;</span>, <span class="string">&quot;Allow&quot;</span>)))</span><br><span class="line"><span class="built_in">Set-Acl</span> <span class="variable">$authorizedKeysFile</span> <span class="variable">$acl</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><strong>操作</strong>: 重启 <code>sshd</code> 服务。<ul>
+<li><strong>命令</strong>: <code>Restart-Service sshd</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="步骤-2-10-最终验证"><a href="#步骤-2-10-最终验证" class="headerlink" title="步骤 2.10: 最终验证"></a><strong>步骤 2.10: 最终验证</strong></h5><ul>
+<li><strong>操作</strong>: 客户端再次尝试连接。</li>
+<li><strong>结果</strong>: <strong>连接成功</strong>。实现了无需密码的密钥认证登录。</li>
+</ul>
+<hr>
+<h4 id="3-核心问题总结"><a href="#3-核心问题总结" class="headerlink" title="3. 核心问题总结"></a><strong>3. 核心问题总结</strong></h4><p>本次配置过程中的关键障碍点为Windows环境下OpenSSH服务的权限问题。最终成功是基于以下关键修复：</p>
+<ol>
+<li><strong>停用<code>sshd_config</code>中针对<code>administrators</code>组的<code>AuthorizedKeysFile</code>路径覆盖规则。</strong></li>
+<li><strong>修正<code>authorized_keys</code>文件的ACL权限</strong>，确保运行<code>sshd</code>服务的<code>SYSTEM</code>账户，拥有对用户目录下<code>authorized_keys</code>文件的完全控制权限。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuidCAf8yDkDSgcc0Fwt2nq_2" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T02:46:18.073Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/hello-world/" data-id="cuidbdVURk4cNjgQWBVSjQ0lq" data-title="Hello World" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/">使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/">Windows平台SSH远程开发环境配置与排错SOP</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LynPtl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

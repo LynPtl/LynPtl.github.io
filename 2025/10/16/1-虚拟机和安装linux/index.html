@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>1.虚拟机和安装linux | LynPtl&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="下载并安装虚拟机 + 配置环境1 下载Orade Virtualbox官网下载地址,选择自己的操作系统后进行安装。 本人使用的环境是windows环境。安装成功后运行如图。  2 下载Linux发行版这里我使用的是Red Hat Enterprise Linux。大概本教程会覆盖RHCSA的所有内容，所以这里使用redhat的发行版，当然你也可以使用其他主流的发行版。 对于个人开发者，可以使用免费">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.虚拟机和安装linux">
+<meta property="og:url" content="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/index.html">
+<meta property="og:site_name" content="LynPtl&#39;s Blog">
+<meta property="og:description" content="下载并安装虚拟机 + 配置环境1 下载Orade Virtualbox官网下载地址,选择自己的操作系统后进行安装。 本人使用的环境是windows环境。安装成功后运行如图。  2 下载Linux发行版这里我使用的是Red Hat Enterprise Linux。大概本教程会覆盖RHCSA的所有内容，所以这里使用redhat的发行版，当然你也可以使用其他主流的发行版。 对于个人开发者，可以使用免费">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/FYnx3D6xKR.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/firefox_YoY3W83aF0.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_PWb8k8f7Ib.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_1b41FF3BsS.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_KXqFlmAE04.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_3hrFwfdby3.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_9k8QSsOKGs.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pMab7ODDDT.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ZI81wmtEdt.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8grO4cV4hh.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_h75CXEwlGL.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_j8GL89TRqG.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_TZzbWG2Wuh.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JDWJhKXgIo.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_OBQzS4hY5E.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_wuBJVzZuu7.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_yRLdzGI0hJ.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gQHZdBXjQb.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ssGe3fTPvw.png">
+<meta property="article:published_time" content="2025-10-16T01:55:20.000Z">
+<meta property="article:modified_time" content="2025-10-15T14:56:58.886Z">
+<meta property="article:author" content="LynPtl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/FYnx3D6xKR.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LynPtl's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LynPtl&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/image-bed.html">图床</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://LynPtl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-1-虚拟机和安装linux" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" class="article-date">
+  <time class="dt-published" datetime="2025-10-16T01:55:20.000Z" itemprop="datePublished">2025-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      1.虚拟机和安装linux
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="下载并安装虚拟机-配置环境"><a href="#下载并安装虚拟机-配置环境" class="headerlink" title="下载并安装虚拟机 + 配置环境"></a>下载并安装虚拟机 + 配置环境</h1><h2 id="1-下载Orade-Virtualbox"><a href="#1-下载Orade-Virtualbox" class="headerlink" title="1 下载Orade Virtualbox"></a>1 下载Orade Virtualbox</h2><p>官网下载<a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Downloads">地址</a>,选择自己的操作系统后进行安装。</p>
+<p>本人使用的环境是windows环境。安装成功后运行如图。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/FYnx3D6xKR.png" alt="FYnx3D6xKR.png"></p>
+<h2 id="2-下载Linux发行版"><a href="#2-下载Linux发行版" class="headerlink" title="2 下载Linux发行版"></a>2 下载Linux发行版</h2><p>这里我使用的是Red Hat Enterprise Linux。大概本教程会覆盖RHCSA的所有内容，所以这里使用redhat的发行版，当然你也可以使用其他主流的发行版。</p>
+<p>对于个人开发者，可以使用免费的RHEL，需要<a target="_blank" rel="noopener" href="https://developers.redhat.com/">在这里</a>注册成为开发者。</p>
+<p>之后来到<a target="_blank" rel="noopener" href="https://developers.redhat.com/products/rhel/overview?source=sso">这个页面</a>点击 <code>Download RHEL at no-cost</code>就可以下载到iso了。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/firefox_YoY3W83aF0.png" alt="firefox_YoY3W83aF0.png"></p>
+<h2 id="3-新建虚拟机"><a href="#3-新建虚拟机" class="headerlink" title="3 新建虚拟机"></a>3 新建虚拟机</h2><p>镜像和软件已经准备完毕，接下来我们开始安装。首先点击软件左上角的<code>new</code>，在弹出的对话框中写好自己的虚拟机名称<code>VM Name</code>，虚拟机目录<code>VM Folder</code>，使用的系统镜像<code>ISO Image</code>选择我们刚才下载的redhat的iso。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_PWb8k8f7Ib.png" alt="VirtualBox_PWb8k8f7Ib.png"></p>
+<p>请务必取消勾选静默安装<code>Proceed with Unattended Installation</code>。</p>
+<p>虚拟硬件推荐内存2GB,CPU两个。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_1b41FF3BsS.png" alt="VirtualBox_1b41FF3BsS.png"></p>
+<p>虚拟硬盘推荐至少20GB。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_KXqFlmAE04.png" alt="VirtualBox_KXqFlmAE04.png"></p>
+<p>之后点击右下角的<code>fininsh</code>。</p>
+<p>我们就可以看到这个新建号的虚拟机了。暂且为了方便虚拟机使用网络，我们选中这个虚拟机之后点击上方的<code>Settings</code>,在弹出的窗口中选择左侧的<code>Network</code>选项卡，在<code>Adapter 1</code>下选择<code>Bridged Adapter</code>。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_3hrFwfdby3.png" alt="VirtualBox_3hrFwfdby3.png"></p>
+<h2 id="4-安装RHEL"><a href="#4-安装RHEL" class="headerlink" title="4 安装RHEL"></a>4 安装RHEL</h2><p>之后点击上方的绿色右箭头<code>Start</code>，即可运行虚拟机。</p>
+<p>随后使用上下方向键，选择中间的<code>Test this media &amp; install Red Hat Enterprise Linux 10.0</code>,按enter键确定。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_9k8QSsOKGs.png" alt="VirtualBoxVM_9k8QSsOKGs.png"></p>
+<p>在经历了一阵检测和安装之后，你会看到下面的界面：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pMab7ODDDT.png" alt="VirtualBoxVM_pMab7ODDDT.png"></p>
+<p>这里我推荐全部选择英文，避免任何因为中文字符可能出现的问题。随后点击右下角的<code>continue</code>。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ZI81wmtEdt.png" alt="VirtualBoxVM_ZI81wmtEdt.png"></p>
+<p>可以看到有很多爆红的地方，我们一个一个来解决和配置。</p>
+<p>首先第一个，我们需要连接到Red Hat。点击<code>Connet to Red Hat</code>之后输入自己的Redhat账户并验证即可。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8grO4cV4hh.png" alt="VirtualBoxVM_8grO4cV4hh.png"></p>
+<p>登录后</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_h75CXEwlGL.png" alt="VirtualBoxVM_h75CXEwlGL.png"></p>
+<p>然后我们在<code>Installation Destination</code>中选择我们的虚拟硬盘。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_j8GL89TRqG.png" alt="VirtualBoxVM_j8GL89TRqG.png"></p>
+<p>软件选取<code>Software Selection</code>中我们选择<code>Server with GUI</code>。右侧的附加选项我们不勾选。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_TZzbWG2Wuh.png" alt="VirtualBoxVM_TZzbWG2Wuh.png"></p>
+<p>Root账户是推荐的，这样至少可以保证一点安全性。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JDWJhKXgIo.png" alt="VirtualBoxVM_JDWJhKXgIo.png"></p>
+<p>下面的<code>Create User</code>我们可以创建一个常规用户。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_OBQzS4hY5E.png" alt="VirtualBoxVM_OBQzS4hY5E.png"></p>
+<p>完成后我们就看不到红色的了，我们点击右下角开始安装！</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_wuBJVzZuu7.png" alt="VirtualBoxVM_wuBJVzZuu7.png"></p>
+<p>稍事等待…</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_yRLdzGI0hJ.png" alt="VirtualBoxVM_yRLdzGI0hJ.png"></p>
+<p>然后我们就安装好了！点击右下角的重启就可以进入系统了。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gQHZdBXjQb.png" alt="VirtualBoxVM_gQHZdBXjQb.png"></p>
+<p>重启之后就可以输入密码进入到我们的系统了。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ssGe3fTPvw.png" alt="VirtualBoxVM_ssGe3fTPvw.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidL_zTsARQ2bfZiTouBhPDq" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/10/15/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/">1.虚拟机和安装linux</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/">128.最长连续序列</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">1.两数之和</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/">3.无重复字符的最大字串</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LynPtl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/image-bed.html" class="mobile-nav-link">图床</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

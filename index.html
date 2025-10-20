@@ -73,6 +73,198 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-4-Linux文本编辑器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-10-20T22:53:35.000Z" itemprop="datePublished">2025-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-文本编辑器"><a href="#Linux-文本编辑器" class="headerlink" title="Linux 文本编辑器"></a>Linux 文本编辑器</h1><h2 id="一、vi-vim-简介"><a href="#一、vi-vim-简介" class="headerlink" title="一、vi&#x2F;vim 简介"></a>一、vi&#x2F;vim 简介</h2><p><strong>文本编辑器</strong>是一个能够让您在Linux文件中创建和操作文本数据的程序。<code>vi</code> 是一个强大的可视化编辑器，几乎所有Linux发行版都内置，而 <code>vim</code> 是其功能更全面的增强版。</p>
+<p>除了 <code>vi</code>&#x2F;<code>vim</code>，Linux中还有其他文本编辑器，例如：</p>
+<ul>
+<li><code>ed</code>: 标准行编辑器</li>
+<li><code>ex</code>: 扩展行编辑器</li>
+<li><code>emacs</code>: 全屏编辑器</li>
+<li><code>pico</code>: 初学者编辑器</li>
+</ul>
+<h2 id="二、基本操作入门"><a href="#二、基本操作入门" class="headerlink" title="二、基本操作入门"></a>二、基本操作入门</h2><h3 id="1-创建文件并进入-vi"><a href="#1-创建文件并进入-vi" class="headerlink" title="1. 创建文件并进入 vi"></a>1. 创建文件并进入 vi</h3><p>首先，使用 <code>vi</code> 命令加上一个文件名来创建或打开文件。例如 <code>vi myfile</code>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_x6PHLmwQd0.png" alt="VirtualBoxVM_x6PHLmwQd0.png"></p>
+<p>按下回车后，您将进入 <code>vi</code> 的<strong>普通模式</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ckyRSkSg8s.png" alt="VirtualBoxVM_ckyRSkSg8s.png"></p>
+<blockquote>
+<p>此时左下角显示新文件名 <code>myfile_file[New]</code>，表明您正处于普通模式下。</p>
+</blockquote>
+<h3 id="2-插入模式：输入文本"><a href="#2-插入模式：输入文本" class="headerlink" title="2. 插入模式：输入文本"></a>2. 插入模式：输入文本</h3><p>在普通模式下，按下 <code>i</code> 键，即可进入<strong>插入模式</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FWOWlMC0nh.png" alt="VirtualBoxVM_FWOWlMC0nh.png"></p>
+<blockquote>
+<p>左下角出现 <code>-- INSERT --</code>，表示您现在可以输入文本了。</p>
+</blockquote>
+<p>现在，输入一些示例文字。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8MG3O4dQik.png" alt="VirtualBoxVM_8MG3O4dQik.png"></p>
+<h3 id="3-保存与退出"><a href="#3-保存与退出" class="headerlink" title="3. 保存与退出"></a>3. 保存与退出</h3><p>输入完成后，需要先回到普通模式才能进行保存。<br>按下 <code>Esc</code> 键，左下角的 <code>-- INSERT --</code> 消失，返回普通模式。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n2RuJesUL2.png" alt="VirtualBoxVM_n2RuJesUL2.png"></p>
+<p>您有两种常用的方式来保存并退出：</p>
+<p><strong>方式一：命令模式</strong></p>
+<ol>
+<li>键入冒号 <code>:</code> 进入<strong>命令模式</strong>。</li>
+<li>输入 <code>wq</code> (<code>w</code>代表写入，<code>q</code>代表退出) 后按回车。</li>
+</ol>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0ho7TE31XQ.png" alt="VirtualBoxVM_0ho7TE31XQ.png"></p>
+<p><strong>方式二：快捷键</strong><br>在普通模式下，连续按两次大写的 <code>Z</code> (即 <code>Shift + z</code> 两次)，同样可以保存并退出。</p>
+<p>回到命令行后，可以使用 <code>cat myfile</code> 命令查看文件内容，确认已保存。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_MAywsgnCki.png" alt="VirtualBoxVM_MAywsgnCki.png"></p>
+<h2 id="三、常用命令参考"><a href="#三、常用命令参考" class="headerlink" title="三、常用命令参考"></a>三、常用命令参考</h2><h3 id="1-命令模式-按-进入"><a href="#1-命令模式-按-进入" class="headerlink" title="1. 命令模式 (按 : 进入)"></a>1. 命令模式 (按 <code>:</code> 进入)</h3><table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>:w</code></td>
+<td align="left"><strong>保存</strong>文件 (Write)</td>
+</tr>
+<tr>
+<td align="left"><code>:q</code></td>
+<td align="left"><strong>退出</strong>编辑器 (Quit)</td>
+</tr>
+<tr>
+<td align="left"><code>:wq</code></td>
+<td align="left"><strong>保存并退出</strong></td>
+</tr>
+<tr>
+<td align="left"><code>:q!</code></td>
+<td align="left"><strong>强制退出</strong>，不保存任何修改</td>
+</tr>
+<tr>
+<td align="left"><code>:w new_filename</code></td>
+<td align="left">将当前内容<strong>另存为</strong> <code>new_filename</code></td>
+</tr>
+<tr>
+<td align="left"><code>:set nu</code></td>
+<td align="left">显示行号</td>
+</tr>
+<tr>
+<td align="left"><code>:set nonu</code></td>
+<td align="left">隐藏行号</td>
+</tr>
+</tbody></table>
+<h3 id="2-普通模式-编辑操作"><a href="#2-普通模式-编辑操作" class="headerlink" title="2. 普通模式 - 编辑操作"></a>2. 普通模式 - 编辑操作</h3><p>vi&#x2F;vim 中，“复制” 称为 “Yank” (<code>y</code>)，“删除” 称为 “Delete” (<code>d</code>)，“粘贴” 称为 “Put” (<code>p</code>)。</p>
+<p><strong>删除</strong></p>
+<ul>
+<li><code>x</code>: 删除当前光标所在的<strong>一个字符</strong>。</li>
+<li><code>dw</code>: 删除从当前光标到<strong>下一个单词开头</strong>的内容 (Delete Word)。</li>
+<li><code>d$</code>: 删除从当前光标到<strong>行尾</strong>的内容。</li>
+<li><code>dd</code>: <strong>删除当前整行</strong> (被删除的内容会被自动复制)。</li>
+<li><code>5dd</code>: 一次性删除 5 行。</li>
+</ul>
+<p><strong>复制</strong></p>
+<ul>
+<li><code>yw</code>: <strong>复制</strong>一个单词 (Yank Word)。</li>
+<li><code>yy</code>: <strong>复制当前整行</strong> (Yank Line)。</li>
+<li><code>5yy</code>: 一次性复制 5 行。</li>
+</ul>
+<p><strong>粘贴</strong></p>
+<ul>
+<li><code>p</code>: 在光标<strong>之后</strong>粘贴 (Put)。</li>
+<li><code>P</code>: 在光标<strong>之前</strong>粘贴。</li>
+</ul>
+<p><strong>撤销&#x2F;重做&#x2F;替换</strong></p>
+<ul>
+<li><code>u</code>: <strong>撤销</strong>上一步操作 (Undo)。</li>
+<li><code>Ctrl + r</code>: <strong>重做</strong>上一步被撤销的操作 (Redo)。</li>
+<li><code>r</code>: 替换光标所在的<strong>一个字符</strong> (按 <code>r</code> 后再按你想替换的字符)。</li>
+</ul>
+<h3 id="3-普通模式-搜索操作"><a href="#3-普通模式-搜索操作" class="headerlink" title="3. 普通模式 - 搜索操作"></a>3. 普通模式 - 搜索操作</h3><ul>
+<li><code>/search_term</code>: <strong>向下搜索</strong> “search_term”。</li>
+<li><code>?search_term</code>: <strong>向上搜索</strong> “search_term”。</li>
+<li><code>n</code>: 跳到<strong>下一个</strong>搜索结果 (Next)。</li>
+<li><code>N</code>: 跳到<strong>上一个</strong>搜索结果。</li>
+<li><code>*</code>: <strong>向下</strong>搜索光标当前所在的单词。</li>
+<li><code>#</code>: <strong>向上</strong>搜索光标当前所在的单词。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8AxnWVGnP9.png" alt="VirtualBoxVM_8AxnWVGnP9.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidQhoCGHOrZkJP5U8jVTDjn" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/20/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2025-10-20T11:54:25.327Z" itemprop="datePublished">2025-10-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/20/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/20/hello-world/" data-id="cuidK8Rkvg-zyYLLUDvI89MqT" data-title="Hello World" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-3-Linux帮助命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" class="article-date">
@@ -147,58 +339,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidcTvnqAEU-xRKjiDRX0XYZ" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/18/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2025-10-18T13:08:51.784Z" itemprop="datePublished">2025-10-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/18/hello-world/" data-id="cuidOsbB-UeIiVWIyNfleQhUl" data-title="Hello World" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidMYyhYsNAzHQwicticdPWX" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -350,7 +491,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidSreR1_ojKJAPNL2oHnsiZ" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidtn16EMIV_LsabbCf1-tpE" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -437,7 +578,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidHuZy1VNkf_kXmd9jeRY6L" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidmApS0BMJhOIG7xGbayo0j" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -481,7 +622,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuid9etnQJP-FR-Xb1Lu2T_Mm" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuid8yMUxhwGvWwv4lpNZZvPz" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -597,7 +738,7 @@ return {1, 2};                      // 如果函数返回类型是vector&lt;int&
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidc1-sY_9b31zzrEMpNJuzf" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuid1_dw6-bs77JDOlTljezR5" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -760,7 +901,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidiujRPO81rajrjdiDNyM6e" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidKyAeyfVTofKZTwwKBTvRR" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -834,7 +975,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuid408O_W2msS68Wvk8BqJpS" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuidCru8r0gcPUy0wxPy7zFuq" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1002,177 +1143,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuidLpsxnywUknwT0i7NRJyvb" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-远程开发环境配置与排错" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" class="article-date">
-  <time class="dt-published" datetime="2025-10-02T12:15:06.000Z" itemprop="datePublished">2025-10-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/">Windows平台SSH远程开发环境配置与排错SOP</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="文档：Windows-平台-SSH-远程开发环境配置与排错-SOP"><a href="#文档：Windows-平台-SSH-远程开发环境配置与排错-SOP" class="headerlink" title="文档：Windows 平台 SSH 远程开发环境配置与排错 SOP"></a><strong>文档：Windows 平台 SSH 远程开发环境配置与排错 SOP</strong></h3><h4 id="1-目标与环境"><a href="#1-目标与环境" class="headerlink" title="1. 目标与环境"></a><strong>1. 目标与环境</strong></h4><ul>
-<li><strong>目标</strong>: 在一台Windows主机（服务端）上配置OpenSSH服务，允许另一台Windows主机（客户端）通过互联网进行安全的、基于密钥的无密码远程连接，以实现远程开发。</li>
-<li><strong>服务端环境</strong>:<ul>
-<li><strong>操作系统</strong>: Windows 11</li>
-<li><strong>内网IP</strong>: <code>192.168.1.103</code> (通过DHCP保留实现静态分配)</li>
-<li><strong>账户名</strong>: <code>yan02</code></li>
-</ul>
-</li>
-<li><strong>客户端环境</strong>:<ul>
-<li><strong>操作系统</strong>: Windows 11</li>
-<li><strong>账户名</strong>: <code>ptlan</code></li>
-</ul>
-</li>
-<li><strong>网络环境</strong>:<ul>
-<li><strong>路由器</strong>: TP-Link (管理地址 <code>http://192.168.1.1</code>)</li>
-<li><strong>公网IP</strong>: <code>124.168.121.187</code> (示例,可通过<a target="_blank" rel="noopener" href="https://whatismyipaddress.com/">该网站</a>查询公网ip)</li>
-</ul>
-</li>
-<li><strong>核心工具</strong>:<ul>
-<li><code>OpenSSH for Windows</code></li>
-<li><code>Visual Studio Code (Remote Development 扩展)</code></li>
-<li><code>Windows PowerShell</code></li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="2-配置流程与排错记录"><a href="#2-配置流程与排错记录" class="headerlink" title="2. 配置流程与排错记录"></a><strong>2. 配置流程与排错记录</strong></h4><h5 id="步骤-2-1-服务端-配置静态内网IP-DHCP保留"><a href="#步骤-2-1-服务端-配置静态内网IP-DHCP保留" class="headerlink" title="步骤 2.1: 服务端 - 配置静态内网IP (DHCP保留)"></a><strong>步骤 2.1: 服务端 - 配置静态内网IP (DHCP保留)</strong></h5><ul>
-<li><strong>操作</strong>: 为服务端电脑分配一个固定的局域网IP地址，防止因IP地址变化导致端口转发失效。</li>
-<li><strong>工具</strong>: 浏览器，访问路由器管理后台。</li>
-<li><strong>路径</strong>: <code>Network</code> &gt; <code>LAN Settings</code> &gt; <code>Address Reservation</code>。</li>
-<li><strong>配置</strong>: 基于服务端网卡的MAC地址（<code>90:65:84:...</code>），添加一条地址保留规则，将其IP地址固定为 <code>192.168.1.103</code>。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/689625cb4af8b.png"><img src="https://youke1.picui.cn/s1/2025/08/09/689625cb4af8b.png" alt="固定ip.png"></a></li>
-</ul>
-<h5 id="步骤-2-2-服务端-安装与启动-OpenSSH-Server"><a href="#步骤-2-2-服务端-安装与启动-OpenSSH-Server" class="headerlink" title="步骤 2.2: 服务端 - 安装与启动 OpenSSH Server"></a><strong>步骤 2.2: 服务端 - 安装与启动 OpenSSH Server</strong></h5><ul>
-<li><strong>操作</strong>: 安装并启动SSH服务。</li>
-<li><strong>工具</strong>: <code>Windows 设置</code>，<code>Windows PowerShell (管理员)</code>。</li>
-<li><strong>流程</strong>:<ol>
-<li>通过 <code>设置 &gt; 应用 &gt; 可选功能</code> 安装 <code>OpenSSH 服务器</code>。</li>
-<li>在管理员PowerShell中执行以下命令以启动并自启服务：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Start-Service</span> sshd</span><br><span class="line"><span class="built_in">Set-Service</span> <span class="literal">-Name</span> sshd <span class="literal">-StartupType</span> <span class="string">&#x27;Automatic&#x27;</span></span><br></pre></td></tr></table></figure></li>
-<li>执行以下命令，创建防火墙入站规则以允许TCP <code>22</code> 端口的通信：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">New-NetFirewallRule</span> <span class="literal">-Name</span> sshd <span class="literal">-DisplayName</span> <span class="string">&#x27;OpenSSH Server (sshd)&#x27;</span> <span class="literal">-Enabled</span> True <span class="literal">-Direction</span> Inbound <span class="literal">-Protocol</span> TCP <span class="literal">-Action</span> Allow <span class="literal">-LocalPort</span> <span class="number">22</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ul>
-<h5 id="步骤-2-3-路由器-配置端口转发"><a href="#步骤-2-3-路由器-配置端口转发" class="headerlink" title="步骤 2.3: 路由器 - 配置端口转发"></a><strong>步骤 2.3: 路由器 - 配置端口转发</strong></h5><ul>
-<li><strong>操作</strong>: 将公网的特定端口映射至服务端的SSH端口。</li>
-<li><strong>工具</strong>: 浏览器，访问路由器管理后台。</li>
-<li><strong>路径</strong>: <code>NAT Forwarding</code> &gt; <code>Virtual Servers</code>。</li>
-<li><strong>配置</strong>: 添加新规则，具体参数如下：<ul>
-<li><strong>Service Type</strong>: <code>VSCodeSSH</code> (自定义名称)</li>
-<li><strong>External Port</strong>: <code>22222</code></li>
-<li><strong>Internal IP</strong>: <code>192.168.1.103</code></li>
-<li><strong>Internal Port</strong>: <code>22</code></li>
-<li><strong>Protocol</strong>: <code>TCP</code></li>
-<li><strong>Status</strong>: <code>Enabled</code><br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/689625cacc2ab.png"><img src="https://youke1.picui.cn/s1/2025/08/09/689625cacc2ab.png" alt="内网穿透.png"></a></li>
-</ul>
-</li>
-</ul>
-<h5 id="步骤-2-4-客户端-首次连接与密码认证问题"><a href="#步骤-2-4-客户端-首次连接与密码认证问题" class="headerlink" title="步骤 2.4: 客户端 - 首次连接与密码认证问题"></a><strong>步骤 2.4: 客户端 - 首次连接与密码认证问题</strong></h5><ul>
-<li><strong>操作</strong>: 客户端使用VS Code或<code>ssh</code>命令尝试连接。</li>
-<li><strong>命令</strong>: <code>ssh yan02@124.168.121.187 -p 22222</code></li>
-<li><strong>现象</strong>: 连接时被要求输入密码，但服务端账户（<code>yan02</code>）未设置密码，仅使用PIN登录。</li>
-<li><strong>原因分析</strong>:<ol>
-<li>SSH协议认证基于账户<strong>密码(Password)</strong>，而非设备<strong>PIN码</strong>。</li>
-<li>OpenSSH Server默认配置（<code>sshd_config</code>）禁止空密码账户登录。</li>
-</ol>
-</li>
-<li><strong>解决方案</strong>: 在服务端，通过 <code>设置 &gt; 账户 &gt; 登录选项</code> 为<code>yan02</code>账户添加一个强密码。</li>
-</ul>
-<h5 id="步骤-2-5-客户端-服务端-配置SSH密钥对"><a href="#步骤-2-5-客户端-服务端-配置SSH密钥对" class="headerlink" title="步骤 2.5: 客户端&#x2F;服务端 - 配置SSH密钥对"></a><strong>步骤 2.5: 客户端&#x2F;服务端 - 配置SSH密钥对</strong></h5><ul>
-<li><p><strong>操作</strong>: 在客户端生成密钥对。</p>
-<ul>
-<li><strong>工具 (客户端)</strong>: <code>PowerShell</code>。</li>
-<li><strong>命令</strong>: <code>ssh-keygen -t rsa -b 4096</code> (使用默认选项)。</li>
-</ul>
-</li>
-<li><p><strong>操作</strong>: 将公钥部署至服务端。</p>
-<ul>
-<li><strong>流程</strong>:<ol>
-<li>在客户端，复制 <code>C:\Users\ptlan\.ssh\id_rsa.pub</code> 文件内容。</li>
-<li>在服务端，创建 <code>C:\Users\yan02\.ssh\authorized_keys</code> 文件，并将公钥内容粘贴进去。</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><p><strong>操作</strong>: 在服务端禁用密码认证。</p>
-<ul>
-<li><strong>工具 (服务端)</strong>: <code>Notepad++ (管理员)</code>。</li>
-<li><strong>文件</strong>: <code>C:\ProgramData\ssh\sshd_config</code>。</li>
-<li><strong>修改</strong>: 将 <code>PasswordAuthentication yes</code> 修改为 <code>PasswordAuthentication no</code>（并移除行首<code>#</code>）。</li>
-</ul>
-</li>
-</ul>
-<h5 id="步骤-2-6-排错回合一-Permission-Denied"><a href="#步骤-2-6-排错回合一-Permission-Denied" class="headerlink" title="步骤 2.6: 排错回合一 - Permission Denied"></a><strong>步骤 2.6: 排错回合一 - <code>Permission Denied</code></strong></h5><ul>
-<li><strong>现象</strong>: 完成密钥配置并重启<code>sshd</code>服务后，连接失败，报错 <code>Permission denied (publickey, keyboard-interactive)</code>。</li>
-<li><strong>诊断</strong>: 使用客户端<code>ssh -v</code>命令，日志显示公钥被服务端拒绝。问题定位在服务端。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/68962752bbb66.png"><img src="https://youke1.picui.cn/s1/2025/08/09/68962752bbb66.png" alt="-v.png"></a></li>
-</ul>
-<h5 id="步骤-2-7-排错回合二-authorized-keys-文件格式与-sshd-config-配置"><a href="#步骤-2-7-排错回合二-authorized-keys-文件格式与-sshd-config-配置" class="headerlink" title="步骤 2.7: 排错回合二 - authorized_keys 文件格式与 sshd_config 配置"></a><strong>步骤 2.7: 排错回合二 - <code>authorized_keys</code> 文件格式与 <code>sshd_config</code> 配置</strong></h5><ul>
-<li><p><strong>问题</strong>: <code>sshd_config</code> 文件末尾的 <code>Match Group administrators</code> 配置块，将管理员的密钥文件路径重定向至 <code>C:\ProgramData\ssh\administrators_authorized_keys</code>。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/6896271581a69.png"><img src="https://youke1.picui.cn/s1/2025/08/09/6896271581a69.png" alt="match group.png"></a></p>
-<ul>
-<li><strong>解决方案</strong>: 将该配置块的两行用 <code>#</code> 注释掉，使其失效。</li>
-</ul>
-</li>
-</ul>
-<h5 id="步骤-2-8-排错回合三-网络连通性验证与日志缺失"><a href="#步骤-2-8-排错回合三-网络连通性验证与日志缺失" class="headerlink" title="步骤 2.8: 排错回合三 - 网络连通性验证与日志缺失"></a><strong>步骤 2.8: 排错回合三 - 网络连通性验证与日志缺失</strong></h5><ul>
-<li><strong>现象</strong>: 修复上述问题后，连接依然失败。同时，在<code>sshd_config</code>中设置<code>LogLevel DEBUG3</code>后，服务端的<code>事件查看器 &gt; OpenSSH &gt; Operational</code> 日志为空。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/689626ac8e83c.png"><img src="https://youke1.picui.cn/s1/2025/08/09/689626ac8e83c.png" alt="空日志.png"></a></li>
-<li><strong>诊断</strong>: 使用<a target="_blank" rel="noopener" href="https://www.portcheckers.com/">在线端口检查工具</a>测试公网IP的<code>22222</code>端口，结果显示<strong>Open (开启)</strong>。<br><a target="_blank" rel="noopener" href="https://youke1.picui.cn/s1/2025/08/09/68962675a7d52.png"><img src="https://youke1.picui.cn/s1/2025/08/09/68962675a7d52.png" alt="unnamed.png"></a></li>
-<li><strong>结论</strong>: TCP网络路径通畅。问题是<code>sshd</code>服务在收到连接后、记入日志前即发生错误，推断为Windows文件系统ACL权限问题。</li>
-</ul>
-<h5 id="步骤-2-9-最终修复-Windows-文件系统-ACL-权限"><a href="#步骤-2-9-最终修复-Windows-文件系统-ACL-权限" class="headerlink" title="步骤 2.9: 最终修复 - Windows 文件系统 ACL 权限"></a><strong>步骤 2.9: 最终修复 - Windows 文件系统 ACL 权限</strong></h5><ul>
-<li><strong>原因分析</strong>: <code>sshd</code>服务以<code>SYSTEM</code>账户身份运行，但<code>SYSTEM</code>账户无权访问属于<code>yan02</code>用户目录下的<code>authorized_keys</code>文件。</li>
-<li><strong>解决方案</strong>: 在服务端，以管理员身份运行PowerShell，执行以下脚本以精确重置文件权限。<ul>
-<li><strong>命令</strong>:<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$authorizedKeysFile</span> = <span class="string">&quot;C:\Users\yan02\.ssh\authorized_keys&quot;</span></span><br><span class="line"><span class="variable">$acl</span> = <span class="built_in">Get-Acl</span> <span class="variable">$authorizedKeysFile</span></span><br><span class="line"><span class="variable">$acl</span>.SetOwner([<span class="type">System.Security.Principal.NTAccount</span>]<span class="string">&quot;yan02&quot;</span>)</span><br><span class="line"><span class="variable">$acl</span>.Access | <span class="built_in">ForEach-Object</span> &#123; <span class="variable">$acl</span>.RemoveAccessRule(<span class="variable">$_</span>) &#125; | <span class="built_in">Out-Null</span></span><br><span class="line"><span class="variable">$acl</span>.SetAccessRuleProtection(<span class="variable">$true</span>, <span class="variable">$false</span>)</span><br><span class="line"><span class="variable">$acl</span>.AddAccessRule((<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="string">&quot;yan02&quot;</span>, <span class="string">&quot;FullControl&quot;</span>, <span class="string">&quot;Allow&quot;</span>)))</span><br><span class="line"><span class="variable">$acl</span>.AddAccessRule((<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="string">&quot;SYSTEM&quot;</span>, <span class="string">&quot;FullControl&quot;</span>, <span class="string">&quot;Allow&quot;</span>)))</span><br><span class="line"><span class="variable">$acl</span>.AddAccessRule((<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="string">&quot;Administrators&quot;</span>, <span class="string">&quot;FullControl&quot;</span>, <span class="string">&quot;Allow&quot;</span>)))</span><br><span class="line"><span class="built_in">Set-Acl</span> <span class="variable">$authorizedKeysFile</span> <span class="variable">$acl</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><strong>操作</strong>: 重启 <code>sshd</code> 服务。<ul>
-<li><strong>命令</strong>: <code>Restart-Service sshd</code></li>
-</ul>
-</li>
-</ul>
-<h5 id="步骤-2-10-最终验证"><a href="#步骤-2-10-最终验证" class="headerlink" title="步骤 2.10: 最终验证"></a><strong>步骤 2.10: 最终验证</strong></h5><ul>
-<li><strong>操作</strong>: 客户端再次尝试连接。</li>
-<li><strong>结果</strong>: <strong>连接成功</strong>。实现了无需密码的密钥认证登录。</li>
-</ul>
-<hr>
-<h4 id="3-核心问题总结"><a href="#3-核心问题总结" class="headerlink" title="3. 核心问题总结"></a><strong>3. 核心问题总结</strong></h4><p>本次配置过程中的关键障碍点为Windows环境下OpenSSH服务的权限问题。最终成功是基于以下关键修复：</p>
-<ol>
-<li><strong>停用<code>sshd_config</code>中针对<code>administrators</code>组的<code>AuthorizedKeysFile</code>路径覆盖规则。</strong></li>
-<li><strong>修正<code>authorized_keys</code>文件的ACL权限</strong>，确保运行<code>sshd</code>服务的<code>SYSTEM</code>账户，拥有对用户目录下<code>authorized_keys</code>文件的完全控制权限。</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuide1ncwVeFPUCwYi3hn9KFG" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuidA1D4jttQ9FjrLy2OzdcpG" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1185,6 +1156,11 @@ public:
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+  </nav>
 
 </section>
         
@@ -1222,11 +1198,15 @@ public:
       <ul>
         
           <li>
-            <a href="/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/">3.Linux帮助命令</a>
+            <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
           </li>
         
           <li>
-            <a href="/2025/10/18/hello-world/">Hello World</a>
+            <a href="/2025/10/20/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/">3.Linux帮助命令</a>
           </li>
         
           <li>
@@ -1235,10 +1215,6 @@ public:
         
           <li>
             <a href="/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/">1.虚拟机和安装linux</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/">128.最长连续序列</a>
           </li>
         
       </ul>

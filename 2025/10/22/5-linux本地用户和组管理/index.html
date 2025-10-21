@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>5.linux本地用户和组管理 | LynPtl&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Linux 本地用户和组管理（上半）**用户账户管理命令:    useradd: 添加用户    groupadd: 添加组    userdel: 删除用户    groupdel: 删除组    usermod: 修改用户属性 相关文件:    &#x2F;etc&#x2F;passwd: 用户账户信息    &#x2F;etc&#x2F;group: 组信息    &#x2F;etc&#x2F;shadow: 用户密码和账户过期信息 示例:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5.linux本地用户和组管理">
+<meta property="og:url" content="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="LynPtl&#39;s Blog">
+<meta property="og:description" content="Linux 本地用户和组管理（上半）**用户账户管理命令:    useradd: 添加用户    groupadd: 添加组    userdel: 删除用户    groupdel: 删除组    usermod: 修改用户属性 相关文件:    &#x2F;etc&#x2F;passwd: 用户账户信息    &#x2F;etc&#x2F;group: 组信息    &#x2F;etc&#x2F;shadow: 用户密码和账户过期信息 示例:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pxqixFiB5Q.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FQLiI4LrjL.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_B1mVSA6bGw.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QNr99TvNze.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ukurkiXySM.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_xEu4SD6qtp.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JQAyISr3ei.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_poiJUg52KB.png">
+<meta property="article:published_time" content="2025-10-22T01:38:58.000Z">
+<meta property="article:modified_time" content="2025-10-21T14:39:50.409Z">
+<meta property="article:author" content="LynPtl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pxqixFiB5Q.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LynPtl's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LynPtl&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/image-bed.html">图床</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://LynPtl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-5-linux本地用户和组管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2025-10-22T01:38:58.000Z" itemprop="datePublished">2025-10-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      5.linux本地用户和组管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-本地用户和组管理（上半）"><a href="#Linux-本地用户和组管理（上半）" class="headerlink" title="Linux 本地用户和组管理（上半）**"></a>Linux 本地用户和组管理（上半）**</h1><h3 id="用户账户管理"><a href="#用户账户管理" class="headerlink" title="用户账户管理"></a><strong>用户账户管理</strong></h3><p><strong>命令:</strong><br>    <code>useradd</code>: 添加用户<br>    <code>groupadd</code>: 添加组<br>    <code>userdel</code>: 删除用户<br>    <code>groupdel</code>: 删除组<br>    <code>usermod</code>: 修改用户属性</p>
+<p><strong>相关文件:</strong><br>    <code>/etc/passwd</code>: 用户账户信息<br>    <code>/etc/group</code>: 组信息<br>    <code>/etc/shadow</code>: 用户密码和账户过期信息</p>
+<p><strong>示例:</strong><br>    <code>useradd -g superheros -s /bin/bash -c “user description&quot; -m -d /home/spiderman spiderman</code><br>        创建一个名为 <code>spiderman</code> 的用户。<br>        <code>-g superheros</code>: 将用户添加到 <code>superheros</code> 组。<br>        <code>-s /bin/bash</code>: 设置用户的默认 shell 为 <code>/bin/bash</code>。<br>        <code>-c “user description&quot;</code>: 添加用户描述。<br>        <code>-m</code>: 创建用户主目录。<br>        <code>-d /home/spiderman</code>: 指定用户主目录为 <code>/home/spiderman</code>。</p>
+<h3 id="etc-login-def-文件"><a href="#etc-login-def-文件" class="headerlink" title="/etc/login.def 文件"></a><strong><code>/etc/login.def</code> 文件</strong></h3><p>此文件定义了用户账户的默认策略，例如密码的最大&#x2F;最小天数、警告期等。</p>
+<p><strong><code>chage</code> 命令 - 针对每个用户</strong></p>
+<p><code>chage</code> 命令用于修改用户密码的有效期信息。</p>
+<p><strong>示例:</strong><br><code>chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user</code></p>
+<p><strong><code>/etc/login.def</code> 文件中的重要参数:</strong><br>    <code>PASS_MAX_DAYS 99999</code>: 密码最长有效期（天）。<br>    <code>PASS_MIN_DAYS 0</code>: 密码最短有效期（天）。<br>    <code>PASS_MIN_LEN 5</code>: 密码最小长度。<br>    <code>PASS_WARN_AGE 7</code>: 密码过期前多少天开始警告用户。</p>
+<h3 id="chage-命令详解"><a href="#chage-命令详解" class="headerlink" title="chage 命令详解"></a><strong><code>chage</code> 命令详解</strong></h3><p><code>chage</code> 命令用于管理用户密码的有效期。</p>
+<p><strong>参数说明:</strong><br>    <code>-d = 3. Last password change (lastchanged)</code>: 密码上次更改的日期（自1970年1月1日以来的天数）。<br>    <code>-m = 4. Minimum</code>: 密码更改之间的最短天数。<br>    <code>-M = 5. Maximum</code>: 密码的最长有效期（天），超过此天数用户将被强制更改密码。<br>    <code>-W = 6. Warn</code>: 密码过期前警告用户的天数。<br>    <code>-I = 7. Inactive</code>: 密码过期后账户被禁用的天数。<br>    <code>-E = 8. Expire</code>: 账户被禁用的绝对日期（自1970年1月1日以来的天数）。</p>
+<h3 id="切换用户和-sudo-访问"><a href="#切换用户和-sudo-访问" class="headerlink" title="切换用户和 sudo 访问"></a><strong>切换用户和 <code>sudo</code> 访问</strong></h3><p><strong>命令:</strong><br>    <code>su - username</code>: 切换到指定用户（<code>-</code> 表示切换到该用户的环境）。<br>    <code>sudo command</code>: 以超级用户权限执行命令。<br>    <code>visudo</code>: 编辑 <code>/etc/sudoers</code> 文件，用于配置 <code>sudo</code> 权限。</p>
+<p><strong>相关文件:</strong><br>    <code>/etc/sudoers</code>: 配置哪些用户或组可以使用 <code>sudo</code> 以及他们可以执行哪些命令。</p>
+<hr>
+<p>在Linux系统中，配置用户和组（例如使用 useradd, groupadd, userdel, groupdel, usermod 等命令）通常需要 root 用户的权限。</p>
+<p>这是因为用户和组的管理涉及到系统级别的安全和资源分配，只有 root 用户（或通过 sudo 获得 root 权限的用户）才能执行这些操作，以确保系统的稳定性和安全性。</p>
+<p>首先我们使用<code>su -</code>来切换到root。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pxqixFiB5Q.png" alt="VirtualBoxVM_pxqixFiB5Q.png"></p>
+<p>然后我们可以尝试使用<code>useradd</code>来添加一个账户。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FQLiI4LrjL.png" alt="VirtualBoxVM_FQLiI4LrjL.png"></p>
+<p>可以看到我们的账户已经创建完毕了，并且我们的&#x2F;home目录下也多了一个目录。接下来我们创建一个组试试。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_B1mVSA6bGw.png" alt="VirtualBoxVM_B1mVSA6bGw.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QNr99TvNze.png" alt="VirtualBoxVM_QNr99TvNze.png"></p>
+<p>在<code>/etc/group</code>里面可以看到所有关于组和其id的信息。</p>
+<p>如果我们要删除用户的话，如果仅仅使用<code>userdel noob</code>，noob的home目录以及mailbox file仍然会存在，建议使用-r选项，在删除用户的同时，也移除该用户的家目录和邮箱文件。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ukurkiXySM.png" alt="VirtualBoxVM_ukurkiXySM.png"></p>
+<p>然后我们尝试一下使用usermod。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_xEu4SD6qtp.png" alt="VirtualBoxVM_xEu4SD6qtp.png"></p>
+<p><code>usermod -G</code>用于修改一个用户所属的“附加组”，在 Linux 中，一个用户必须属于一个“主组” (primary group)，并且可以同时属于多个“附加组”。</p>
+<p>但是你有没有发现，我们执行完之后，&#x2F;home目录下的noob目录仍然属于noob组。因为noob的主组还是noob。</p>
+<p>如果你这时候使用<code>usermod -g</code>这个小写的g，它也只会改变用户在系统中的“默认主组”设置（即 &#x2F;etc&#x2F;passwd 文件中的 GID）。它不会自动去修改该用户已经拥有的所有文件（比如 &#x2F;home&#x2F;noob 目录）的属组。</p>
+<p>如果你修改隶属于noob的所有文件变为fools所属的话，我们就需要使用change group命令<code>chgrp</code>：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JQAyISr3ei.png" alt="VirtualBoxVM_JQAyISr3ei.png"></p>
+<p><code>chgrp -R</code> 中的 <code>-R</code> 选项代表 “Recursive”（递归）。它的意思是：不仅改变你指定目录的属组，还要进入这个目录，改变里面所有文件、所有子目录、以及子目录里的所有文件的属组，一直重复下去，直到覆盖所有内容。</p>
+<p>现在我们来看一看刚才提到的&#96;&#x2F;etc&#x2F;passwd有什么内容：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_poiJUg52KB.png" alt="VirtualBoxVM_poiJUg52KB.png"></p>
+<p>可以看到每当你创建一个新用户的时候，最下方就会被添加新的信息。</p>
+<p><code>/etc/passwd</code> 是一个用冒号分隔的文本文件，其中每一行都代表一个系统用户账户。</p>
+<p>它定义了用户的核心信息，如<strong>用户名</strong>（第1字段）、<strong>用户ID (UID)</strong>（第3字段）、<strong>主组ID (GID)</strong>（第4字段）。</p>
+<p>它还指定了用户的<strong>家目录</strong>（第6字段）和登录时运行的 <strong>Shell 程序</strong>（第7字段），其中 <code>/usr/sbin/nologin</code> 表示该账户禁止登录。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidoP3zsOHAyV4FxkG59A9Mf" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/10/21/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/">5.linux本地用户和组管理</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/21/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/">3.Linux帮助命令</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/">2.从命令行管理文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LynPtl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/image-bed.html" class="mobile-nav-link">图床</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

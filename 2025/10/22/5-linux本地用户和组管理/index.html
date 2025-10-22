@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   
   
-  <title>5.linux本地用户和组管理 | LynPtl&#39;s Blog</title>
+  <title>5.linux本地用户和组管理（上） | LynPtl&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Linux 本地用户和组管理（上半）**用户账户管理命令:    useradd: 添加用户    groupadd: 添加组    userdel: 删除用户    groupdel: 删除组    usermod: 修改用户属性 相关文件:    &#x2F;etc&#x2F;passwd: 用户账户信息    &#x2F;etc&#x2F;group: 组信息    &#x2F;etc&#x2F;shadow: 用户密码和账户过期信息 示例:">
+  <meta name="description" content="Linux 本地用户和组管理1. 概述Linux 系统中的用户和组管理是权限控制的基础。它允许系统管理员定义谁可以访问哪些资源以及他们可以执行哪些操作。 2. 用户和组管理命令2.1 用户管理命令 useradd: 添加用户 userdel: 删除用户 usermod: 修改用户属性  2.2 组管理命令 groupadd: 添加组 groupdel: 删除组  2.3 权限切换命令 su - u">
 <meta property="og:type" content="article">
-<meta property="og:title" content="5.linux本地用户和组管理">
+<meta property="og:title" content="5.linux本地用户和组管理（上）">
 <meta property="og:url" content="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="LynPtl&#39;s Blog">
-<meta property="og:description" content="Linux 本地用户和组管理（上半）**用户账户管理命令:    useradd: 添加用户    groupadd: 添加组    userdel: 删除用户    groupdel: 删除组    usermod: 修改用户属性 相关文件:    &#x2F;etc&#x2F;passwd: 用户账户信息    &#x2F;etc&#x2F;group: 组信息    &#x2F;etc&#x2F;shadow: 用户密码和账户过期信息 示例:">
+<meta property="og:description" content="Linux 本地用户和组管理1. 概述Linux 系统中的用户和组管理是权限控制的基础。它允许系统管理员定义谁可以访问哪些资源以及他们可以执行哪些操作。 2. 用户和组管理命令2.1 用户管理命令 useradd: 添加用户 userdel: 删除用户 usermod: 修改用户属性  2.2 组管理命令 groupadd: 添加组 groupdel: 删除组  2.3 权限切换命令 su - u">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pxqixFiB5Q.png">
 <meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FQLiI4LrjL.png">
@@ -21,8 +21,11 @@
 <meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_xEu4SD6qtp.png">
 <meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JQAyISr3ei.png">
 <meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_poiJUg52KB.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_VHeuCP5Yu9.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gAqw7fhMRa.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_D6DYVhjxvN.png">
 <meta property="article:published_time" content="2025-10-22T01:38:58.000Z">
-<meta property="article:modified_time" content="2025-10-21T14:39:50.409Z">
+<meta property="article:modified_time" content="2025-10-22T11:34:11.745Z">
 <meta property="article:author" content="LynPtl">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pxqixFiB5Q.png">
@@ -102,7 +105,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      5.linux本地用户和组管理
+      5.linux本地用户和组管理（上）
     </h1>
   
 
@@ -110,50 +113,148 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Linux-本地用户和组管理（上半）"><a href="#Linux-本地用户和组管理（上半）" class="headerlink" title="Linux 本地用户和组管理（上半）**"></a>Linux 本地用户和组管理（上半）**</h1><h3 id="用户账户管理"><a href="#用户账户管理" class="headerlink" title="用户账户管理"></a><strong>用户账户管理</strong></h3><p><strong>命令:</strong><br>    <code>useradd</code>: 添加用户<br>    <code>groupadd</code>: 添加组<br>    <code>userdel</code>: 删除用户<br>    <code>groupdel</code>: 删除组<br>    <code>usermod</code>: 修改用户属性</p>
-<p><strong>相关文件:</strong><br>    <code>/etc/passwd</code>: 用户账户信息<br>    <code>/etc/group</code>: 组信息<br>    <code>/etc/shadow</code>: 用户密码和账户过期信息</p>
-<p><strong>示例:</strong><br>    <code>useradd -g superheros -s /bin/bash -c “user description&quot; -m -d /home/spiderman spiderman</code><br>        创建一个名为 <code>spiderman</code> 的用户。<br>        <code>-g superheros</code>: 将用户添加到 <code>superheros</code> 组。<br>        <code>-s /bin/bash</code>: 设置用户的默认 shell 为 <code>/bin/bash</code>。<br>        <code>-c “user description&quot;</code>: 添加用户描述。<br>        <code>-m</code>: 创建用户主目录。<br>        <code>-d /home/spiderman</code>: 指定用户主目录为 <code>/home/spiderman</code>。</p>
-<h3 id="etc-login-def-文件"><a href="#etc-login-def-文件" class="headerlink" title="/etc/login.def 文件"></a><strong><code>/etc/login.def</code> 文件</strong></h3><p>此文件定义了用户账户的默认策略，例如密码的最大&#x2F;最小天数、警告期等。</p>
-<p><strong><code>chage</code> 命令 - 针对每个用户</strong></p>
-<p><code>chage</code> 命令用于修改用户密码的有效期信息。</p>
-<p><strong>示例:</strong><br><code>chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user</code></p>
-<p><strong><code>/etc/login.def</code> 文件中的重要参数:</strong><br>    <code>PASS_MAX_DAYS 99999</code>: 密码最长有效期（天）。<br>    <code>PASS_MIN_DAYS 0</code>: 密码最短有效期（天）。<br>    <code>PASS_MIN_LEN 5</code>: 密码最小长度。<br>    <code>PASS_WARN_AGE 7</code>: 密码过期前多少天开始警告用户。</p>
-<h3 id="chage-命令详解"><a href="#chage-命令详解" class="headerlink" title="chage 命令详解"></a><strong><code>chage</code> 命令详解</strong></h3><p><code>chage</code> 命令用于管理用户密码的有效期。</p>
-<p><strong>参数说明:</strong><br>    <code>-d = 3. Last password change (lastchanged)</code>: 密码上次更改的日期（自1970年1月1日以来的天数）。<br>    <code>-m = 4. Minimum</code>: 密码更改之间的最短天数。<br>    <code>-M = 5. Maximum</code>: 密码的最长有效期（天），超过此天数用户将被强制更改密码。<br>    <code>-W = 6. Warn</code>: 密码过期前警告用户的天数。<br>    <code>-I = 7. Inactive</code>: 密码过期后账户被禁用的天数。<br>    <code>-E = 8. Expire</code>: 账户被禁用的绝对日期（自1970年1月1日以来的天数）。</p>
-<h3 id="切换用户和-sudo-访问"><a href="#切换用户和-sudo-访问" class="headerlink" title="切换用户和 sudo 访问"></a><strong>切换用户和 <code>sudo</code> 访问</strong></h3><p><strong>命令:</strong><br>    <code>su - username</code>: 切换到指定用户（<code>-</code> 表示切换到该用户的环境）。<br>    <code>sudo command</code>: 以超级用户权限执行命令。<br>    <code>visudo</code>: 编辑 <code>/etc/sudoers</code> 文件，用于配置 <code>sudo</code> 权限。</p>
-<p><strong>相关文件:</strong><br>    <code>/etc/sudoers</code>: 配置哪些用户或组可以使用 <code>sudo</code> 以及他们可以执行哪些命令。</p>
-<hr>
-<p>在Linux系统中，配置用户和组（例如使用 useradd, groupadd, userdel, groupdel, usermod 等命令）通常需要 root 用户的权限。</p>
-<p>这是因为用户和组的管理涉及到系统级别的安全和资源分配，只有 root 用户（或通过 sudo 获得 root 权限的用户）才能执行这些操作，以确保系统的稳定性和安全性。</p>
-<p>首先我们使用<code>su -</code>来切换到root。</p>
+        <h1 id="Linux-本地用户和组管理"><a href="#Linux-本地用户和组管理" class="headerlink" title="Linux 本地用户和组管理"></a>Linux 本地用户和组管理</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Linux 系统中的用户和组管理是权限控制的基础。它允许系统管理员定义谁可以访问哪些资源以及他们可以执行哪些操作。</p>
+<h2 id="2-用户和组管理命令"><a href="#2-用户和组管理命令" class="headerlink" title="2. 用户和组管理命令"></a>2. 用户和组管理命令</h2><h3 id="2-1-用户管理命令"><a href="#2-1-用户管理命令" class="headerlink" title="2.1 用户管理命令"></a>2.1 用户管理命令</h3><ul>
+<li><code>useradd</code>: 添加用户</li>
+<li><code>userdel</code>: 删除用户</li>
+<li><code>usermod</code>: 修改用户属性</li>
+</ul>
+<h3 id="2-2-组管理命令"><a href="#2-2-组管理命令" class="headerlink" title="2.2 组管理命令"></a>2.2 组管理命令</h3><ul>
+<li><code>groupadd</code>: 添加组</li>
+<li><code>groupdel</code>: 删除组</li>
+</ul>
+<h3 id="2-3-权限切换命令"><a href="#2-3-权限切换命令" class="headerlink" title="2.3 权限切换命令"></a>2.3 权限切换命令</h3><ul>
+<li><code>su - username</code>: 切换到指定用户（<code>-</code> 表示切换到该用户的环境）。</li>
+<li><code>sudo command</code>: 以超级用户权限执行命令。</li>
+<li><code>visudo</code>: 编辑 <code>/etc/sudoers</code> 文件，用于配置 <code>sudo</code> 权限。</li>
+</ul>
+<h2 id="3-用户和组相关配置文件"><a href="#3-用户和组相关配置文件" class="headerlink" title="3. 用户和组相关配置文件"></a>3. 用户和组相关配置文件</h2><ul>
+<li><code>/etc/passwd</code>: 用户账户信息</li>
+<li><code>/etc/group</code>: 组信息</li>
+<li><code>/etc/gshadow</code>: 组密码和组管理员信息</li>
+<li><code>/etc/sudoers</code>: 配置哪些用户或组可以使用 <code>sudo</code> 以及他们可以执行哪些命令。</li>
+</ul>
+<h2 id="4-实操演示"><a href="#4-实操演示" class="headerlink" title="4. 实操演示"></a>4. 实操演示</h2><p>在Linux系统中，配置用户和组（例如使用 useradd, groupadd, userdel, groupdel, usermod 等命令）通常需要 root 用户的权限。这是因为用户和组的管理涉及到系统级别的安全和资源分配，只有 root 用户（或通过 sudo 获得 root 权限的用户）才能执行这些操作，以确保系统的稳定性和安全性。</p>
+<h3 id="4-1-切换到-Root-用户"><a href="#4-1-切换到-Root-用户" class="headerlink" title="4.1 切换到 Root 用户"></a>4.1 切换到 Root 用户</h3><p>首先我们使用<code>su -</code>来切换到root。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pxqixFiB5Q.png" alt="VirtualBoxVM_pxqixFiB5Q.png"></p>
-<p>然后我们可以尝试使用<code>useradd</code>来添加一个账户。</p>
+<h3 id="4-2-添加用户"><a href="#4-2-添加用户" class="headerlink" title="4.2 添加用户"></a>4.2 添加用户</h3><p>然后我们可以尝试使用<code>useradd</code>来添加一个账户。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FQLiI4LrjL.png" alt="VirtualBoxVM_FQLiI4LrjL.png"></p>
-<p>可以看到我们的账户已经创建完毕了，并且我们的&#x2F;home目录下也多了一个目录。接下来我们创建一个组试试。</p>
+<p>可以看到我们的账户已经创建完毕了，并且我们的&#x2F;home目录下也多了一个目录。</p>
+<h3 id="4-3-创建组"><a href="#4-3-创建组" class="headerlink" title="4.3 创建组"></a>4.3 创建组</h3><p>接下来我们创建一个组试试。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_B1mVSA6bGw.png" alt="VirtualBoxVM_B1mVSA6bGw.png"></p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QNr99TvNze.png" alt="VirtualBoxVM_QNr99TvNze.png"></p>
 <p>在<code>/etc/group</code>里面可以看到所有关于组和其id的信息。</p>
-<p>如果我们要删除用户的话，如果仅仅使用<code>userdel noob</code>，noob的home目录以及mailbox file仍然会存在，建议使用-r选项，在删除用户的同时，也移除该用户的家目录和邮箱文件。</p>
+<h3 id="4-4-删除用户"><a href="#4-4-删除用户" class="headerlink" title="4.4 删除用户"></a>4.4 删除用户</h3><p>如果我们要删除用户的话，如果仅仅使用<code>userdel noob</code>，noob的home目录以及mailbox file仍然会存在，建议使用<code>-r</code>选项，在删除用户的同时，也移除该用户的家目录和邮箱文件。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ukurkiXySM.png" alt="VirtualBoxVM_ukurkiXySM.png"></p>
-<p>然后我们尝试一下使用usermod。</p>
+<h3 id="4-5-修改用户属性-usermod"><a href="#4-5-修改用户属性-usermod" class="headerlink" title="4.5 修改用户属性 (usermod)"></a>4.5 修改用户属性 (<code>usermod</code>)</h3><p>然后我们尝试一下使用usermod。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_xEu4SD6qtp.png" alt="VirtualBoxVM_xEu4SD6qtp.png"></p>
 <p><code>usermod -G</code>用于修改一个用户所属的“附加组”，在 Linux 中，一个用户必须属于一个“主组” (primary group)，并且可以同时属于多个“附加组”。</p>
 <p>但是你有没有发现，我们执行完之后，&#x2F;home目录下的noob目录仍然属于noob组。因为noob的主组还是noob。</p>
 <p>如果你这时候使用<code>usermod -g</code>这个小写的g，它也只会改变用户在系统中的“默认主组”设置（即 &#x2F;etc&#x2F;passwd 文件中的 GID）。它不会自动去修改该用户已经拥有的所有文件（比如 &#x2F;home&#x2F;noob 目录）的属组。</p>
-<p>如果你修改隶属于noob的所有文件变为fools所属的话，我们就需要使用change group命令<code>chgrp</code>：</p>
+<h3 id="4-6-修改文件属组-chgrp"><a href="#4-6-修改文件属组-chgrp" class="headerlink" title="4.6 修改文件属组 (chgrp)"></a>4.6 修改文件属组 (<code>chgrp</code>)</h3><p>如果你修改隶属于noob的所有文件变为fools所属的话，我们就需要使用change group命令<code>chgrp</code>：</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JQAyISr3ei.png" alt="VirtualBoxVM_JQAyISr3ei.png"></p>
 <p><code>chgrp -R</code> 中的 <code>-R</code> 选项代表 “Recursive”（递归）。它的意思是：不仅改变你指定目录的属组，还要进入这个目录，改变里面所有文件、所有子目录、以及子目录里的所有文件的属组，一直重复下去，直到覆盖所有内容。</p>
-<p>现在我们来看一看刚才提到的&#96;&#x2F;etc&#x2F;passwd有什么内容：</p>
+<h3 id="4-7-深入理解配置文件"><a href="#4-7-深入理解配置文件" class="headerlink" title="4.7 深入理解配置文件"></a>4.7 深入理解配置文件</h3><p>现在我们来看一看刚才提到的<code>/etc/passwd</code>有什么内容：</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_poiJUg52KB.png" alt="VirtualBoxVM_poiJUg52KB.png"></p>
 <p>可以看到每当你创建一个新用户的时候，最下方就会被添加新的信息。</p>
-<p><code>/etc/passwd</code> 是一个用冒号分隔的文本文件，其中每一行都代表一个系统用户账户。</p>
-<p>它定义了用户的核心信息，如<strong>用户名</strong>（第1字段）、<strong>用户ID (UID)</strong>（第3字段）、<strong>主组ID (GID)</strong>（第4字段）。</p>
-<p>它还指定了用户的<strong>家目录</strong>（第6字段）和登录时运行的 <strong>Shell 程序</strong>（第7字段），其中 <code>/usr/sbin/nologin</code> 表示该账户禁止登录。</p>
+<p><code>/etc/passwd</code> 是一个用冒号分隔的文本文件，其中每一行都代表一个系统用户账户。它定义了用户的核心信息，如<strong>用户名</strong>（第1字段）、<strong>用户ID (UID)</strong>（第3字段）、<strong>主组ID (GID)</strong>（第4字段）。它还指定了用户的<strong>家目录</strong>（第6字段）和登录时运行的 <strong>Shell 程序</strong>（第7字段），其中 <code>/usr/sbin/nologin</code> 表示该账户禁止登录。</p>
+<p>我们继续看一看其他的文件都是什么内容，对于<code>/etc/group</code>：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_VHeuCP5Yu9.png" alt="VirtualBoxVM_VHeuCP5Yu9.png"></p>
+<p><code>/etc/group</code> 文件中的每一行都定义了一个用户组，它通过冒号分隔，依次显示了<strong>组名</strong>、占位符 (<code>x</code>)、<strong>组ID (GID)</strong>、以及<strong>该组的附加成员列表</strong>（用逗号分隔）。这个文件是 Linux 权限系统的核心，它通过 GID 来标识组，并通过附加成员列表来决定哪些用户可以“共享”这个组的权限。</p>
+<p>在 <code>/etc/group</code> 文件的上下文中，那个 <code>x</code> 占位符的意思是：<strong>“这个组的加密密码存储在别处。”</strong></p>
+<p>这个“别处”就是 <code>/etc/gshadow</code> 文件。</p>
+<ol>
+<li><strong>历史原因：</strong> 在非常古老的 Unix&#x2F;Linux 系统中，组的加密密码（如果设置了的话）会<em>直接</em>存放在 <code>/etc/group</code> 文件的第二个字段。</li>
+<li><strong>安全问题：</strong> <code>/etc/group</code> 文件需要被系统上所有用户读取（以便知道谁在哪个组里）。如果密码也存在这里，任何用户都可以拿到所有组的加密密码去尝试破解。</li>
+<li><strong>现代方案：</strong> 为了安全，系统把真正的组密码（如果有的话）转移到了一个只有 <code>root</code> 用户才能读取的 <code>/etc/gshadow</code> 文件中。原来的位置就用一个 <code>x</code> 来“占位”，表示“密码已启用并已转移”。</li>
+</ol>
+<p><strong>一句话总结：</strong> 那个 <code>x</code> 是一个安全改进的产物，它告诉你这个组的真实密码信息被安全地存放在 <code>/etc/gshadow</code> 文件里了。</p>
+<p>（P.S. 实际上，“组密码”这个功能本身现在已经非常非常少用了。大多数组（如 <code>x</code> 所示）虽然启用了 shadow 密码，但并没有设置实际的密码。）</p>
+<p>接下来我们来看看<code>/etc/gshadow</code>：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gAqw7fhMRa.png" alt="VirtualBoxVM_gAqw7fhMRa.png"></p>
+<p><code>/etc/gshadow</code> 文件是 <code>/etc/group</code> 文件的“影子文件”，它以安全的方式存储<strong>组密码</strong>和<strong>组管理员</strong>信息，并且为了安全，它<strong>只能被 <code>root</code> 用户读取</strong>。</p>
+<p>它的每一行也由冒号 <code>:</code> 分隔，包含 <code>4</code> 个字段：</p>
+<ol>
+<li><p><strong>组名</strong> (Group Name)</p>
+<ul>
+<li>对应于 <code>/etc/group</code> 中的组名。</li>
+</ul>
+</li>
+<li><p><strong>加密的组密码</strong> (Encrypted Password)</p>
+<ul>
+<li>这才是真正存储组密码的地方（而不是 <code>/etc/group</code> 里的 <code>x</code>）。</li>
+<li>如果这里是 <code>!</code> 或 <code>*</code>，意味着这个组被锁定了，或者<strong>没有设置密码</strong>（这是最常见的情况）。</li>
+<li>如果这里是空的，表示该组没有密码。</li>
+</ul>
+</li>
+<li><p><strong>组管理员</strong> (Group Administrators)</p>
+<ul>
+<li>一个用逗号分隔的用户名列表，这些人可以管理这个组的成员（比如添加或删除成员）。</li>
+<li>这个字段<strong>通常是空的</strong>。</li>
+</ul>
+</li>
+<li><p><strong>组成员</strong> (Group Members)</p>
+<ul>
+<li>一个用逗号分隔的用户名列表，这些人是这个组的成员。</li>
+<li>这和 <code>/etc/group</code> 文件的第 4 字段（附加成员列表）功能基本一样。</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-8-组合命令示例"><a href="#4-8-组合命令示例" class="headerlink" title="4.8 组合命令示例"></a>4.8 组合命令示例</h3><p>接下来我们尝试一下组合命令：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_D6DYVhjxvN.png" alt="VirtualBoxVM_D6DYVhjxvN.png"></p>
+<p><code>useradd -g fools -s /bin/bash -c &quot;second noob&quot; -m -d /home/noob2 noob2</code></p>
+<ul>
+<li><p><strong><code>useradd</code></strong>: “添加用户”的主命令。</p>
+</li>
+<li><p><strong><code>-g fools</code></strong>:</p>
+<ul>
+<li><code>-g</code> (group) 指定用户的**“主组”**。</li>
+<li>强制将新用户 <code>noob2</code> 的主组设为 <code>fools</code> 组。</li>
+<li><em>(后面的 <code>id noob2</code> 命令也确认了这一点，显示 <code>gid=1002(fools)</code>)</em></li>
+</ul>
+</li>
+<li><p><strong><code>-s /bin/bash</code></strong>:</p>
+<ul>
+<li><code>-s</code> (shell) 指定用户的**“登录 Shell”**。</li>
+<li>将 <code>noob2</code> 的 Shell 设为 <code>/bin/bash</code>，这意味着该用户可以正常登录和使用命令行。</li>
+</ul>
+</li>
+<li><p><strong><code>-c &quot;second noob&quot;</code></strong>:</p>
+<ul>
+<li><code>-c</code> (comment) 添加**“备注”**信息，通常是用户的全名。</li>
+<li>备注内容是 “second noob”。</li>
+<li><em>(后面的 <code>tac /etc/passwd</code> 命令确认了这一点)</em></li>
+</ul>
+</li>
+<li><p><strong><code>-m</code></strong>:</p>
+<ul>
+<li><code>-m</code> (create home) 这是“<strong>创建家目录</strong>”的选项。</li>
+<li>它告诉 <code>useradd</code> 命令：“<strong>如果家目录不存在，就必须创建它</strong>。”</li>
+</ul>
+</li>
+<li><p><strong><code>-d /home/noob2</code></strong>:</p>
+<ul>
+<li><code>-d</code> (directory) 指定**“家目录的路径”**。</li>
+<li>把 <code>noob2</code> 的家目录路径设为 <code>/home/noob2</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>noob2</code></strong>:</p>
+<ul>
+<li>放在命令最后的是你要创建的<strong>用户名</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="m-和-d-是如何协同工作的？"><a href="#m-和-d-是如何协同工作的？" class="headerlink" title="-m 和 -d 是如何协同工作的？"></a><code>-m</code> 和 <code>-d</code> 是如何协同工作的？</h3><p>这两个选项一起使用是标准操作：</p>
+<ol>
+<li><strong><code>-d /home/noob2</code></strong> 告诉系统：“这个用户的家目录路径是 <code>/home/noob2</code>。”</li>
+<li><strong><code>-m</code></strong> 告诉系统：“现在，<strong>请真的去创建 <code>/home/noob2</code> 这个目录</strong>。”</li>
+</ol>
+<p><strong>如果没有 <code>-m</code> 会怎样？</strong><br>系统只会在 <code>/etc/passwd</code> 文件里<em>记录</em>家目录是 <code>/home/noob2</code>，但<strong>不会真的在磁盘上创建这个文件夹</strong>。当 <code>noob2</code> 登录时就会因为找不到家目录而出错。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidoP3zsOHAyV4FxkG59A9Mf" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidglw_myojkeVVu111YW2-x" data-title="5.linux本地用户和组管理（上）" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -163,10 +264,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2025/10/22/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
   
-    <a href="/2025/10/21/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">4.Linux文本编辑器</div>
     </a>
   
 </nav>
@@ -211,11 +321,11 @@
       <ul>
         
           <li>
-            <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/">5.linux本地用户和组管理</a>
+            <a href="/2025/10/22/hello-world/">Hello World</a>
           </li>
         
           <li>
-            <a href="/2025/10/21/hello-world/">Hello World</a>
+            <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/">5.linux本地用户和组管理（上）</a>
           </li>
         
           <li>

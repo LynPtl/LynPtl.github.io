@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>6.linux用户管理和权限 | LynPtl&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Linux 用户管理和权限引言在管理Linux系统时，尤其是在需要批量创建和管理用户账户的场景下，手动为每个用户进行繁琐的参数配置显然效率低下。为了简化这一过程并确保安全策略的一致性，Linux提供了强大的配置文件和命令来帮助我们集中管理用户策略和权限。本文将重点介绍如何通过&#x2F;etc&#x2F;login.defs文件、chage命令以及su和sudo命令，高效地进行用户安全设置和权限管理。 一、 设置用户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6.linux用户管理和权限">
+<meta property="og:url" content="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/index.html">
+<meta property="og:site_name" content="LynPtl&#39;s Blog">
+<meta property="og:description" content="Linux 用户管理和权限引言在管理Linux系统时，尤其是在需要批量创建和管理用户账户的场景下，手动为每个用户进行繁琐的参数配置显然效率低下。为了简化这一过程并确保安全策略的一致性，Linux提供了强大的配置文件和命令来帮助我们集中管理用户策略和权限。本文将重点介绍如何通过&#x2F;etc&#x2F;login.defs文件、chage命令以及su和sudo命令，高效地进行用户安全设置和权限管理。 一、 设置用户">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SzIhON8hUd.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SKsdGHyAQB.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_BAOKfnlfgB.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_fcp2asq46q.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_CpJYblRhZB.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jqgS8JZFnb.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_6HFNqO3JKO.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_Xwx2TsqYAU.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_nUP7Xr6rZH.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gIQxh4kcmj.png">
+<meta property="article:published_time" content="2025-10-24T01:42:44.000Z">
+<meta property="article:modified_time" content="2025-10-23T14:43:43.173Z">
+<meta property="article:author" content="LynPtl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SzIhON8hUd.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LynPtl's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LynPtl&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/image-bed.html">图床</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://LynPtl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-6-linux用户管理和权限" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" class="article-date">
+  <time class="dt-published" datetime="2025-10-24T01:42:44.000Z" itemprop="datePublished">2025-10-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      6.linux用户管理和权限
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-用户管理和权限"><a href="#Linux-用户管理和权限" class="headerlink" title="Linux 用户管理和权限"></a>Linux 用户管理和权限</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在管理Linux系统时，尤其是在需要批量创建和管理用户账户的场景下，手动为每个用户进行繁琐的参数配置显然效率低下。为了简化这一过程并确保安全策略的一致性，Linux提供了强大的配置文件和命令来帮助我们集中管理用户策略和权限。本文将重点介绍如何通过<code>/etc/login.defs</code>文件、<code>chage</code>命令以及<code>su</code>和<code>sudo</code>命令，高效地进行用户安全设置和权限管理。</p>
+<h2 id="一、-设置用户默认策略：-etc-login-defs-文件"><a href="#一、-设置用户默认策略：-etc-login-defs-文件" class="headerlink" title="一、 设置用户默认策略：/etc/login.defs 文件"></a>一、 设置用户默认策略：<code>/etc/login.defs</code> 文件</h2><p>当我们创建新用户时，系统会根据<code>/etc/login.defs</code>文件中的预设值来为用户配置初始属性。这个文件定义了用户账户的全局默认策略，例如密码的有效期、长度要求等。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SzIhON8hUd.png" alt="VirtualBoxVM_SzIhON8hUd.png"></p>
+<h4 id="login-defs-文件中的重要参数"><a href="#login-defs-文件中的重要参数" class="headerlink" title="login.defs 文件中的重要参数"></a><code>login.defs</code> 文件中的重要参数</h4><ul>
+<li><code>PASS_MAX_DAYS 99999</code>: 密码最长有效期（天）。</li>
+<li><code>PASS_MIN_DAYS 0</code>: 密码最短有效期（天）。</li>
+<li><code>PASS_MIN_LEN 5</code>: 密码最小长度。</li>
+<li><code>PASS_WARN_AGE 7</code>: 密码过期前多少天开始警告用户。</li>
+</ul>
+<p>除此之外，该文件还包含了用户ID（UID）和组ID（GID）的范围等信息。了解并根据安全需求配置此文件，是实现标准化用户管理的第一步。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SKsdGHyAQB.png" alt="VirtualBoxVM_SKsdGHyAQB.png"></p>
+<h2 id="二、-精细化用户密码策略：chage-命令"><a href="#二、-精细化用户密码策略：chage-命令" class="headerlink" title="二、 精细化用户密码策略：chage 命令"></a>二、 精细化用户密码策略：<code>chage</code> 命令</h2><p><code>chage</code>命令允许我们针对单个用户，精细化地修改其密码的有效期信息，覆盖<code>/etc/login.defs</code>中的全局设置。</p>
+<h4 id="chage-命令详解"><a href="#chage-命令详解" class="headerlink" title="chage 命令详解"></a><code>chage</code> 命令详解</h4><p><strong>语法示例:</strong><br><code>chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user</code></p>
+<p><strong>常用参数说明:</strong></p>
+<ul>
+<li><code>-d, --lastday LAST_DAY</code>: 密码上次更改的日期（自1970-01-01以来的天数）。</li>
+<li><code>-m, --mindays MIN_DAYS</code>: 密码更改之间的最短天数。</li>
+<li><code>-M, --maxdays MAX_DAYS</code>: 密码的最长有效期（天）。</li>
+<li><code>-W, --warndays WARN_DAYS</code>: 密码过期前警告用户的天数。</li>
+<li><code>-I, --inactive INACTIVE</code>: 密码过期后账户被禁用的天数。</li>
+<li><code>-E, --expiredate EXPIRE_DATE</code>: 账户被禁用的绝对日期。</li>
+</ul>
+<p><strong>操作示例：</strong><br>我们可以使用<code>chage</code>命令查看和修改特定用户的密码策略。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_BAOKfnlfgB.png" alt="VirtualBoxVM_BAOKfnlfgB.png"></p>
+<h2 id="三、-权限切换与提升：su-和-sudo"><a href="#三、-权限切换与提升：su-和-sudo" class="headerlink" title="三、 权限切换与提升：su 和 sudo"></a>三、 权限切换与提升：<code>su</code> 和 <code>sudo</code></h2><p>在日常管理中，我们经常需要在不同用户间切换，或者以更高的权限执行特定命令。</p>
+<h3 id="1-切换用户：su-命令"><a href="#1-切换用户：su-命令" class="headerlink" title="1. 切换用户：su 命令"></a>1. 切换用户：<code>su</code> 命令</h3><p><code>su - &lt;username&gt;</code>命令可以让我们切换到指定的用户，并加载该用户的环境变量（<code>-</code>的作用）。</p>
+<ul>
+<li>从<code>root</code>用户切换到任何其他用户，不需要输入密码。</li>
+<li>从普通用户切换到<code>root</code>或其他用户，需要输入目标用户的密码。</li>
+</ul>
+<p><em>注意：在使用<code>su</code>切换到新用户前，如果该用户没有密码，<code>root</code>用户需要先使用<code>passwd &lt;username&gt;</code>为其设置密码。</em></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_fcp2asq46q.png" alt="VirtualBoxVM_fcp2asq46q.png"></p>
+<h3 id="2-提升命令权限：sudo-命令"><a href="#2-提升命令权限：sudo-命令" class="headerlink" title="2. 提升命令权限：sudo 命令"></a>2. 提升命令权限：<code>sudo</code> 命令</h3><p><code>sudo</code>命令允许普通用户以超级用户（root）的权限执行特定的、经过授权的命令，而无需知道<code>root</code>用户的密码。这是一种更安全、更可控的权限管理方式。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_CpJYblRhZB.png" alt="VirtualBoxVM_CpJYblRhZB.png"></p>
+<h4 id="配置-sudo-权限"><a href="#配置-sudo-权限" class="headerlink" title="配置 sudo 权限"></a>配置 <code>sudo</code> 权限</h4><p>要让一个用户能够使用<code>sudo</code>，必须在<code>/etc/sudoers</code>文件中进行配置。<strong>强烈建议使用<code>visudo</code>命令来编辑此文件</strong>，因为它会在保存时检查语法错误，防止配置错误导致系统无法使用<code>sudo</code>。</p>
+<p>我们切换到<code>root</code>用户，执行<code>visudo</code>。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jqgS8JZFnb.png" alt="VirtualBoxVM_jqgS8JZFnb.png"></p>
+<p>有两种常见的方式为用户授予<code>sudo</code>权限：</p>
+<p><strong>方法一：直接在<code>sudoers</code>文件中添加用户</strong></p>
+<p>在文件中添加如下格式的行：<br><code>username ALL=(ALL) ALL</code></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_6HFNqO3JKO.png" alt="VirtualBoxVM_6HFNqO3JKO.png"></p>
+<p><strong>方法二：将用户添加到<code>wheel</code>组（推荐）</strong></p>
+<p>在很多Linux发行版中，<code>/etc/sudoers</code>文件默认配置允许<code>wheel</code>组的成员执行所有命令。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_Xwx2TsqYAU.png" alt="VirtualBoxVM_Xwx2TsqYAU.png"></p>
+<p>因此，我们只需将用户添加为<code>wheel</code>组的附加组即可，这是一种更简洁、更易于管理的方式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usermod -aG wheel lpt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_nUP7Xr6rZH.png" alt="VirtualBoxVM_nUP7Xr6rZH.png"></p>
+<p>完成配置后，该用户就可以成功使用<code>sudo</code>执行命令了。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gIQxh4kcmj.png" alt="VirtualBoxVM_gIQxh4kcmj.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了Linux中与用户账户策略和权限管理相关的几个核心工具。通过配置<code>/etc/login.defs</code>实现全局用户策略，使用<code>chage</code>命令对单个用户进行密码时效的精细化调整，以及利用<code>su</code>和<code>sudo</code>进行灵活的权限切换和提升。掌握这些工具，将使你的Linux系统管理工作更加高效和安全。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidu0aQ5ku_UIwlXfNyJDaVh" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">5.linux本地用户和组管理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/">6.linux用户管理和权限</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/">5.linux本地用户和组管理</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/">3.Linux帮助命令</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/">2.从命令行管理文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LynPtl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/image-bed.html" class="mobile-nav-link">图床</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

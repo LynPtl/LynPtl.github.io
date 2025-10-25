@@ -73,6 +73,170 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-8-linux进程管理与资源监控" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" class="article-date">
+  <time class="dt-published" datetime="2025-10-25T15:00:43.000Z" itemprop="datePublished">2025-10-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/">8.linux进程管理与资源监控</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-进程管理与资源监控-施工中"><a href="#Linux-进程管理与资源监控-施工中" class="headerlink" title="Linux 进程管理与资源监控(施工中)"></a>Linux 进程管理与资源监控(施工中)</h1><hr>
+<h1 id="进程与作业-Processes-and-Jobs"><a href="#进程与作业-Processes-and-Jobs" class="headerlink" title="进程与作业 (Processes and Jobs)"></a>进程与作业 (Processes and Jobs)</h1><p>在计算中，我们经常遇到与“进程”和“作业”相关的几个核心概念。下图总结了这些关键术语，它们是理解操作系统如何管理程序执行的基础：</p>
+<ul>
+<li><strong>应用程序 (Application) &#x3D; 服务 (Service)</strong>: 应用程序可以作为服务在后台运行。</li>
+<li><strong>脚本 (Script)</strong>: 由解释器执行的一系列命令。</li>
+<li><strong>进程 (Process)</strong>: 正在执行的程序的实例。</li>
+<li><strong>守护进程 (Daemon)</strong>: 在后台运行以执行特定任务的特殊进程。</li>
+<li><strong>线程 (Threads)</strong>: 进程内的执行单元。</li>
+<li><strong>作业 (Job)</strong>: 由shell管理的一组进程。</li>
+</ul>
+<hr>
+<h1 id="监控和管理进程"><a href="#监控和管理进程" class="headerlink" title="监控和管理进程"></a>监控和管理进程</h1><ul>
+<li><p>当操作系统启动时，许多程序会加载到系统内存中。这些进程或程序需要被管理和监控，因为它们主要消耗三种系统资源：CPU、内存和磁盘空间。</p>
+</li>
+<li><p>这里有一些用于管理系统资源的监控命令：</p>
+<ul>
+<li><code>df</code></li>
+<li><code>du</code></li>
+<li><code>uptime</code></li>
+<li><code>top</code></li>
+<li><code>free</code></li>
+<li><code>lsof</code></li>
+<li><code>tcpdump</code></li>
+<li><code>netstat</code></li>
+<li><code>ps</code></li>
+<li><code>kill</code></li>
+</ul>
+</li>
+<li><p>其他一些命令是 <code>vmstat</code>, <code>iostat</code>, <code>iftop</code> 等。</p>
+</li>
+</ul>
+<hr>
+<h2 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h2><ul>
+<li><strong><code>df</code> (disk free)</strong>: 显示文件系统的磁盘空间使用情况。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_PuiHdwUw0L.png" alt="VirtualBoxVM_PuiHdwUw0L.png"></p>
+<p>建议你使用<code>-h</code>选项，获得更方便阅读的结果。这些文件系统是做什么用的请你自行搜索学习。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JJMn5j5Owq.png" alt="VirtualBoxVM_JJMn5j5Owq.png"></p>
+<p>此外<code>-T</code>选项也很重要。这个结果向你展示了文件系统的类型(Type)。</p>
+<ul>
+<li><p><strong><code>xfs</code></strong>：</p>
+<ul>
+<li>这是一种高性能的<strong>日志文件系统 (Journaling File System)</strong>。</li>
+<li>“日志”意味着它会记录即将对磁盘进行的更改，如果系统意外崩溃（比如断电），它能很快恢复数据一致性，而不需要长时间扫描整个磁盘。</li>
+<li><code>xfs</code> 这种类型的文件系统是<strong>持久化</strong>的，意味着它存储在你的物理硬盘上，关机后数据<strong>不会</strong>丢失。</li>
+<li>在你的例子中，你的<strong>根目录 (<code>/</code>)</strong> 和 <strong>启动目录 (<code>/boot</code>)</strong> 都使用了 <code>xfs</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>tmpfs</code></strong> (Temporary File System):</p>
+<ul>
+<li>这是一种<strong>临时的、基于内存的文件系统</strong>。</li>
+<li>它把所有数据都存储在<strong>RAM（内存）</strong> 和&#x2F;或交换空间 (swap) 中。</li>
+<li><strong>优点</strong>：读写速度极快，因为它操作的是内存。</li>
+<li><strong>缺点</strong>：它是<strong>易失</strong>的（Volatile），意味着<strong>系统一旦重启，<code>tmpfs</code> 上的所有数据都会丢失</strong>。</li>
+<li>它非常适合存放那些“用完即走”的临时运行时数据。</li>
+</ul>
+</li>
+<li><p><strong><code>devtmpfs</code></strong>:</p>
+<ul>
+<li>这是一种特殊的 <code>tmpfs</code>，专门用于 <code>/dev</code> 目录。</li>
+<li>它的任务是由内核在系统启动时动态创建和管理<strong>设备文件</strong>（比如你的硬盘 <code>/dev/sda</code>、终端 <code>/dev/tty1</code> 等）。</li>
+</ul>
+</li>
+<li><p><strong><code>du</code> (disk usage)</strong>: 估算文件和目录的磁盘使用空间。</p>
+</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_urfc4V40pw.png" alt="VirtualBoxVM_urfc4V40pw.png"></p>
+<p>这个命令<code>du -k / | sort -nr | more</code>是从根目录 (&#x2F;) 开始计算所有目录的磁盘占用空间（以KB为单位），然后将结果按空间大小从大到小排序，最后把这个排好序的列表用分页器（more）显示出来，方便查看。</p>
+<p>此外上面的这些 cannot access 的提示都是正常现象。它们只是告诉你在 du 扫描整个系统的过程中，有几个瞬时的 &#x2F;proc 文件消失了，并且有几个属于其他用户的 FUSE 挂载点拒绝了你的访问。你可以忽略这些。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n4U5YRi4Rr.png" alt="VirtualBoxVM_n4U5YRi4Rr.png"></p>
+<p>同样<code>du</code>命令也有<code>-h</code>选项。</p>
+<p>你可以通过这个命令查看什么文件占据了很大的空间，从而对其进行管理。</p>
+<ul>
+<li><strong><code>uptime</code></strong>: 显示系统已经运行了多长时间，当前登录的用户数，以及系统在过去1、5、15分钟内的平均负载。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8z0XOpWpGp.png" alt="VirtualBoxVM_8z0XOpWpGp.png"></p>
+<ul>
+<li><strong><code>top</code></strong>: 实时显示系统中各个进程的资源占用状况，类似于 Windows 的任务管理器。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_XFtEG4kLOO.png" alt="VirtualBoxVM_XFtEG4kLOO.png"></li>
+</ul>
+<p>我没法做到向你解释所有的命令里面的所有信息的内容，这花费的时间太长了，如果你有任何看不懂的信息请你自行搜索一下。</p>
+<ul>
+<li><p><strong>PID</strong>: 进程ID。</p>
+</li>
+<li><p><strong>USER</strong>: 进程的所有者。</p>
+</li>
+<li><p><strong>PR</strong>: 进程优先级。</p>
+</li>
+<li><p><strong>NI</strong>: 进程的 nice 值。</p>
+</li>
+<li><p><strong>VIRT</strong>: 进程使用的虚拟内存量。</p>
+</li>
+<li><p><strong>RES</strong>: 进程使用的常驻内存量。</p>
+</li>
+<li><p><strong>SHR</strong>: 进程使用的共享内存量。</p>
+</li>
+<li><p><strong>S</strong>: 进程状态。（请参阅下面的列表了解此字段可能的值）。</p>
+</li>
+<li><p><strong>%CPU</strong>: 自上次更新以来进程所使用的 CPU 时间百分比。</p>
+</li>
+<li><p><strong>%MEM</strong>: 进程所使用的物理内存百分比。</p>
+</li>
+<li><p><strong>TIME+</strong>: 任务所使用的总 CPU 时间，单位为 1&#x2F;100 秒。</p>
+</li>
+<li><p><strong>COMMAND</strong>: 命令名称或命令行（名称 + 选项）。</p>
+</li>
+<li><p><strong><code>free</code></strong>: 显示系统内存的使用情况，包括物理内存、交换内存(swap)和内核缓冲区。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n7VTVrh1MK.png" alt="VirtualBoxVM_n7VTVrh1MK.png"></p>
+</li>
+</ul>
+<p>如果你想以<code>MB</code>为单位，只需要加上<code>-m</code>选项。</p>
+<ul>
+<li><strong><code>lsof</code> (list open files)</strong>: 列出当前系统打开的文件。</li>
+</ul>
+<p>有些时候，当你停止了某个进程，它所正在查找的文件仍然处于被打开的状态。</p>
+<ul>
+<li><strong><code>tcpdump</code></strong>: 一个强大的网络抓包工具，用于捕获和分析网络流量。</li>
+<li><strong><code>netstat</code></strong>: 显示网络连接、路由表、接口统计等网络相关信息。</li>
+<li><strong><code>ps</code> (process status)</strong>: 显示当前系统的进程状态。</li>
+<li><strong><code>kill</code></strong>: 用于向进程发送信号，通常用于终止进程。</li>
+<li><strong><code>vmstat</code> (virtual memory statistics)</strong>: 报告关于虚拟内存、进程、CPU活动、I&#x2F;O等的统计信息。</li>
+<li><strong><code>iostat</code> (input&#x2F;output statistics)</strong>: 报告CPU统计信息和输入&#x2F;输出设备的统计信息。</li>
+<li><strong><code>iftop</code> (interface top)</strong>: 实时监控网络接口的流量。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidv8_eU13W03ufcmbSOrOHp" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-7-linux文件权限与所有权" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" class="article-date">
@@ -174,7 +338,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidscuqcI7_7_aFzpdS3aJOc" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid0Qc6-p71E4U3EjnqrceyP" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -267,7 +431,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuid0xI78Lsm3Ai87Kuva9bWZ" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidM4yhwjIDO_IzchF3xSvvn" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -446,7 +610,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidr8V2Cy8-gKoFpjxFkhioC" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuid2VO1ndQQP3NrnxI7HvtEJ" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -587,7 +751,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidmBkcwNbDzk0TOqPa2mEPU" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuid0yCwhs6BGMGagHnQWedAy" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -673,7 +837,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuid4usMJuTIgqnA_pTRsgAUU" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidJZXdBzHyFKYy_eQUyf2Hd" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -825,7 +989,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidDicxP8mZuqJ4pVo0k8vud" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidogA5nkZRFmDVZ2Bn9Ue3G" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -912,7 +1076,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidDmrO1W0IUfXq3dFkiyD-h" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidg8riCXMOH14xl6jA2y--C" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -963,7 +1127,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidKKDDw9ZwKoE-2A7zWx6Vw" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidZWLqYDoZa42CfIfntt7RJ" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1079,170 +1243,7 @@ return {1, 2};                      // 如果函数返回类型是vector&lt;int&
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuid16DbS60Cd_KIrKEAuPwCi" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-3无重复字符的最大字串" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" class="article-date">
-  <time class="dt-published" datetime="2025-10-02T12:18:01.000Z" itemprop="datePublished">2025-10-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/">3.无重复字符的最大字串</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="无重复字符的最大子串"><a href="#无重复字符的最大子串" class="headerlink" title="无重复字符的最大子串"></a>无重复字符的最大子串</h1><h2 id="暴力遍历"><a href="#暴力遍历" class="headerlink" title="暴力遍历"></a>暴力遍历</h2><p>暴力的思路还是非常简单的，一个n^2的暴力循环。第一个循环是第一位是哪一位，第二个循环是后面满足条件的最大位数。<br>第一反应没能写出来是因为没有想到set。对于稍微有些特别的数据结构并不是特别敏感。  </p>
-<pre><code>def lengthOfLongestSubstring(s: str) -&gt; int:
-    n = len(s)
-    max_length = 0
-    
-    # 遍历每个可能的起始位置
-    for i in range(n):
-        # 使用集合来跟踪已经出现的字符
-        char_set = set()
-        current_length = 0
-        
-        # 从起始位置向后扩展
-        for j in range(i, n):
-            # 如果当前字符已经在集合中，表示遇到了重复字符
-            if s[j] in char_set:
-                break
-            
-            # 将当前字符添加到集合中，并增加当前子串长度
-            char_set.add(s[j])
-            current_length += 1
-        
-        # 更新最大长度
-        max_length = max(max_length, current_length)
-    
-    return max_length
-</code></pre>
-<p>但是对于C++而言，这里又要用到stl标准库中的unordered_set&lt;&gt;容器。回想我当时学习C++的时候，几乎就没有怎么用过这些stl容器。。但是对于这种题目使用这种容器几乎是唯一解法，因为不使用stl会使其极度复杂，因为你需要自己定义这种结构体。<br>所以现在学习算法的时候我会顺带学习一下C++的常用stl。<br><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-libs-unordered_set.html">https://www.runoob.com/cplusplus/cpp-libs-unordered_set.html</a>  </p>
-<pre><code>#include &lt;string&gt;
-#include &lt;unordered_set&gt;
-#include &lt;algorithm&gt;
-
-class Solution {
-public:
-    int lengthOfLongestSubstring(std::string s) {
-        int n = s.length();
-        int maxLength = 0;
-        
-        // 遍历每个可能的起始位置
-        for (int i = 0; i &lt; n; i++) {
-            // 使用unordered_set来跟踪已经出现的字符
-            std::unordered_set&lt;char&gt; charSet;
-            int currentLength = 0;
-            
-            // 从起始位置向后扩展
-            for (int j = i; j &lt; n; j++) {
-                // 如果当前字符已经在集合中，表示遇到了重复字符
-                if (charSet.find(s[j]) != charSet.end()) {
-                    break;
-                }
-                
-                // 将当前字符添加到集合中，并增加当前子串长度
-                charSet.insert(s[j]);
-                currentLength++;
-            }
-            
-            // 更新最大长度
-            maxLength = std::max(maxLength, currentLength);
-        }
-        
-        return maxLength;
-    }
-};
-</code></pre>
-<h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><p>理解成一个小窗口在移动，一直划选着符合条件的内容。<br>窗口初始化为0，将第一个元素添加进窗口，随后检测第二个元素是否存在于窗口：<br>如果不存在则添加进窗口。如果存在则循环删除窗口内最左侧元素直到满足条件。<br>满足条件后记录目前的长度并和最大长度进行比较。  </p>
-<pre><code>class Solution:
-    def lengthOfLongestSubstring(self, s: str) -&gt; int:
-        if not s:return 0
-        left = 0
-        lookup = set()
-        n = len(s)
-        max_len = 0
-        cur_len = 0
-        for i in range(n):
-            cur_len += 1
-            while s[i] in lookup:
-                lookup.remove(s[left])
-                left += 1
-                cur_len -= 1
-            if cur_len &gt; max_len:max_len = cur_len
-            lookup.add(s[i])
-        return max_len
-
-作者：powcai
-链接：https://leetcode.cn/problems/longest-substring-without-repeating-characters/solutions/3982/hua-dong-chuang-kou-by-powcai/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。  
-</code></pre>
-<hr>
-<pre><code>class Solution {
-public:
-    int lengthOfLongestSubstring(string s) {
-        if(s.size() == 0) return 0;
-        unordered_set&lt;char&gt; lookup;
-        int maxStr = 0;
-        int left = 0;
-        for(int i = 0; i &lt; s.size(); i++){
-            while (lookup.find(s[i]) != lookup.end()){
-                lookup.erase(s[left]);
-                left ++;
-            }
-            maxStr = max(maxStr,i-left+1);
-            lookup.insert(s[i]);
-    }
-        return maxStr;
-        
-    }
-};
-
-作者：powcai
-链接：https://leetcode.cn/problems/longest-substring-without-repeating-characters/solutions/3982/hua-dong-chuang-kou-by-powcai/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-</code></pre>
-<p>时间复杂度分析：<br>乍一看，这段代码似乎有嵌套循环（外部for循环和内部while循环），可能让人觉得时间复杂度是O(n²)。但实际上，这个算法的总体时间复杂度是O(n)，其中n是字符串的长度。<br>原因如下：</p>
-<p>外部的for循环明确执行n次，每次处理字符串中的一个字符。<br>关键在于内部的while循环：虽然它看起来可能在最坏情况下对每个字符都执行多次，但实际上，字符串中的每个字符最多只会被处理两次:</p>
-<p>一次是在外部for循环中被添加到窗口（lookup集合）<br>一次是在while循环中被移出窗口</p>
-<p>左指针left在整个过程中最多移动n次（从0到n-1）。<br>每次执行while循环体，left指针都会向右移动一位。所以while循环体的总执行次数不会超过n次。</p>
-<p>所以，虽然代码中有嵌套的循环结构，但内部while循环的总执行次数受到字符串长度n的限制，使得整体时间复杂度仍然是O(n)。<br>详细解释为什么while循环总执行次数不超过n：</p>
-<p>每次执行while循环，left指针都会向右移动一位<br>left指针在整个算法执行过程中只会从0移动到最多n-1<br>因此，while循环的总执行次数不能超过n</p>
-<p>空间复杂度：<br>空间复杂度是O(min(m, n))，其中m是字符集的大小，n是字符串长度。因为在最坏情况下，lookup集合最多包含min(m, n)个字符。<br>这就是为什么滑动窗口是解决这类问题的高效方法，它避免了暴力解法中的重复计算，将时间复杂度从O(n²)降低到O(n)。</p>
-<p>此外，insert方法和erase方法分别是添加和删除。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuid5GA3XOGhEvkr9rlv9dhpK" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidfPH3IPhdAtvXVS7ufUHyB" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1297,6 +1298,10 @@ public:
       <ul>
         
           <li>
+            <a href="/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/">8.linux进程管理与资源监控</a>
+          </li>
+        
+          <li>
             <a href="/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/">7.linux文件权限与所有权</a>
           </li>
         
@@ -1310,10 +1315,6 @@ public:
         
           <li>
             <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/">3.Linux帮助命令</a>
           </li>
         
       </ul>

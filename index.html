@@ -99,8 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Linux-进程管理与资源监控-施工中"><a href="#Linux-进程管理与资源监控-施工中" class="headerlink" title="Linux 进程管理与资源监控(施工中)"></a>Linux 进程管理与资源监控(施工中)</h1><hr>
-<h1 id="进程与作业-Processes-and-Jobs"><a href="#进程与作业-Processes-and-Jobs" class="headerlink" title="进程与作业 (Processes and Jobs)"></a>进程与作业 (Processes and Jobs)</h1><p>在计算中，我们经常遇到与“进程”和“作业”相关的几个核心概念。下图总结了这些关键术语，它们是理解操作系统如何管理程序执行的基础：</p>
+        <h1 id="Linux-进程管理与资源监控"><a href="#Linux-进程管理与资源监控" class="headerlink" title="Linux 进程管理与资源监控"></a>Linux 进程管理与资源监控</h1><h2 id="1-基本概念：进程与作业-Processes-and-Jobs"><a href="#1-基本概念：进程与作业-Processes-and-Jobs" class="headerlink" title="1. 基本概念：进程与作业 (Processes and Jobs)"></a>1. 基本概念：进程与作业 (Processes and Jobs)</h2><p>在计算中，我们经常遇到与“进程”和“作业”相关的几个核心概念。下图总结了这些关键术语，它们是理解操作系统如何管理程序执行的基础：</p>
 <ul>
 <li><strong>应用程序 (Application) &#x3D; 服务 (Service)</strong>: 应用程序可以作为服务在后台运行。</li>
 <li><strong>脚本 (Script)</strong>: 由解释器执行的一系列命令。</li>
@@ -110,32 +109,12 @@
 <li><strong>作业 (Job)</strong>: 由shell管理的一组进程。</li>
 </ul>
 <hr>
-<h1 id="监控和管理进程"><a href="#监控和管理进程" class="headerlink" title="监控和管理进程"></a>监控和管理进程</h1><ul>
-<li><p>当操作系统启动时，许多程序会加载到系统内存中。这些进程或程序需要被管理和监控，因为它们主要消耗三种系统资源：CPU、内存和磁盘空间。</p>
-</li>
-<li><p>这里有一些用于管理系统资源的监控命令：</p>
-<ul>
-<li><code>df</code></li>
-<li><code>du</code></li>
-<li><code>uptime</code></li>
-<li><code>top</code></li>
-<li><code>free</code></li>
-<li><code>lsof</code></li>
-<li><code>tcpdump</code></li>
-<li><code>netstat</code></li>
-<li><code>ps</code></li>
-<li><code>kill</code></li>
-</ul>
-</li>
-<li><p>其他一些命令是 <code>vmstat</code>, <code>iostat</code>, <code>iftop</code> 等。</p>
-</li>
-</ul>
+<h2 id="2-监控和管理进程"><a href="#2-监控和管理进程" class="headerlink" title="2. 监控和管理进程"></a>2. 监控和管理进程</h2><p>当操作系统启动时，许多程序会加载到系统内存中。这些进程或程序需要被管理和监控，因为它们主要消耗三种系统资源：CPU、内存和磁盘空间。</p>
+<p>以下是一些常用的管理系统资源的监控命令。</p>
 <hr>
-<h2 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h2><ul>
-<li><strong><code>df</code> (disk free)</strong>: 显示文件系统的磁盘空间使用情况。</li>
-</ul>
+<h2 id="3-系统资源监控命令"><a href="#3-系统资源监控命令" class="headerlink" title="3. 系统资源监控命令"></a>3. 系统资源监控命令</h2><h3 id="3-1-磁盘空间-df-du"><a href="#3-1-磁盘空间-df-du" class="headerlink" title="3.1. 磁盘空间 (df, du)"></a>3.1. 磁盘空间 (<code>df</code>, <code>du</code>)</h3><h4 id="df-disk-free"><a href="#df-disk-free" class="headerlink" title="df (disk free)"></a><code>df</code> (disk free)</h4><p>显示文件系统的磁盘空间使用情况。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_PuiHdwUw0L.png" alt="VirtualBoxVM_PuiHdwUw0L.png"></p>
-<p>建议你使用<code>-h</code>选项，获得更方便阅读的结果。这些文件系统是做什么用的请你自行搜索学习。</p>
+<p>建议你使用<code>-h</code>选项，获得更方便阅读的结果。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JJMn5j5Owq.png" alt="VirtualBoxVM_JJMn5j5Owq.png"></p>
 <p>此外<code>-T</code>选项也很重要。这个结果向你展示了文件系统的类型(Type)。</p>
 <ul>
@@ -162,70 +141,83 @@
 <li>它的任务是由内核在系统启动时动态创建和管理<strong>设备文件</strong>（比如你的硬盘 <code>/dev/sda</code>、终端 <code>/dev/tty1</code> 等）。</li>
 </ul>
 </li>
-<li><p><strong><code>du</code> (disk usage)</strong>: 估算文件和目录的磁盘使用空间。</p>
-</li>
 </ul>
+<h4 id="du-disk-usage"><a href="#du-disk-usage" class="headerlink" title="du (disk usage)"></a><code>du</code> (disk usage)</h4><p>估算文件和目录的磁盘使用空间。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_urfc4V40pw.png" alt="VirtualBoxVM_urfc4V40pw.png"></p>
 <p>这个命令<code>du -k / | sort -nr | more</code>是从根目录 (&#x2F;) 开始计算所有目录的磁盘占用空间（以KB为单位），然后将结果按空间大小从大到小排序，最后把这个排好序的列表用分页器（more）显示出来，方便查看。</p>
-<p>此外上面的这些 cannot access 的提示都是正常现象。它们只是告诉你在 du 扫描整个系统的过程中，有几个瞬时的 &#x2F;proc 文件消失了，并且有几个属于其他用户的 FUSE 挂载点拒绝了你的访问。你可以忽略这些。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n4U5YRi4Rr.png" alt="VirtualBoxVM_n4U5YRi4Rr.png"></p>
+<blockquote>
+<p><strong>提示</strong>: 上面的这些 <code>cannot access</code> 的提示都是正常现象。它们只是告诉你在 <code>du</code> 扫描整个系统的过程中，有几个瞬时的 <code>/proc</code> 文件消失了，并且有几个属于其他用户的 FUSE 挂载点拒绝了你的访问。你可以忽略这些。</p>
+</blockquote>
 <p>同样<code>du</code>命令也有<code>-h</code>选项。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n4U5YRi4Rr.png" alt="VirtualBoxVM_n4U5YRi4Rr.png"></p>
 <p>你可以通过这个命令查看什么文件占据了很大的空间，从而对其进行管理。</p>
-<ul>
-<li><strong><code>uptime</code></strong>: 显示系统已经运行了多长时间，当前登录的用户数，以及系统在过去1、5、15分钟内的平均负载。</li>
-</ul>
+<h3 id="3-2-系统负载与内存-uptime-top-free"><a href="#3-2-系统负载与内存-uptime-top-free" class="headerlink" title="3.2. 系统负载与内存 (uptime, top, free)"></a>3.2. 系统负载与内存 (<code>uptime</code>, <code>top</code>, <code>free</code>)</h3><h4 id="uptime"><a href="#uptime" class="headerlink" title="uptime"></a><code>uptime</code></h4><p>显示系统已经运行了多长时间，当前登录的用户数，以及系统在过去1、5、15分钟内的平均负载。</p>
 <p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8z0XOpWpGp.png" alt="VirtualBoxVM_8z0XOpWpGp.png"></p>
+<h4 id="top"><a href="#top" class="headerlink" title="top"></a><code>top</code></h4><p>实时显示系统中各个进程的资源占用状况，类似于 Windows 的任务管理器。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_XFtEG4kLOO.png" alt="VirtualBoxVM_XFtEG4kLOO.png"></p>
+<p><code>top</code> 命令输出的主要字段解释：</p>
 <ul>
-<li><strong><code>top</code></strong>: 实时显示系统中各个进程的资源占用状况，类似于 Windows 的任务管理器。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_XFtEG4kLOO.png" alt="VirtualBoxVM_XFtEG4kLOO.png"></li>
+<li><strong>PID</strong>: 进程ID。</li>
+<li><strong>USER</strong>: 进程的所有者。</li>
+<li><strong>PR</strong>: 进程优先级。</li>
+<li><strong>NI</strong>: 进程的 nice 值。</li>
+<li><strong>VIRT</strong>: 进程使用的虚拟内存量。</li>
+<li><strong>RES</strong>: 进程使用的常驻内存量。</li>
+<li><strong>SHR</strong>: 进程使用的共享内存量。</li>
+<li><strong>S</strong>: 进程状态。</li>
+<li><strong>%CPU</strong>: 自上次更新以来进程所使用的 CPU 时间百分比。</li>
+<li><strong>%MEM</strong>: 进程所使用的物理内存百分比。</li>
+<li><strong>TIME+</strong>: 任务所使用的总 CPU 时间，单位为 1&#x2F;100 秒。</li>
+<li><strong>COMMAND</strong>: 命令名称或命令行。</li>
 </ul>
-<p>我没法做到向你解释所有的命令里面的所有信息的内容，这花费的时间太长了，如果你有任何看不懂的信息请你自行搜索一下。</p>
-<ul>
-<li><p><strong>PID</strong>: 进程ID。</p>
-</li>
-<li><p><strong>USER</strong>: 进程的所有者。</p>
-</li>
-<li><p><strong>PR</strong>: 进程优先级。</p>
-</li>
-<li><p><strong>NI</strong>: 进程的 nice 值。</p>
-</li>
-<li><p><strong>VIRT</strong>: 进程使用的虚拟内存量。</p>
-</li>
-<li><p><strong>RES</strong>: 进程使用的常驻内存量。</p>
-</li>
-<li><p><strong>SHR</strong>: 进程使用的共享内存量。</p>
-</li>
-<li><p><strong>S</strong>: 进程状态。（请参阅下面的列表了解此字段可能的值）。</p>
-</li>
-<li><p><strong>%CPU</strong>: 自上次更新以来进程所使用的 CPU 时间百分比。</p>
-</li>
-<li><p><strong>%MEM</strong>: 进程所使用的物理内存百分比。</p>
-</li>
-<li><p><strong>TIME+</strong>: 任务所使用的总 CPU 时间，单位为 1&#x2F;100 秒。</p>
-</li>
-<li><p><strong>COMMAND</strong>: 命令名称或命令行（名称 + 选项）。</p>
-</li>
-<li><p><strong><code>free</code></strong>: 显示系统内存的使用情况，包括物理内存、交换内存(swap)和内核缓冲区。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n7VTVrh1MK.png" alt="VirtualBoxVM_n7VTVrh1MK.png"></p>
-</li>
-</ul>
+<h4 id="free"><a href="#free" class="headerlink" title="free"></a><code>free</code></h4><p>显示系统内存的使用情况，包括物理内存、交换内存(swap)和内核缓冲区。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n7VTVrh1MK.png" alt="VirtualBoxVM_n7VTVrh1MK.png"></p>
 <p>如果你想以<code>MB</code>为单位，只需要加上<code>-m</code>选项。</p>
-<ul>
-<li><strong><code>lsof</code> (list open files)</strong>: 列出当前系统打开的文件。</li>
-</ul>
-<p>有些时候，当你停止了某个进程，它所正在查找的文件仍然处于被打开的状态。</p>
-<ul>
-<li><strong><code>tcpdump</code></strong>: 一个强大的网络抓包工具，用于捕获和分析网络流量。</li>
-<li><strong><code>netstat</code></strong>: 显示网络连接、路由表、接口统计等网络相关信息。</li>
-<li><strong><code>ps</code> (process status)</strong>: 显示当前系统的进程状态。</li>
-<li><strong><code>kill</code></strong>: 用于向进程发送信号，通常用于终止进程。</li>
-<li><strong><code>vmstat</code> (virtual memory statistics)</strong>: 报告关于虚拟内存、进程、CPU活动、I&#x2F;O等的统计信息。</li>
-<li><strong><code>iostat</code> (input&#x2F;output statistics)</strong>: 报告CPU统计信息和输入&#x2F;输出设备的统计信息。</li>
-<li><strong><code>iftop</code> (interface top)</strong>: 实时监控网络接口的流量。</li>
-</ul>
+<h3 id="3-3-网络与文件-lsof-tcpdump-netstat"><a href="#3-3-网络与文件-lsof-tcpdump-netstat" class="headerlink" title="3.3. 网络与文件 (lsof, tcpdump, netstat)"></a>3.3. 网络与文件 (<code>lsof</code>, <code>tcpdump</code>, <code>netstat</code>)</h3><h4 id="lsof-list-open-files"><a href="#lsof-list-open-files" class="headerlink" title="lsof (list open files)"></a><code>lsof</code> (list open files)</h4><p>列出当前系统打开的文件。有些时候，当你停止了某个进程，它所正在查找的文件仍然处于被打开的状态。</p>
+<h4 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a><code>tcpdump</code></h4><p>一个强大的网络抓包工具，用于捕获和分析网络流量。</p>
+<p>我们来简单使用一下，首先我们使用<code>ifconfig</code>（这是个很老的命令了，不过很多人包括我习惯于用这个，新的ubuntu等都没有预装这个老命令的包了），或者<code>ip addr show</code>，来检查IP地址和网卡：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_5UGWpbaLKa.png" alt="VirtualBoxVM_5UGWpbaLKa.png"></p>
+<p>比如我想查看流经这个<code>enp0s3</code>接口的所有流量信息：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_YuMXrt0hkl.png" alt="VirtualBoxVM_YuMXrt0hkl.png"></p>
+<h4 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a><code>netstat</code></h4><p>显示网络连接、路由表、接口统计等网络相关信息。</p>
+<blockquote>
+<p><strong>注意</strong>: <code>netstat</code> 是一个比较旧的命令，现在你可以使用 <code>ip -r</code> 来获取类似的信息。</p>
+</blockquote>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_KX2fyJL5Sp.png" alt="VirtualBoxVM_KX2fyJL5Sp.png"></p>
+<hr>
+<h2 id="4-进程管理-ps-kill"><a href="#4-进程管理-ps-kill" class="headerlink" title="4. 进程管理 (ps, kill)"></a>4. 进程管理 (<code>ps</code>, <code>kill</code>)</h2><h4 id="ps-process-status"><a href="#ps-process-status" class="headerlink" title="ps (process status)"></a><code>ps</code> (process status)</h4><p>显示当前系统的进程状态。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_I0npEJEO2f.png" alt="VirtualBoxVM_I0npEJEO2f.png"></p>
+<h4 id="kill"><a href="#kill" class="headerlink" title="kill"></a><code>kill</code></h4><p>用于向进程发送信号，通常用于终止进程。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_YP0phAJZmi.png" alt="VirtualBoxVM_YP0phAJZmi.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_slbVS7BkWH.png" alt="VirtualBoxVM_slbVS7BkWH.png"></p>
+<p>可以看到这个top进程被杀掉了。你可以使用<code>-9</code>选项来强制终止进程。</p>
+<hr>
+<h2 id="5-高级监控工具-vmstat-iostat-iftop"><a href="#5-高级监控工具-vmstat-iostat-iftop" class="headerlink" title="5. 高级监控工具 (vmstat, iostat, iftop)"></a>5. 高级监控工具 (<code>vmstat</code>, <code>iostat</code>, <code>iftop</code>)</h2><h4 id="vmstat-virtual-memory-statistics"><a href="#vmstat-virtual-memory-statistics" class="headerlink" title="vmstat (virtual memory statistics)"></a><code>vmstat</code> (virtual memory statistics)</h4><p>报告关于虚拟内存、进程、CPU活动、I&#x2F;O等的统计信息。</p>
+<h4 id="iostat-input-output-statistics"><a href="#iostat-input-output-statistics" class="headerlink" title="iostat (input&#x2F;output statistics)"></a><code>iostat</code> (input&#x2F;output statistics)</h4><p>报告CPU统计信息和输入&#x2F;输出设备的统计信息。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_vXgm3MwZGE.png" alt="VirtualBoxVM_vXgm3MwZGE.png"></p>
+<h4 id="iftop-interface-top"><a href="#iftop-interface-top" class="headerlink" title="iftop (interface top)"></a><code>iftop</code> (interface top)</h4><p>实时监控网络接口的流量。</p>
+<h5 id="在-RHEL-10-上安装-iftop"><a href="#在-RHEL-10-上安装-iftop" class="headerlink" title="在 RHEL 10 上安装 iftop"></a>在 RHEL 10 上安装 <code>iftop</code></h5><p><strong>第一步：启用 <code>codeready-builder</code> (CRB) 仓库</strong></p>
+<p>EPEL 里的软件包经常需要这个仓库里的依赖。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> subscription-manager repos --<span class="built_in">enable</span> codeready-builder-for-rhel-10-$(<span class="built_in">arch</span>)-rpms</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二步：手动安装 EPEL 10 的 ‘release’ 包</strong></p>
+<p>这会告诉 <code>dnf</code> 工具 EPEL 仓库的地址。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_YzAWVhqN57.png" alt="VirtualBoxVM_YzAWVhqN57.png"></p>
+<p>在安装过程中，它可能会提示导入 EPEL 的 GPG 密钥，请输入 <code>y</code> 并按回车键接受。</p>
+<p><strong>第三步：安装 <code>iftop</code></strong></p>
+<p>现在 <code>dnf</code> 已经知道 EPEL 仓库了，您可以直接安装 <code>iftop</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dnf install iftop</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_E69t7ksoQc.png" alt="VirtualBoxVM_E69t7ksoQc.png"></p>
+<p>安装完成后，你就可以使用 <code>iftop</code> 命令了。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FaDKDSrmZv.png" alt="VirtualBoxVM_FaDKDSrmZv.png"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidv8_eU13W03ufcmbSOrOHp" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidn6RQahYOfuXNTuY1e_Nf5" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -338,7 +330,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid0Qc6-p71E4U3EjnqrceyP" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid2AyDvfD5o3oFWrFqVHLeO" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -431,7 +423,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidM4yhwjIDO_IzchF3xSvvn" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidYXlndewefdHnXm_WAyEGH" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -610,7 +602,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuid2VO1ndQQP3NrnxI7HvtEJ" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuid4EO4yyWB_C9Th71og4w9n" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -751,7 +743,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuid0yCwhs6BGMGagHnQWedAy" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidwk7N04-rUC8qN9L7Y7kOu" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -837,7 +829,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidJZXdBzHyFKYy_eQUyf2Hd" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuid3LTyDA42wMLu1zB7Idl5n" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -989,7 +981,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidogA5nkZRFmDVZ2Bn9Ue3G" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidkKtgx3koehotySBOYN22N" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1076,7 +1068,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidg8riCXMOH14xl6jA2y--C" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuid5vGm-iw0wFU5f38JeJ2jv" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1127,7 +1119,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidZWLqYDoZa42CfIfntt7RJ" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidGPxLqFzBY0zFLwRGARY1-" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1243,7 +1235,7 @@ return {1, 2};                      // 如果函数返回类型是vector&lt;int&
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidfPH3IPhdAtvXVS7ufUHyB" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidIDcBJrZiCfx4xTAmg1Sxg" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       

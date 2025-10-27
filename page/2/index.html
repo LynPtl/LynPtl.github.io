@@ -73,6 +73,122 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-1两数之和" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" class="article-date">
+  <time class="dt-published" datetime="2025-10-02T12:18:01.000Z" itemprop="datePublished">2025-10-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">1.两数之和</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1 两数之和"></a>1 两数之和</h1><p>其实C++才是最适合研究算法的语言，但是我已经很多年没有碰cpp了，上一次碰的时候应该还是大二打第二次蓝桥杯的时候用的，或许我都快把万能头怎么写给忘掉了。</p>
+<p>#include&lt;bits&#x2F;stdc++.h&gt;<br>using namespace std;<br>结果居然是用Python写的这道题。因为最近几乎只是用过这一种语言。<br>一开始犯了很愚蠢的错误，我没有看清变量名，反而把初始化的数据结构名当作变量名了。<br>算法题的函数传参似乎都比较严格。在函数声明的时候就已经规范好了数据类型。<br>写了一个很基础的n^2遍历。</p>
+<p>这里有一个时间复杂度更低的方法O(1)就是哈希表 hash table。<br>unordered_map<br>值得一提的是，我看了人家hashtable的c++题解之后，立刻提出了一个问题：<br>“在不考虑内部顺序和哈希冲突的情况下，hash table的功能是否和dictionary数据类型有点相似呢？”  </p>
+<hr>
+<p>是的，在不考虑内部顺序和哈希冲突的情况下，哈希表(hash table)的功能确实与字典(dictionary)数据类型非常相似。<br>实际上，Python的字典(dict)就是使用哈希表作为其底层实现的。这两者之间的关系非常紧密：</p>
+<p>键值对存储：两者都是通过键值对(key-value pairs)来存储数据。<br>快速查找：两者都提供接近O(1)的时间复杂度进行查找操作。也就是说，无论字典有多大，查找一个键所需的时间基本是常数时间。<br>通过键访问：两者都是通过键来访问对应的值，而不是通过索引位置。</p>
+<p>不过，当我们考虑内部顺序和哈希冲突时，确实会发现一些区别：</p>
+<p>内部顺序：传统的哈希表通常不保证顺序，而Python的字典从Python 3.7开始保证了插入顺序。<br>哈希冲突处理：不同哈希表实现可能使用不同的哈希冲突解决策略，例如开放寻址法或链式哈希。Python的字典使用开放寻址法来处理哈希冲突。  </p>
+<hr>
+<pre><code>class Solution {
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
+        unordered_map&lt;int, int&gt; hashtable;
+        for (int i = 0; i &lt; nums.size(); ++i) {
+            auto it = hashtable.find(target - nums[i]);
+            if (it != hashtable.end()) {
+                return {it-&gt;second, i};
+            }
+            hashtable[nums[i]] = i;
+        }
+        return {};
+    }
+};
+
+作者：御三五 🥇
+链接：https://leetcode.cn/problems/two-sum/solutions/657225/tu-jie-guan-fang-tui-jian-ti-jie-liang-s-02xs/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+</code></pre>
+<hr>
+<pre><code>class Solution:
+    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
+        hashtable = dict()
+        for i, num in enumerate(nums):
+            if target - num in hashtable:
+                return [hashtable[target - num], i]
+            hashtable[nums[i]] = i
+        return []
+
+作者：御三五 🥇
+链接：https://leetcode.cn/problems/two-sum/solutions/657225/tu-jie-guan-fang-tui-jian-ti-jie-liang-s-02xs/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+</code></pre>
+<hr>
+<pre><code>class Solution:
+    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
+        length = len(nums)
+        for i in range(length):
+            for j in range(i+1, length):
+                if nums[i]+nums[j] == target:
+                    result = [i,j]
+                    return result
+</code></pre>
+<h2 id="C-容器"><a href="#C-容器" class="headerlink" title="C++容器"></a>C++容器</h2><p>对于.find() 方法对于所有 C++ 标准库中的 unordered_ 系列容器基本上都是一样的。这些容器包括：<br>-unordered_map<br>-unordered_multimap<br>-unordered_set<br>-unordered_multiset<br>所有这些容器的 .find() 都返回一个迭代器，如果找到了元素，返回指向该元素的迭代器，如果没找到元素，返回 容器.end()    </p>
+<p>时间复杂度：<br>平均情况：O(1)（常数时间）<br>最坏情况：O(n)（当哈希冲突严重时）</p>
+<p>用法：  </p>
+<pre><code>auto it = container.find(key);
+if (it != container.end()) {
+    // 找到了元素
+}
+</code></pre>
+<p>这里auto是自动分配类型，因为这里是一个容器类型，通常就直接用auto自动适配了。<br>对于map而言，find()搜索的是key。  </p>
+<p>对于unordered_map&lt;int,int&gt; example访问key和value：<br>example-&gt;first 访问key<br>example-&gt;second 访问value<br>此外，如果要返回容器类型，那么是用{}来包裹值。  </p>
+<pre><code>// 创建并初始化vector
+vector&lt;int&gt; nums = {1, 2, 3, 4, 5};  // 初始化一个包含5个元素的vector
+
+// 直接构造
+vector&lt;int&gt; nums2 {1, 2, 3, 4, 5};   // 等同于上面的写法
+
+// 函数返回
+return {1, 2};                      // 如果函数返回类型是vector&lt;int&gt;，这会创建并返回包含两个元素的vector
+</code></pre>
+<p>C++11 引入了花括号初始化（uniform initialization）作为一种通用的初始化容器的方式<br>适用于所有标准容器类型（vector, map, set 等）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidv3XP6fs1G5lgsTfZq5ob4" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-3无重复字符的最大字串" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" class="article-date">
@@ -224,7 +340,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidyEK0QsS-RJvqAMTpT-mFS" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidnziKVRRR_5OuYjLUtGIOa" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -298,7 +414,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuidOsWJL9dnIHvBimUNud9PO" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuidZ_i1vDbBmBI0FsCxutZYJ" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -466,7 +582,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuidAP-bnF2lCRrhO_PkmJLZe" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuidfHgxW1ER--L-vSmdkIbl0" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -636,7 +752,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuidml-kW0nDvNKRAocdsOMHs" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuidGuV4QnuMSpzIrb92O0Gsu" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -691,6 +807,10 @@ public:
       <ul>
         
           <li>
+            <a href="/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/">9.linux服务与守护进程控制</a>
+          </li>
+        
+          <li>
             <a href="/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/">8.linux进程管理与资源监控</a>
           </li>
         
@@ -704,10 +824,6 @@ public:
         
           <li>
             <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/">5.linux本地用户和组管理</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
           </li>
         
       </ul>

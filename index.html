@@ -73,6 +73,81 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Troubleshoot-Linux-1-修改sshd端口重启报错" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" class="article-date">
+  <time class="dt-published" datetime="2025-10-30T00:02:11.000Z" itemprop="datePublished">2025-10-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>►<a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Linux%E6%8E%92%E9%94%99/">Linux排错</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/">Troubleshoot Linux 1 修改sshd端口重启报错</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Troubleshoot-修改sshd端口号后重启服务报错255"><a href="#Troubleshoot-修改sshd端口号后重启服务报错255" class="headerlink" title="Troubleshoot: 修改sshd端口号后重启服务报错255"></a>Troubleshoot: 修改sshd端口号后重启服务报错255</h1><p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_wYe3UkV9yU.png" alt="VirtualBoxVM_wYe3UkV9yU.png"></p>
+<p>把端口从 22 改成了 22222。在 RHEL 10 这样的系统上，<strong>最常见的原因是 SELinux 策略</strong> 阻止了 <code>sshd</code> 绑定到非标准的端口（默认只允许 22）。</p>
+<p>从<code>journalctl -xeu sshd.service</code>中也能看到<code>bind to port 2222</code>失败是因为<code>Permission denied</code>。</p>
+<p>请尝试按以下步骤解决问题：</p>
+<h3 id="1-检查-SSH-配置文件语法"><a href="#1-检查-SSH-配置文件语法" class="headerlink" title="1. 检查 SSH 配置文件语法"></a>1. 检查 SSH 配置文件语法</h3><p>首先，我们来确保你的配置文件 <code>/etc/ssh/sshd_config</code> 没有语法错误。运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sshd -t</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果这条命令<strong>没有任何输出</strong>，说明语法正确。</li>
+<li>如果有错误提示，请根据提示修改 <code>/etc/ssh/sshd_config</code> 文件中的错误。</li>
+</ul>
+<h3 id="更新-SELinux-策略"><a href="#更新-SELinux-策略" class="headerlink" title="更新 SELinux 策略"></a>更新 SELinux 策略</h3><p>如果语法正确，那么几乎可以肯定是 SELinux 问题。你需要告诉 SELinux 允许 <code>sshd</code> 使用 <code>22222</code> 端口。</p>
+<p><strong>a. 使用<code>semanage</code>添加新的端口策略</strong><br>运行以下命令，将 <code>22222</code> 端口的 SELinux 上下文标记为 <code>ssh_port_t</code> 类型：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> semanage port -a -t ssh_port_t -p tcp 22222</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-a</code> 是添加 (add)</li>
+<li><code>-t</code> 是类型 (type)</li>
+<li><code>-p</code> 是协议 (protocol)</li>
+</ul>
+<h3 id="3-重新启动-sshd-服务"><a href="#3-重新启动-sshd-服务" class="headerlink" title="3. 重新启动 sshd 服务"></a>3. 重新启动 sshd 服务</h3><p>更新 SELinux 策略后，再次尝试启动 <code>sshd</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart sshd</span><br></pre></td></tr></table></figure>
+
+<p>然后马上检查它的状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status sshd</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>Active:</code> 行显示 <code>active (running)</code>，那么恭喜你，问题解决了！</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_XGvE3P2U58.png" alt="VirtualBoxVM_XGvE3P2U58.png"></p>
+<hr>
+<h3 id="⚠️-重要提醒：更新防火墙"><a href="#⚠️-重要提醒：更新防火墙" class="headerlink" title="⚠️ 重要提醒：更新防火墙"></a>⚠️ 重要提醒：更新防火墙</h3><p>在你确认 <code>sshd</code> 服务成功运行后，<strong>千万别忘了</strong>在 <code>firewalld</code> 防火墙上放行你的新端口 <code>22222</code>，否则你将无法从外部连接到这台机器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 永久添加 22222/tcp 端口到防火墙规则</span></span><br><span class="line"><span class="built_in">sudo</span> firewall-cmd --permanent --add-port=22222/tcp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新加载防火墙规则使之生效</span></span><br><span class="line"><span class="built_in">sudo</span> firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_wXgQWSylXx.png" alt="VirtualBoxVM_wXgQWSylXx.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuid-mKWZ0O2oAz1eIBT23Cwi" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-10-linux配置和保护SSH" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" class="article-date">
@@ -203,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuid9ocP7PqmvCMkTBe4C9My6" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidELbocD8QtAIUkTGbW_h7y" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -305,7 +380,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidFAYGYV97S6-SZQXcnPeS6" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidq0PUhqR6vNn39zTOmCaiJ" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -461,7 +536,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidYLFPePnQHI6dvkeUvQLOe" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidLdedSwu1w5ET9ZikUYOei" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -574,7 +649,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidt4Svzo-fLihDzAxpm8D01" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidwgP0gGlQmE15Wdg9yXrYf" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -667,7 +742,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidxhW8lOwAxC2coBP8tK6JW" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidAxxSEGAQZxxTahwFijjjv" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -846,7 +921,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidItfXM4beeokF8P4-BpRtw" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuid2RHs1pOQj2Ng2MiQdERS6" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -987,7 +1062,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidPlnKXFBH5iCiTHv5ocvEK" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidhie98LsF7ukVXoZAsQXJS" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1073,7 +1148,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuid3xrzy6JTBANVsr9hnwvDr" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuid_G6-EZ9GviHhrIiIv-DGf" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1225,94 +1300,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidOSjOd1CTLN2dGEc3Aix1h" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-1-虚拟机和安装linux" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" class="article-date">
-  <time class="dt-published" datetime="2025-10-16T01:55:20.000Z" itemprop="datePublished">2025-10-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/">1.虚拟机和安装linux</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="下载并安装虚拟机-配置环境"><a href="#下载并安装虚拟机-配置环境" class="headerlink" title="下载并安装虚拟机 + 配置环境"></a>下载并安装虚拟机 + 配置环境</h1><h2 id="1-下载Orade-Virtualbox"><a href="#1-下载Orade-Virtualbox" class="headerlink" title="1 下载Orade Virtualbox"></a>1 下载Orade Virtualbox</h2><p>官网下载<a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Downloads">地址</a>,选择自己的操作系统后进行安装。</p>
-<p>本人使用的环境是windows环境。安装成功后运行如图。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/FYnx3D6xKR.png" alt="FYnx3D6xKR.png"></p>
-<h2 id="2-下载Linux发行版"><a href="#2-下载Linux发行版" class="headerlink" title="2 下载Linux发行版"></a>2 下载Linux发行版</h2><p>这里我使用的是Red Hat Enterprise Linux。大概本教程会覆盖RHCSA的所有内容，所以这里使用redhat的发行版，当然你也可以使用其他主流的发行版。</p>
-<p>对于个人开发者，可以使用免费的RHEL，需要<a target="_blank" rel="noopener" href="https://developers.redhat.com/">在这里</a>注册成为开发者。</p>
-<p>之后来到<a target="_blank" rel="noopener" href="https://developers.redhat.com/products/rhel/overview?source=sso">这个页面</a>点击 <code>Download RHEL at no-cost</code>就可以下载到iso了。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/firefox_YoY3W83aF0.png" alt="firefox_YoY3W83aF0.png"></p>
-<h2 id="3-新建虚拟机"><a href="#3-新建虚拟机" class="headerlink" title="3 新建虚拟机"></a>3 新建虚拟机</h2><p>镜像和软件已经准备完毕，接下来我们开始安装。首先点击软件左上角的<code>new</code>，在弹出的对话框中写好自己的虚拟机名称<code>VM Name</code>，虚拟机目录<code>VM Folder</code>，使用的系统镜像<code>ISO Image</code>选择我们刚才下载的redhat的iso。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_PWb8k8f7Ib.png" alt="VirtualBox_PWb8k8f7Ib.png"></p>
-<p>请务必取消勾选静默安装<code>Proceed with Unattended Installation</code>。</p>
-<p>虚拟硬件推荐内存2GB,CPU两个。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_1b41FF3BsS.png" alt="VirtualBox_1b41FF3BsS.png"></p>
-<p>虚拟硬盘推荐至少20GB。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_KXqFlmAE04.png" alt="VirtualBox_KXqFlmAE04.png"></p>
-<p>之后点击右下角的<code>fininsh</code>。</p>
-<p>我们就可以看到这个新建号的虚拟机了。暂且为了方便虚拟机使用网络，我们选中这个虚拟机之后点击上方的<code>Settings</code>,在弹出的窗口中选择左侧的<code>Network</code>选项卡，在<code>Adapter 1</code>下选择<code>Bridged Adapter</code>。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_3hrFwfdby3.png" alt="VirtualBox_3hrFwfdby3.png"></p>
-<h2 id="4-安装RHEL"><a href="#4-安装RHEL" class="headerlink" title="4 安装RHEL"></a>4 安装RHEL</h2><p>之后点击上方的绿色右箭头<code>Start</code>，即可运行虚拟机。</p>
-<p>随后使用上下方向键，选择中间的<code>Test this media &amp; install Red Hat Enterprise Linux 10.0</code>,按enter键确定。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_9k8QSsOKGs.png" alt="VirtualBoxVM_9k8QSsOKGs.png"></p>
-<p>在经历了一阵检测和安装之后，你会看到下面的界面：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pMab7ODDDT.png" alt="VirtualBoxVM_pMab7ODDDT.png"></p>
-<p>这里我推荐全部选择英文，避免任何因为中文字符可能出现的问题。随后点击右下角的<code>continue</code>。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ZI81wmtEdt.png" alt="VirtualBoxVM_ZI81wmtEdt.png"></p>
-<p>可以看到有很多爆红的地方，我们一个一个来解决和配置。</p>
-<p>首先第一个，我们需要连接到Red Hat。点击<code>Connet to Red Hat</code>之后输入自己的Redhat账户并验证即可。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8grO4cV4hh.png" alt="VirtualBoxVM_8grO4cV4hh.png"></p>
-<p>登录后</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_h75CXEwlGL.png" alt="VirtualBoxVM_h75CXEwlGL.png"></p>
-<p>然后我们在<code>Installation Destination</code>中选择我们的虚拟硬盘。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_j8GL89TRqG.png" alt="VirtualBoxVM_j8GL89TRqG.png"></p>
-<p>软件选取<code>Software Selection</code>中我们选择<code>Server with GUI</code>。右侧的附加选项我们不勾选。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_TZzbWG2Wuh.png" alt="VirtualBoxVM_TZzbWG2Wuh.png"></p>
-<p>Root账户是推荐的，这样至少可以保证一点安全性。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JDWJhKXgIo.png" alt="VirtualBoxVM_JDWJhKXgIo.png"></p>
-<p>下面的<code>Create User</code>我们可以创建一个常规用户。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_OBQzS4hY5E.png" alt="VirtualBoxVM_OBQzS4hY5E.png"></p>
-<p>完成后我们就看不到红色的了，我们点击右下角开始安装！</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_wuBJVzZuu7.png" alt="VirtualBoxVM_wuBJVzZuu7.png"></p>
-<p>稍事等待…</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_yRLdzGI0hJ.png" alt="VirtualBoxVM_yRLdzGI0hJ.png"></p>
-<p>然后我们就安装好了！点击右下角的重启就可以进入系统了。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gQHZdBXjQb.png" alt="VirtualBoxVM_gQHZdBXjQb.png"></p>
-<p>重启之后就可以输入密码进入到我们的系统了。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ssGe3fTPvw.png" alt="VirtualBoxVM_ssGe3fTPvw.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidCgyi5njxE0SzXJQJ7PkvF" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidNc0FidSAloyTSsLMIFPDz" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1339,7 +1327,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Linux%E6%8E%92%E9%94%99/">Linux排错</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
     </div>
   </div>
 
@@ -1367,6 +1355,10 @@
       <ul>
         
           <li>
+            <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/">Troubleshoot Linux 1 修改sshd端口重启报错</a>
+          </li>
+        
+          <li>
             <a href="/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/">10.linux配置和保护SSH</a>
           </li>
         
@@ -1380,10 +1372,6 @@
         
           <li>
             <a href="/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/">7.linux文件权限与所有权</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/">6.linux用户管理和权限</a>
           </li>
         
       </ul>

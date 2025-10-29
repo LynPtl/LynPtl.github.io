@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>11.linux日志监控与时间同步 | LynPtl&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Linux 日志监控与时间同步1. 日志监控 (Log Monitoring) 目的: 系统管理中非常重要的一部分，用于分析系统事件和故障排除。 日志目录: &#x2F;var&#x2F;log 常见日志文件&#x2F;目录: boot: 系统启动日志 chronyd: NTP (Network Time Protocol) 服务日志 cron: 计划任务日志 maillog: 邮件服务日志 secure: 安全相关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11.linux日志监控与时间同步">
+<meta property="og:url" content="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/index.html">
+<meta property="og:site_name" content="LynPtl&#39;s Blog">
+<meta property="og:description" content="Linux 日志监控与时间同步1. 日志监控 (Log Monitoring) 目的: 系统管理中非常重要的一部分，用于分析系统事件和故障排除。 日志目录: &#x2F;var&#x2F;log 常见日志文件&#x2F;目录: boot: 系统启动日志 chronyd: NTP (Network Time Protocol) 服务日志 cron: 计划任务日志 maillog: 邮件服务日志 secure: 安全相关">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jsOwGTYJhf.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_DA5KNbi58H.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kuvzsNnH8H.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kzrc58cNQp.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0fBDrctMqs.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_mTxlrJbiq0.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_56qInuPznr.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0nXkuDhQUc.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QwqPhB9EeR.png">
+<meta property="article:published_time" content="2025-10-30T01:44:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T14:44:50.405Z">
+<meta property="article:author" content="LynPtl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jsOwGTYJhf.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LynPtl's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LynPtl&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/image-bed.html">图床</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://LynPtl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-11-linux日志监控与时间同步" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" class="article-date">
+  <time class="dt-published" datetime="2025-10-30T01:44:00.000Z" itemprop="datePublished">2025-10-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      11.linux日志监控与时间同步
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-日志监控与时间同步"><a href="#Linux-日志监控与时间同步" class="headerlink" title="Linux 日志监控与时间同步"></a>Linux 日志监控与时间同步</h1><h2 id="1-日志监控-Log-Monitoring"><a href="#1-日志监控-Log-Monitoring" class="headerlink" title="1. 日志监控 (Log Monitoring)"></a>1. 日志监控 (Log Monitoring)</h2><ul>
+<li><strong>目的</strong>: 系统管理中非常重要的一部分，用于分析系统事件和故障排除。</li>
+<li><strong>日志目录</strong>: <code>/var/log</code></li>
+<li><strong>常见日志文件&#x2F;目录</strong>:<ul>
+<li><code>boot</code>: 系统启动日志</li>
+<li><code>chronyd</code>: NTP (Network Time Protocol) 服务日志</li>
+<li><code>cron</code>: 计划任务日志</li>
+<li><code>maillog</code>: 邮件服务日志</li>
+<li><code>secure</code>: 安全相关日志 (如认证失败)</li>
+<li><code>messages</code>: 核心系统日志</li>
+<li><code>httpd</code>: Web 服务器 (Apache) 日志</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jsOwGTYJhf.png" alt="VirtualBoxVM_jsOwGTYJhf.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_DA5KNbi58H.png" alt="VirtualBoxVM_DA5KNbi58H.png"></p>
+<p>对于那些<code>root</code>所有权的文件，我们作为一个普通用户是无权的。需要提权之后才能查看。<br>（当然有一部分并不是不能看，还记得我们的文件权限吗？那些最后对于所有人开放r权限的就可以看。）</p>
+<p>切换到root用户后，我们尝试来看一个日志。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kuvzsNnH8H.png" alt="VirtualBoxVM_kuvzsNnH8H.png"></p>
+<p>现在看的这个是boot.log，是启动日志。你的每一次开机新产生的启动日志都会覆盖这个文件。</p>
+<p>对于这些日志具体有什么内容，请你自行学习。作为一个合格的管理员，你应该要知道出现什么样的问题需要看哪一个日志。</p>
+<hr>
+<h2 id="2-维护精确时间-Maintaining-Accurate-Time"><a href="#2-维护精确时间-Maintaining-Accurate-Time" class="headerlink" title="2. 维护精确时间 (Maintaining Accurate Time)"></a>2. 维护精确时间 (Maintaining Accurate Time)</h2><ul>
+<li><strong>重要性</strong>:<ul>
+<li>对于跨多个系统的日志文件分析至关重要。</li>
+<li>是生产环境中敏感应用程序 (如数据库) 的要求。</li>
+</ul>
+</li>
+<li><strong>NTP (Network Time Protocol)</strong>:<ul>
+<li>机器与 NTP 服务器同步时间的标准方式。</li>
+<li>NTP 服务器是专门的机器&#x2F;计算机，响应客户端的时间同步请求。</li>
+</ul>
+</li>
+<li><strong>chronyd</strong>:<ul>
+<li>在较新的 Linux 版本中用于时间同步的 NTP 服务。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-1-时间管理相关命令"><a href="#2-1-时间管理相关命令" class="headerlink" title="2.1. 时间管理相关命令"></a>2.1. 时间管理相关命令</h3><ul>
+<li><strong>显示系统时间&#x2F;日期</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">date</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>时间&#x2F;日期和 NTP 设置命令</strong>: <code>timedatectl</code><ul>
+<li><strong>获取帮助</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl --<span class="built_in">help</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>查看时区列表</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl list-timezones</span><br></pre></td></tr></table></figure></li>
+<li><strong>设置时区</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-timezone America/New_York</span><br></pre></td></tr></table></figure></li>
+<li><strong>设置时间 (HH:MM:SS)</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-time HH:MM:SS</span><br></pre></td></tr></table></figure></li>
+<li><strong>设置时间与日期 (YYYY-MM-DD HH:MM:SS)</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-time <span class="string">&#x27;YYYY-MM-DD HH:MM:SS&#x27;</span></span><br><span class="line"><span class="comment"># 示例: timedatectl set-time &#x27;2021-08-18 20:15:50&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>启用 NTP 同步</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-ntp <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kzrc58cNQp.png" alt="VirtualBoxVM_kzrc58cNQp.png"></p>
+<h3 id="2-2-chronyd-详情"><a href="#2-2-chronyd-详情" class="headerlink" title="2.2. chronyd 详情"></a>2.2. chronyd 详情</h3><ul>
+<li><strong>目的</strong>: 时间同步</li>
+<li><strong>包名</strong>: <code>chronyd</code></li>
+<li><strong>配置文件</strong>: <code>/etc/chrony.conf</code></li>
+<li><strong>日志文件</strong>: <code>/var/log/chrony</code></li>
+<li><strong>服务管理</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start/restart chronyd</span><br></pre></td></tr></table></figure></li>
+<li><strong>程序命令</strong>: <code>chronyc</code></li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0fBDrctMqs.png" alt="VirtualBoxVM_0fBDrctMqs.png"></p>
+<p>如果你没有<code>chronyd</code>，请运行<code>yum install chrony</code>.</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_mTxlrJbiq0.png" alt="VirtualBoxVM_mTxlrJbiq0.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_56qInuPznr.png" alt="VirtualBoxVM_56qInuPznr.png"></p>
+<p>使用<code>chronyc</code>进入程序，你可以使用<code>help</code>来查看所支持的命令：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0nXkuDhQUc.png" alt="VirtualBoxVM_0nXkuDhQUc.png"></p>
+<p>这里给了一个使用示范，我使用<code>sources</code>查看正在使用的。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QwqPhB9EeR.png" alt="VirtualBoxVM_QwqPhB9EeR.png"></p>
+<p>最后题外话：</p>
+<p>从 <strong>RHEL 7</strong> (Red Hat Enterprise Linux 7) 和 CentOS 7 开始，Red Hat 就已经将默认的 NTP 客户端从 <code>ntpd</code> 换成了 <code>chrony</code>。</p>
+<ul>
+<li><code>chrony</code> (即 <code>chronyd</code> 服务) 被证实<strong>同步速度更快</strong>，<strong>资源占用更低</strong>。</li>
+<li>它对<strong>虚拟机(VM)和网络连接不稳定</strong>的设备（比如笔记本电脑）支持得更好。</li>
+</ul>
+<p>因此，在你现在使用的大多数现代 RHEL&#x2F;CentOS&#x2F;Rocky Linux&#x2F;AlmaLinux 系统上：</p>
+<ol>
+<li><code>ntpd</code> 服务（来自 <code>ntp</code> 软件包）<strong>默认不再安装</strong>。</li>
+<li><code>chronyd</code> 服务（来自 <code>chrony</code> 软件包）<strong>是默认安装并启用的</strong>。</li>
+</ol>
+<p>如果你想查看时间同步服务，你应该检查 <code>chrony</code> 的状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status chronyd</span><br></pre></td></tr></table></figure>
+
+<p>如果你确实<strong>特别</strong>需要使用 <code>ntpd</code>，你仍然可以手动安装它（比如 <code>sudo yum install ntp</code>），但在安装前你<strong>必须</strong>先停止并禁用 <code>chrony</code>，因为它们会占用相同的端口（UDP 123）而产生冲突。</p>
+<p>不过，除非有特殊的老旧应用需求，否则强烈推荐使用现代的 <code>chrony</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuid2utHuhZCEbTpsCPeS1ZVz" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Troubleshoot Linux 1 修改sshd端口重启报错</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Linux%E6%8E%92%E9%94%99/">Linux排错</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">11.linux日志监控与时间同步</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/">Troubleshoot Linux 1 修改sshd端口重启报错</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/">10.linux配置和保护SSH</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/">9.linux服务与守护进程控制</a>
+          </li>
+        
+          <li>
+            <a href="/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/">8.linux进程管理与资源监控</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LynPtl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/image-bed.html" class="mobile-nav-link">图床</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

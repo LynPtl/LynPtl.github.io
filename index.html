@@ -73,6 +73,148 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-13-linux归档压缩和传输文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2025-11-01T01:21:37.000Z" itemprop="datePublished">2025-11-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">13.linux归档压缩和传输文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-归档压缩和传输文件"><a href="#Linux-归档压缩和传输文件" class="headerlink" title="Linux 归档压缩和传输文件"></a>Linux 归档压缩和传输文件</h1><h2 id="1-压缩和解压缩文件"><a href="#1-压缩和解压缩文件" class="headerlink" title="1. 压缩和解压缩文件"></a>1. 压缩和解压缩文件</h2><ul>
+<li><code>tar</code>: 用于创建和提取归档文件。归档文件是将多个文件和目录组合成一个文件，以便于传输或备份。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_HrPrb2QEqj.png" alt="WindowsTerminal_HrPrb2QEqj.png"><br>在你第一次使用之前，一定要看一下使用方法。</p>
+<p>比如我想要把当前目录的所有内容打包成一个tar：<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_5wvza0vn0D.png" alt="WindowsTerminal_5wvza0vn0D.png"></p>
+<p>看到这一行<code>tar: ./goscript.tar: archive cannot contain itself; not dumped</code>了吗？意思是：“压缩包不能包含它自己”。<br>在你<strong>运行命令之前</strong>，<code>goscript.tar</code> 这个文件确实不存在。</p>
+<p>关键点在于 <code>tar</code> 命令的 <strong>执行顺序</strong>：</p>
+<p>当你运行 <code>tar -cvf goscript.tar .</code> 时，<code>tar</code> 的工作流程是：</p>
+<ol>
+<li><strong>第一步：创建目标文件。</strong> <code>tar</code> 看到 <code>-f goscript.tar</code>，它的第一个动作就是在当前目录（<code>.</code>）下，<strong>立即创建</strong>一个空的 <code>goscript.tar</code> 文件。它需要这个“壳”来往里面塞东西。</li>
+<li><strong>第二步：扫描源目录。</strong> 创造完“壳”之后，<code>tar</code> 才开始扫描你指定的源（<code>.</code>，代表当前目录），看看有哪些东西需要被塞进去。</li>
+<li><strong>第三步：打包并报错。</strong><ul>
+<li>它找到了 <code>hello1.go</code>，塞进去了。</li>
+<li>它找到了 <code>hello2.go</code>，塞进去了。</li>
+<li>接着，它找到了 <code>goscript.tar</code> —— 也就是它在第一步刚刚创建的那个文件！</li>
+<li><code>tar</code> 就懵了：你要我把我自己（<code>goscript.tar</code>）也塞进我自己（<code>goscript.tar</code>）里面？</li>
+<li>于是它就报了 <code>archive cannot contain itself</code> 这个错误。</li>
+</ul>
+</li>
+</ol>
+<p>所以，<strong>并不是因为文件“事先存在”，而是因为 <code>tar</code> 命令“先创建了目标文件”，而这个目标文件“恰好”又在它要扫描打包的源目录里</strong>。又学到了机制！</p>
+<p>之后我们查看一下压缩包里的内容：<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_UvVdXUmJdO.png" alt="WindowsTerminal_UvVdXUmJdO.png"></p>
+<p>有没有注意到这里多了一个.&#x2F;的目录？</p>
+<p>这个 <code>./</code> <strong>就是你试图打包的那个目录本身</strong>。</p>
+<p><code>./</code> 在 Linux&#x2F;Unix 系统里是一个特殊的符号，代表“<strong>当前目录</strong>”。在你的例子里，它就代表 <code>gostudy</code> 这个文件夹。</p>
+<h3 id="为什么它会出现在这里？"><a href="#为什么它会出现在这里？" class="headerlink" title="为什么它会出现在这里？"></a>为什么它会出现在这里？</h3><p>这和上一步<strong>出错的命令</strong> <code>tar -cvf goscript.tar .</code> 直接相关。</p>
+<p><code>tar</code> 命令在执行时，是按顺序来的：</p>
+<ol>
+<li>它首先在当前目录创建了一个空的 <code>goscript.tar</code>。</li>
+<li>然后它开始扫描你让它打包的源：<code>.</code> (当前目录)。</li>
+<li><code>tar</code> 存档时，会<strong>先把目录本身的信息（元数据）打包进去</strong>，然后再打包目录里的文件。</li>
+</ol>
+<p>所以，你现在用 <code>tar -tvf</code> (t &#x3D; test&#x2F;list) 命令看到的列表，其实是 <code>tar</code> <strong>在报错停止前</strong>，已经塞进去的东西：</p>
+<ul>
+<li><code>drwxr-xr-x ... ./</code>: 这是 <code>tar</code> 扫描到的<strong>第一个条目</strong>，也就是 <code>.</code> (gostudy 目录) 自己的信息。<ul>
+<li>你看它开头的 <code>d</code>，就代表<strong>d</strong>irectory (目录)。</li>
+<li>你原来的目录里当然“看”不到它，因为它不是一个实体文件，而是对目录本身的引用。</li>
+</ul>
+</li>
+<li><code>-rw-r--r-- ... ./hello1.go</code>: 这是 <code>tar</code> 扫描到的第二个条目，是目录里的文件。</li>
+<li><code>-rw-r--r-- ... ./hello2.go</code>: 这是 <code>tar</code> 扫描到的第三个条目，是目录里的另一个文件。</li>
+</ul>
+<p>在这之后，<code>tar</code> 才继续扫描，然后发现了 <code>goscript.tar</code>，它意识到不能打包自己，于是报错 <code>archive cannot contain itself</code> 并停止了。</p>
+<p>但它<strong>已经打包进去的</strong>（前面这三行）就被保存下来了，所以你现在才能<code>list</code> (列出) 它们。</p>
+<p>这个 <code>./</code> 不是你创建的“文件”，而是 <code>tar</code> 命令在打包 <code>.</code> (当前目录) 时，自动放进去的**“目录元数据”**。</p>
+<p>如果你当时用的是 <code>tar -cvf goscript.tar *.go</code>，那么你现在<code>tar -tvf</code> 就不会看到那个 <code>./</code> 目录了，只会看到两个 <code>.go</code> 文件。</p>
+<p>之后我们尝试解包：<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_Rw0HY27rRr.png" alt="WindowsTerminal_Rw0HY27rRr.png"></p>
+<ul>
+<li><code>gzip</code>: 用于压缩文件，减小文件大小。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_W1eJRLsXAq.png" alt="WindowsTerminal_W1eJRLsXAq.png"></p>
+<p>可以看到文件的大小的确被压缩了。聪明的你会不会想把.gz再继续用gzip压缩呢？实际上gzip有一个防呆设计，对于.gz结尾的文件他会提示你已经被压缩过了：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_uGw3OBun5x.png" alt="WindowsTerminal_uGw3OBun5x.png"></p>
+<p>但是实际上如果你修改后缀，改成不是gz结尾，那就可以再继续进行gzip，但是实际上这样做的意义很小，已经压缩过的文件再度压缩大小几乎不会变，甚至可能因为多了一个 gzip 的“外壳”而反而变大一点点。如同你在windows试图多重压缩压缩包一样。如果你没有尝试过的话可以试一试，看看压缩包的大小变化是如何的？</p>
+<ul>
+<li><code>gzip -d</code> 或 <code>gunzip</code>: 用于解压缩由gzip压缩的文件。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_xpNB0Aegyz.png" alt="WindowsTerminal_xpNB0Aegyz.png"></p>
+<hr>
+<h2 id="2-FTP-文件传输协议"><a href="#2-FTP-文件传输协议" class="headerlink" title="2. FTP - 文件传输协议"></a>2. FTP - 文件传输协议</h2><ul>
+<li>文件传输协议（FTP）是一种标准的网络协议，用于在客户端和服务器之间传输计算机文件。</li>
+<li>协议 &#x3D; 计算机用于通信的规则集</li>
+<li>默认FTP端口 &#x3D; 21</li>
+</ul>
+<h3 id="在远程服务器上安装和配置FTP"><a href="#在远程服务器上安装和配置FTP" class="headerlink" title="在远程服务器上安装和配置FTP"></a>在远程服务器上安装和配置FTP</h3><ul>
+<li><code># yum install vsftpd</code>: 使用yum包管理器安装vsftpd（一个FTP服务器软件）。</li>
+<li><code># vi /etc/vsftpd/vsftpd.conf</code>: 使用vi文本编辑器打开vsftpd的配置文件进行编辑。<ul>
+<li><code>anonymous_enable=NO</code>: 禁止匿名用户登录FTP服务器。</li>
+<li><code>ascii_upload_enable=YES</code>: 允许以ASCII模式上传文件。</li>
+<li><code>ascii_download_enable=YES</code>: 允许以ASCII模式下载文件。</li>
+<li><code>ftpd_banner=Welcome to UNIXMEN FTP service.</code>: 设置FTP服务器的欢迎横幅。</li>
+</ul>
+</li>
+<li><code># systemctl start vsftpd</code>: 启动vsftpd服务。</li>
+<li><code># systemctl enable vsftpd</code>: 设置vsftpd服务开机自启。</li>
+</ul>
+<p>首先我开始配置服务端，安装vsftpd并且使用vi编辑<code>/etc/vsftpd/vsftpd.conf</code>进行一些基础的配置。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_yuKueavXuW.png" alt="VirtualBoxVM_yuKueavXuW.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_h0yNSeCoCY.png" alt="VirtualBoxVM_h0yNSeCoCY.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_jytvWgspJI.png" alt="VirtualBoxVM_jytvWgspJI.png"></p>
+<p>随后我启用vsftpd，并且关闭防火墙（目的是为了放行ftp端口）：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_X7tQpSJ4A2.png" alt="VirtualBoxVM_X7tQpSJ4A2.png"></p>
+<h3 id="FTP客户端命令"><a href="#FTP客户端命令" class="headerlink" title="FTP客户端命令"></a>FTP客户端命令</h3><ul>
+<li><code>ftp 192.168.1.x</code>: 连接到指定IP地址的FTP服务器。</li>
+<li><code>bin</code>: 将文件传输模式设置为二进制模式，适用于传输非文本文件（如图片、程序）。</li>
+<li><code>hash</code>: 开启文件传输进度显示，每传输一定数据量就显示一个“#”号。</li>
+<li><code>put hello1.go</code>: 将本地文件“hello1.go”上传到FTP服务器。</li>
+<li><code>bye</code>: 断开与FTP服务器的连接并退出FTP客户端。</li>
+</ul>
+<p>首先我需要先安装ftp。我的第二台机子用的是Ubuntu，所以我用的是<code>apt install ftp</code>:<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/WindowsTerminal_sEUN5LgNyR.png" alt="WindowsTerminal_sEUN5LgNyR.png"></p>
+<p>之后使用ftp命令，连接服务器端之后（服务器端的地址用ip addr来查看），输入服务端的用户名和密码就可以连接到ftp服务器端了。之后开启二进制模式和传输进度显示，将我的hello1.go文件传送过去。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/Code_ZNcZXmCdlt.png" alt="Code_ZNcZXmCdlt.png"></p>
+<p>可以看到该文件已经被传输到服务器端的home目录下：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_H76bRQmbAw.png" alt="VirtualBoxVM_H76bRQmbAw.png"></p>
+<hr>
+<h2 id="3-SCP-安全复制协议"><a href="#3-SCP-安全复制协议" class="headerlink" title="3. SCP - 安全复制协议"></a>3. SCP - 安全复制协议</h2><ul>
+<li>安全复制协议（SCP）有助于安全地将计算机文件从本地主机传输到远程主机。</li>
+<li>默认SCP端口 &#x3D; 22（与SSH相同）</li>
+</ul>
+<h3 id="SCP命令"><a href="#SCP命令" class="headerlink" title="SCP命令"></a>SCP命令</h3><ul>
+<li><code>scp jack lpt@192.168.1.x:/home/lpt</code>: 将本地文件“jack”安全地复制到远程服务器<code>192.168.1.x</code>上用户<code>lpt</code>的主目录<code>/home/lpt</code>下。</li>
+</ul>
+<h2 id="scp实际上使用的是ssh，所以你的发送端必须要有访问接受端的ssh权限。这里就不截图了。"><a href="#scp实际上使用的是ssh，所以你的发送端必须要有访问接受端的ssh权限。这里就不截图了。" class="headerlink" title="scp实际上使用的是ssh，所以你的发送端必须要有访问接受端的ssh权限。这里就不截图了。"></a>scp实际上使用的是ssh，所以你的发送端必须要有访问接受端的ssh权限。这里就不截图了。</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuid59Y6fi0Umq7KcasMTkBYd" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-12-linux网络管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" class="article-date">
@@ -202,7 +344,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidEXB7k5FHHpTqPyOx93qlJ" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidFcTbvVFHD0im-c24VpURI" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -327,7 +469,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuidopX5tHbmrGi1_SsKIL0Zy" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuidiOcpLFgUD0sX6ZulZA8ED" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -402,7 +544,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidm9C0la051XpeHGUCX6oGp" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidKTgX4mQ_NMpzwW9B-yHuZ" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -544,7 +686,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidj7sblqbXPGE1SX0x4mjmK" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidEdlf5TL2_Nmsf4W98EfAE" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -646,7 +788,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidc_LUFBgObRCwx936hJkE4" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidr1dmx4YAqaV1R_EhFfxMT" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -802,7 +944,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuid153styYA7o39_GfTdiwV6" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidyJ-ON_NdZLYJyw7XqMbtx" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -915,7 +1057,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidX7LMYG2n-EUY3rPni_bXd" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid7iNL3R4aAHs-ScY1BoUVP" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1008,7 +1150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidcgoBjNmAxVA6B5JFdJ-t-" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidBBNrx6cHhCWyuR0kVLkJG" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1187,148 +1329,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidKd66So5hJVySrxYBZBWr_" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-4-Linux文本编辑器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" class="article-date">
-  <time class="dt-published" datetime="2025-10-20T22:53:35.000Z" itemprop="datePublished">2025-10-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Linux-文本编辑器"><a href="#Linux-文本编辑器" class="headerlink" title="Linux 文本编辑器"></a>Linux 文本编辑器</h1><h2 id="一、vi-vim-简介"><a href="#一、vi-vim-简介" class="headerlink" title="一、vi&#x2F;vim 简介"></a>一、vi&#x2F;vim 简介</h2><p><strong>文本编辑器</strong>是一个能够让您在Linux文件中创建和操作文本数据的程序。<code>vi</code> 是一个强大的可视化编辑器，几乎所有Linux发行版都内置，而 <code>vim</code> 是其功能更全面的增强版。</p>
-<p>除了 <code>vi</code>&#x2F;<code>vim</code>，Linux中还有其他文本编辑器，例如：</p>
-<ul>
-<li><code>ed</code>: 标准行编辑器</li>
-<li><code>ex</code>: 扩展行编辑器</li>
-<li><code>emacs</code>: 全屏编辑器</li>
-<li><code>pico</code>: 初学者编辑器</li>
-</ul>
-<h2 id="二、基本操作入门"><a href="#二、基本操作入门" class="headerlink" title="二、基本操作入门"></a>二、基本操作入门</h2><h3 id="1-创建文件并进入-vi"><a href="#1-创建文件并进入-vi" class="headerlink" title="1. 创建文件并进入 vi"></a>1. 创建文件并进入 vi</h3><p>首先，使用 <code>vi</code> 命令加上一个文件名来创建或打开文件。例如 <code>vi myfile</code>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_x6PHLmwQd0.png" alt="VirtualBoxVM_x6PHLmwQd0.png"></p>
-<p>按下回车后，您将进入 <code>vi</code> 的<strong>普通模式</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ckyRSkSg8s.png" alt="VirtualBoxVM_ckyRSkSg8s.png"></p>
-<blockquote>
-<p>此时左下角显示新文件名 <code>myfile_file[New]</code>，表明您正处于普通模式下。</p>
-</blockquote>
-<h3 id="2-插入模式：输入文本"><a href="#2-插入模式：输入文本" class="headerlink" title="2. 插入模式：输入文本"></a>2. 插入模式：输入文本</h3><p>在普通模式下，按下 <code>i</code> 键，即可进入<strong>插入模式</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FWOWlMC0nh.png" alt="VirtualBoxVM_FWOWlMC0nh.png"></p>
-<blockquote>
-<p>左下角出现 <code>-- INSERT --</code>，表示您现在可以输入文本了。</p>
-</blockquote>
-<p>现在，输入一些示例文字。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8MG3O4dQik.png" alt="VirtualBoxVM_8MG3O4dQik.png"></p>
-<h3 id="3-保存与退出"><a href="#3-保存与退出" class="headerlink" title="3. 保存与退出"></a>3. 保存与退出</h3><p>输入完成后，需要先回到普通模式才能进行保存。<br>按下 <code>Esc</code> 键，左下角的 <code>-- INSERT --</code> 消失，返回普通模式。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n2RuJesUL2.png" alt="VirtualBoxVM_n2RuJesUL2.png"></p>
-<p>您有两种常用的方式来保存并退出：</p>
-<p><strong>方式一：命令模式</strong></p>
-<ol>
-<li>键入冒号 <code>:</code> 进入<strong>命令模式</strong>。</li>
-<li>输入 <code>wq</code> (<code>w</code>代表写入，<code>q</code>代表退出) 后按回车。</li>
-</ol>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0ho7TE31XQ.png" alt="VirtualBoxVM_0ho7TE31XQ.png"></p>
-<p><strong>方式二：快捷键</strong><br>在普通模式下，连续按两次大写的 <code>Z</code> (即 <code>Shift + z</code> 两次)，同样可以保存并退出。</p>
-<p>回到命令行后，可以使用 <code>cat myfile</code> 命令查看文件内容，确认已保存。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_MAywsgnCki.png" alt="VirtualBoxVM_MAywsgnCki.png"></p>
-<h2 id="三、常用命令参考"><a href="#三、常用命令参考" class="headerlink" title="三、常用命令参考"></a>三、常用命令参考</h2><h3 id="1-命令模式-按-进入"><a href="#1-命令模式-按-进入" class="headerlink" title="1. 命令模式 (按 : 进入)"></a>1. 命令模式 (按 <code>:</code> 进入)</h3><table>
-<thead>
-<tr>
-<th align="left">命令</th>
-<th align="left">功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>:w</code></td>
-<td align="left"><strong>保存</strong>文件 (Write)</td>
-</tr>
-<tr>
-<td align="left"><code>:q</code></td>
-<td align="left"><strong>退出</strong>编辑器 (Quit)</td>
-</tr>
-<tr>
-<td align="left"><code>:wq</code></td>
-<td align="left"><strong>保存并退出</strong></td>
-</tr>
-<tr>
-<td align="left"><code>:q!</code></td>
-<td align="left"><strong>强制退出</strong>，不保存任何修改</td>
-</tr>
-<tr>
-<td align="left"><code>:w new_filename</code></td>
-<td align="left">将当前内容<strong>另存为</strong> <code>new_filename</code></td>
-</tr>
-<tr>
-<td align="left"><code>:set nu</code></td>
-<td align="left">显示行号</td>
-</tr>
-<tr>
-<td align="left"><code>:set nonu</code></td>
-<td align="left">隐藏行号</td>
-</tr>
-</tbody></table>
-<h3 id="2-普通模式-编辑操作"><a href="#2-普通模式-编辑操作" class="headerlink" title="2. 普通模式 - 编辑操作"></a>2. 普通模式 - 编辑操作</h3><p>vi&#x2F;vim 中，“复制” 称为 “Yank” (<code>y</code>)，“删除” 称为 “Delete” (<code>d</code>)，“粘贴” 称为 “Put” (<code>p</code>)。</p>
-<p><strong>删除</strong></p>
-<ul>
-<li><code>x</code>: 删除当前光标所在的<strong>一个字符</strong>。</li>
-<li><code>dw</code>: 删除从当前光标到<strong>下一个单词开头</strong>的内容 (Delete Word)。</li>
-<li><code>d$</code>: 删除从当前光标到<strong>行尾</strong>的内容。</li>
-<li><code>dd</code>: <strong>删除当前整行</strong> (被删除的内容会被自动复制)。</li>
-<li><code>5dd</code>: 一次性删除 5 行。</li>
-</ul>
-<p><strong>复制</strong></p>
-<ul>
-<li><code>yw</code>: <strong>复制</strong>一个单词 (Yank Word)。</li>
-<li><code>yy</code>: <strong>复制当前整行</strong> (Yank Line)。</li>
-<li><code>5yy</code>: 一次性复制 5 行。</li>
-</ul>
-<p><strong>粘贴</strong></p>
-<ul>
-<li><code>p</code>: 在光标<strong>之后</strong>粘贴 (Put)。</li>
-<li><code>P</code>: 在光标<strong>之前</strong>粘贴。</li>
-</ul>
-<p><strong>撤销&#x2F;重做&#x2F;替换</strong></p>
-<ul>
-<li><code>u</code>: <strong>撤销</strong>上一步操作 (Undo)。</li>
-<li><code>Ctrl + r</code>: <strong>重做</strong>上一步被撤销的操作 (Redo)。</li>
-<li><code>r</code>: 替换光标所在的<strong>一个字符</strong> (按 <code>r</code> 后再按你想替换的字符)。</li>
-</ul>
-<h3 id="3-普通模式-搜索操作"><a href="#3-普通模式-搜索操作" class="headerlink" title="3. 普通模式 - 搜索操作"></a>3. 普通模式 - 搜索操作</h3><ul>
-<li><code>/search_term</code>: <strong>向下搜索</strong> “search_term”。</li>
-<li><code>?search_term</code>: <strong>向上搜索</strong> “search_term”。</li>
-<li><code>n</code>: 跳到<strong>下一个</strong>搜索结果 (Next)。</li>
-<li><code>N</code>: 跳到<strong>上一个</strong>搜索结果。</li>
-<li><code>*</code>: <strong>向下</strong>搜索光标当前所在的单词。</li>
-<li><code>#</code>: <strong>向上</strong>搜索光标当前所在的单词。</li>
-</ul>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8AxnWVGnP9.png" alt="VirtualBoxVM_8AxnWVGnP9.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidC2R9G-2dyBxlUjLPNauy5" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidcfjK1DQiLCgZdko7RrFzx" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1370,7 +1371,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">十一月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
     </div>
   </div>
 
@@ -1381,6 +1382,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">13.linux归档压缩和传输文件</a>
+          </li>
         
           <li>
             <a href="/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/">12.linux网络管理</a>
@@ -1396,10 +1401,6 @@
         
           <li>
             <a href="/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/">10.linux配置和保护SSH</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/">9.linux服务与守护进程控制</a>
           </li>
         
       </ul>

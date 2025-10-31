@@ -73,6 +73,147 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-4-Linux文本编辑器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-10-20T22:53:35.000Z" itemprop="datePublished">2025-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">4.Linux文本编辑器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-文本编辑器"><a href="#Linux-文本编辑器" class="headerlink" title="Linux 文本编辑器"></a>Linux 文本编辑器</h1><h2 id="一、vi-vim-简介"><a href="#一、vi-vim-简介" class="headerlink" title="一、vi&#x2F;vim 简介"></a>一、vi&#x2F;vim 简介</h2><p><strong>文本编辑器</strong>是一个能够让您在Linux文件中创建和操作文本数据的程序。<code>vi</code> 是一个强大的可视化编辑器，几乎所有Linux发行版都内置，而 <code>vim</code> 是其功能更全面的增强版。</p>
+<p>除了 <code>vi</code>&#x2F;<code>vim</code>，Linux中还有其他文本编辑器，例如：</p>
+<ul>
+<li><code>ed</code>: 标准行编辑器</li>
+<li><code>ex</code>: 扩展行编辑器</li>
+<li><code>emacs</code>: 全屏编辑器</li>
+<li><code>pico</code>: 初学者编辑器</li>
+</ul>
+<h2 id="二、基本操作入门"><a href="#二、基本操作入门" class="headerlink" title="二、基本操作入门"></a>二、基本操作入门</h2><h3 id="1-创建文件并进入-vi"><a href="#1-创建文件并进入-vi" class="headerlink" title="1. 创建文件并进入 vi"></a>1. 创建文件并进入 vi</h3><p>首先，使用 <code>vi</code> 命令加上一个文件名来创建或打开文件。例如 <code>vi myfile</code>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_x6PHLmwQd0.png" alt="VirtualBoxVM_x6PHLmwQd0.png"></p>
+<p>按下回车后，您将进入 <code>vi</code> 的<strong>普通模式</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ckyRSkSg8s.png" alt="VirtualBoxVM_ckyRSkSg8s.png"></p>
+<blockquote>
+<p>此时左下角显示新文件名 <code>myfile_file[New]</code>，表明您正处于普通模式下。</p>
+</blockquote>
+<h3 id="2-插入模式：输入文本"><a href="#2-插入模式：输入文本" class="headerlink" title="2. 插入模式：输入文本"></a>2. 插入模式：输入文本</h3><p>在普通模式下，按下 <code>i</code> 键，即可进入<strong>插入模式</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FWOWlMC0nh.png" alt="VirtualBoxVM_FWOWlMC0nh.png"></p>
+<blockquote>
+<p>左下角出现 <code>-- INSERT --</code>，表示您现在可以输入文本了。</p>
+</blockquote>
+<p>现在，输入一些示例文字。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8MG3O4dQik.png" alt="VirtualBoxVM_8MG3O4dQik.png"></p>
+<h3 id="3-保存与退出"><a href="#3-保存与退出" class="headerlink" title="3. 保存与退出"></a>3. 保存与退出</h3><p>输入完成后，需要先回到普通模式才能进行保存。<br>按下 <code>Esc</code> 键，左下角的 <code>-- INSERT --</code> 消失，返回普通模式。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_n2RuJesUL2.png" alt="VirtualBoxVM_n2RuJesUL2.png"></p>
+<p>您有两种常用的方式来保存并退出：</p>
+<p><strong>方式一：命令模式</strong></p>
+<ol>
+<li>键入冒号 <code>:</code> 进入<strong>命令模式</strong>。</li>
+<li>输入 <code>wq</code> (<code>w</code>代表写入，<code>q</code>代表退出) 后按回车。</li>
+</ol>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0ho7TE31XQ.png" alt="VirtualBoxVM_0ho7TE31XQ.png"></p>
+<p><strong>方式二：快捷键</strong><br>在普通模式下，连续按两次大写的 <code>Z</code> (即 <code>Shift + z</code> 两次)，同样可以保存并退出。</p>
+<p>回到命令行后，可以使用 <code>cat myfile</code> 命令查看文件内容，确认已保存。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_MAywsgnCki.png" alt="VirtualBoxVM_MAywsgnCki.png"></p>
+<h2 id="三、常用命令参考"><a href="#三、常用命令参考" class="headerlink" title="三、常用命令参考"></a>三、常用命令参考</h2><h3 id="1-命令模式-按-进入"><a href="#1-命令模式-按-进入" class="headerlink" title="1. 命令模式 (按 : 进入)"></a>1. 命令模式 (按 <code>:</code> 进入)</h3><table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>:w</code></td>
+<td align="left"><strong>保存</strong>文件 (Write)</td>
+</tr>
+<tr>
+<td align="left"><code>:q</code></td>
+<td align="left"><strong>退出</strong>编辑器 (Quit)</td>
+</tr>
+<tr>
+<td align="left"><code>:wq</code></td>
+<td align="left"><strong>保存并退出</strong></td>
+</tr>
+<tr>
+<td align="left"><code>:q!</code></td>
+<td align="left"><strong>强制退出</strong>，不保存任何修改</td>
+</tr>
+<tr>
+<td align="left"><code>:w new_filename</code></td>
+<td align="left">将当前内容<strong>另存为</strong> <code>new_filename</code></td>
+</tr>
+<tr>
+<td align="left"><code>:set nu</code></td>
+<td align="left">显示行号</td>
+</tr>
+<tr>
+<td align="left"><code>:set nonu</code></td>
+<td align="left">隐藏行号</td>
+</tr>
+</tbody></table>
+<h3 id="2-普通模式-编辑操作"><a href="#2-普通模式-编辑操作" class="headerlink" title="2. 普通模式 - 编辑操作"></a>2. 普通模式 - 编辑操作</h3><p>vi&#x2F;vim 中，“复制” 称为 “Yank” (<code>y</code>)，“删除” 称为 “Delete” (<code>d</code>)，“粘贴” 称为 “Put” (<code>p</code>)。</p>
+<p><strong>删除</strong></p>
+<ul>
+<li><code>x</code>: 删除当前光标所在的<strong>一个字符</strong>。</li>
+<li><code>dw</code>: 删除从当前光标到<strong>下一个单词开头</strong>的内容 (Delete Word)。</li>
+<li><code>d$</code>: 删除从当前光标到<strong>行尾</strong>的内容。</li>
+<li><code>dd</code>: <strong>删除当前整行</strong> (被删除的内容会被自动复制)。</li>
+<li><code>5dd</code>: 一次性删除 5 行。</li>
+</ul>
+<p><strong>复制</strong></p>
+<ul>
+<li><code>yw</code>: <strong>复制</strong>一个单词 (Yank Word)。</li>
+<li><code>yy</code>: <strong>复制当前整行</strong> (Yank Line)。</li>
+<li><code>5yy</code>: 一次性复制 5 行。</li>
+</ul>
+<p><strong>粘贴</strong></p>
+<ul>
+<li><code>p</code>: 在光标<strong>之后</strong>粘贴 (Put)。</li>
+<li><code>P</code>: 在光标<strong>之前</strong>粘贴。</li>
+</ul>
+<p><strong>撤销&#x2F;重做&#x2F;替换</strong></p>
+<ul>
+<li><code>u</code>: <strong>撤销</strong>上一步操作 (Undo)。</li>
+<li><code>Ctrl + r</code>: <strong>重做</strong>上一步被撤销的操作 (Redo)。</li>
+<li><code>r</code>: 替换光标所在的<strong>一个字符</strong> (按 <code>r</code> 后再按你想替换的字符)。</li>
+</ul>
+<h3 id="3-普通模式-搜索操作"><a href="#3-普通模式-搜索操作" class="headerlink" title="3. 普通模式 - 搜索操作"></a>3. 普通模式 - 搜索操作</h3><ul>
+<li><code>/search_term</code>: <strong>向下搜索</strong> “search_term”。</li>
+<li><code>?search_term</code>: <strong>向上搜索</strong> “search_term”。</li>
+<li><code>n</code>: 跳到<strong>下一个</strong>搜索结果 (Next)。</li>
+<li><code>N</code>: 跳到<strong>上一个</strong>搜索结果。</li>
+<li><code>*</code>: <strong>向下</strong>搜索光标当前所在的单词。</li>
+<li><code>#</code>: <strong>向上</strong>搜索光标当前所在的单词。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8AxnWVGnP9.png" alt="VirtualBoxVM_8AxnWVGnP9.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidIXgini3nvd74vUS93oStP" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-3-Linux帮助命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" class="article-date">
@@ -147,7 +288,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidJvT95SUS6fzTmtxZSZqzP" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuida2oWJyrmK7OSCbTan-9Yn" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -299,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuid3TnaFoBK4KtA78l19eNRx" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidUHb88Uqy20xQ_Zx8GrjtG" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -386,7 +527,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidfrrdr3ba5HarrVyPeB9kd" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidDeRmf-iVZ-BF-9zLlKAuj" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -438,7 +579,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidDcWvoVJOsPAuY1O8E-CnJ" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidfH3dprTjnB00TjBBdh3l7" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -554,7 +695,7 @@ return {1, 2};                      // 如果函数返回类型是vector&lt;int&
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuid7yQk3qO6eLxhAVVAiW0To" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidH1UePluA-rHhyBrJRp8DH" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -717,7 +858,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidj8vYJ2AwCDRINobWvlgR7" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidvUoAftQjw_kHEXTTOk02Q" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -791,7 +932,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuidJhEo-FYOyA3HrugISSWaN" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuidNbgXK1vf7XLZNAcbdAQ2r" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -959,7 +1100,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuid24wFcsDY-vXBM2wxCLu6l" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuidMvEv1rxUsqpmU5NbWRuwt" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1129,7 +1270,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuidJZThvSMrkhdwUQ359wQeU" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%8E%92%E9%94%99/" data-id="cuidqRi3-m5oZe3rrHf0Wq72W" data-title="Windows平台SSH远程开发环境配置与排错SOP" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1171,7 +1312,7 @@ public:
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">十一月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
     </div>
   </div>
 
@@ -1182,6 +1323,10 @@ public:
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">13.linux归档压缩和传输文件</a>
+          </li>
         
           <li>
             <a href="/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/">12.linux网络管理</a>
@@ -1197,10 +1342,6 @@ public:
         
           <li>
             <a href="/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/">10.linux配置和保护SSH</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/">9.linux服务与守护进程控制</a>
           </li>
         
       </ul>

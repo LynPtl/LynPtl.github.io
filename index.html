@@ -73,6 +73,130 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-14-linux安装更新和管理软件包" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" class="article-date">
+  <time class="dt-published" datetime="2025-11-02T01:38:12.000Z" itemprop="datePublished">2025-11-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/">14.linux安装更新和管理软件包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-安装更新和管理软件包（或许在施工中）"><a href="#Linux-安装更新和管理软件包（或许在施工中）" class="headerlink" title="Linux 安装更新和管理软件包（或许在施工中）"></a>Linux 安装更新和管理软件包（或许在施工中）</h1><h1 id="安装和更新软件包"><a href="#安装和更新软件包" class="headerlink" title="安装和更新软件包"></a>安装和更新软件包</h1><ul>
+<li>软件(Software)是您在计算机上运行的任何应用程序。</li>
+<li>软件包(Package)是一个包含与软件相关的程序、文件和可执行文件的容器。</li>
+</ul>
+<h1 id="系统更新和软件仓库"><a href="#系统更新和软件仓库" class="headerlink" title="系统更新和软件仓库"></a>系统更新和软件仓库</h1><ul>
+<li><code>yum</code> (用于 CentOS) &#x2F; <code>apt-get</code> (用于其他 Linux 发行版)</li>
+<li><code>rpm</code> (红帽软件包管理器)</li>
+</ul>
+<p>这里我使用yum安装ftp包作为一个例子。昨天的笔记中有在ubuntu中使用apt安装ftp的例子。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_c7cN03nWKq.png" alt="VirtualBoxVM_c7cN03nWKq.png"></p>
+<p>你可以使用<code>rpm -qa</code>来查看所有你已经安装的包。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_vvIFUAYmWy.png" alt="VirtualBoxVM_vvIFUAYmWy.png"></p>
+<p>使用管道到<code>wc -l</code>可以统计列数，就是已安装的包的数量。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_RDUKq6er9w.png" alt="VirtualBoxVM_RDUKq6er9w.png"></p>
+<h1 id="RPM-vs-YUM"><a href="#RPM-vs-YUM" class="headerlink" title="RPM vs. YUM"></a>RPM vs. YUM</h1><p><code>rpm</code> 和 <code>yum</code> 都是用于在基于 Red Hat 的 Linux 系统上管理软件包的工具，但它们在功能和使用方式上有本质的区别。</p>
+<ul>
+<li><p><strong>RPM (Red Hat Package Manager)</strong></p>
+<ul>
+<li><strong>底层工具</strong>: <code>rpm</code> 是一个底层的软件包管理器。它直接处理 <code>.rpm</code> 文件，可以进行安装、查询、卸载、升级和验证等操作。</li>
+<li><strong>不自动处理依赖</strong>: 这是 <code>rpm</code> 最重要的一个特点。当你使用 <code>rpm</code> 安装一个软件包时，如果这个包依赖于其他未安装的包，<code>rpm</code> 会报错并失败。你需要手动去寻找并安装所有这些依赖包，这个过程可能非常繁琐。</li>
+<li><strong>用途</strong>: <code>rpm</code> 更适合用于对单个 <code>.rpm</code> 文件进行操作，或者在无法连接到互联网的环境下进行离线安装（前提是你已经准备好了所有的依赖包）。</li>
+</ul>
+</li>
+<li><p><strong>YUM (Yellowdog Updater, Modified)</strong></p>
+<ul>
+<li><strong>高层工具</strong>: <code>yum</code> 是一个更高层次的软件包管理工具，它构建在 <code>rpm</code> 之上，旨在简化软件包管理过程。</li>
+<li><strong>自动解决依赖关系</strong>: 这是 <code>yum</code> 最大的优势。当你使用 <code>yum</code> 安装一个软件包时，它会自动检查所有依赖关系，并从配置好的软件仓库（repository）中下载并安装所有需要的依赖包。这极大地简化了软件安装过程。</li>
+<li><strong>基于软件仓库</strong>: <code>yum</code> 从远程或本地的软件仓库中查找、下载和安装软件包。这些仓库包含了大量的软件包及其元数据（包括依赖信息）。</li>
+<li><strong>用途</strong>: <code>yum</code> 是日常进行系统更新、软件安装和管理的首选工具，因为它非常方便。</li>
+</ul>
+</li>
+</ul>
+<h1 id="卸载软件包"><a href="#卸载软件包" class="headerlink" title="卸载软件包"></a>卸载软件包</h1><h2 id="使用-YUM-卸载"><a href="#使用-YUM-卸载" class="headerlink" title="使用 YUM 卸载"></a>使用 YUM 卸载</h2><p><code>yum remove &lt;package_name&gt;</code>: 这是卸载软件包的首选方法，因为它会自动处理依赖关系。当您卸载一个软件包时，<code>yum</code> 会检查是否有其他软件包依赖于它。如果没有，<code>yum</code> 会将其卸载；如果有，<code>yum</code> 会提示您是否也卸载这些依赖包（如果它们不再被其他任何包需要）。</p>
+<p><strong>示例:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove ftp</span><br></pre></td></tr></table></figure>
+<p>此命令会卸载 <code>ftp</code> 软件包及其不再需要的依赖项。</p>
+<h2 id="使用-RPM-卸载"><a href="#使用-RPM-卸载" class="headerlink" title="使用 RPM 卸载"></a>使用 RPM 卸载</h2><p><code>rpm -e &lt;package_name&gt;</code>: 使用 <code>rpm</code> 卸载软件包时，需要非常小心，因为它不会自动处理依赖关系。如果一个软件包被其他已安装的软件包所依赖，<code>rpm -e</code> 命令会失败并报错，除非强制卸载。</p>
+<p><strong>示例:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e ftp</span><br></pre></td></tr></table></figure>
+<p>如果 <code>ftp</code> 软件包没有被其他包依赖，这个命令会成功。如果存在依赖，您可能会看到类似以下的错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error: Failed dependencies:</span><br><span class="line">    ftp is needed by (installed) some_other_package</span><br></pre></td></tr></table></figure>
+<p>在这种情况下，需要先卸载依赖 <code>ftp</code> 的 <code>some_other_package</code>，或者使用 <code>--nodeps</code> 选项强制卸载（不推荐，可能导致系统不稳定）。</p>
+<p><strong>强制卸载 (不推荐):</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps ftp</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>: 强制卸载可能会破坏系统上其他软件包的功能，因为它们可能依赖于正在卸载的软件包。除非非常清楚自己在做什么，否则应尽量避免使用 <code>--nodeps</code> 选项。</p>
+<h1 id="系统升级-补丁管理"><a href="#系统升级-补丁管理" class="headerlink" title="系统升级&#x2F;补丁管理"></a>系统升级&#x2F;补丁管理</h1><ul>
+<li><p>两种类型的升级：</p>
+<ul>
+<li>主版本升级 (Major version) &#x3D; 例如从 5.x 升级到 6.x 或 7.x</li>
+<li>次版本升级 (Minor version) &#x3D; 例如从 7.3 升级到 7.4</li>
+</ul>
+</li>
+<li><p><code>yum update</code> vs. <code>yum upgrade</code></p>
+<ul>
+<li><code>upgrade</code> &#x3D; 删除旧的包</li>
+<li><code>update</code> &#x3D; 保留旧的包</li>
+</ul>
+</li>
+<li><p>主版本升级 &#x3D; <code>yum</code> 命令 是不支持的</p>
+</li>
+<li><p>次版本升级 &#x3D; <code>yum update</code> 可以升级</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update -y</span><br></pre></td></tr></table></figure>
+<p>意思更新目前所有的已安装软件包，并且不要询问我，我会同意安装中的所有询问。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_DbhUcvFWnn.png" alt="VirtualBoxVM_DbhUcvFWnn.png"></p>
+<p>如果你所有的软件包都是最新的，那么<code>yum update</code>是不会有更新的。</p>
+<h3 id="rpm"><a href="#rpm" class="headerlink" title="rpm"></a>rpm</h3><p>有时候你可能会通过curl或者访问某包的官网下载他们的rpm包。</p>
+<p>比如你本地有了一个<code>.rpm</code>文件，你就可以使用比较常用的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh packagename.rpm</span><br></pre></td></tr></table></figure>
+
+<p>-U（Update）<br>如果这个软件已经安装了，它会将其升级到新版本。<br>如果这个软件尚未安装，它会直接安装它。</p>
+<p>-h (hash - 哈希&#x2F;进度条)<br>这个选项会在安装过程中显示一个进度条，通常是用井号（#）来表示。这能让你直观地看到安装的进度，非常有用。</p>
+<p>-v (verbose - 详细)<br>这个选项会显示详细的运行信息，比如它正在检查什么、正在执行什么步骤。</p>
+<p>上面的这个命令也经常会使用通配符，因为通常这个文件名会很长。</p>
+<p>比如<code>3cpio-0.11.0-2.el10_2.x86_64.rpm</code>,就可以使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh 3cpio*rpm</span><br></pre></td></tr></table></figure>
+
+<p><code>rpm -qi</code>可以展示关于已安装的该软件包的信息：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_Chy9bjlMkA.png" alt="VirtualBoxVM_Chy9bjlMkA.png"></p>
+<p><code>rpm -qc</code>可以查看该软件包的配置文件目录：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_tiOHMwFzR1.png" alt="VirtualBoxVM_tiOHMwFzR1.png"></p>
+<p><code>rpm -qf</code>可以查询该目录隶属于哪个包<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_jsN38lQab6.png" alt="VirtualBoxVM_jsN38lQab6.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" data-id="cuidvx0fBxfM3Gt2Kv7UjV4qX" data-title="14.linux安装更新和管理软件包" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-13-linux归档压缩和传输文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" class="article-date">
@@ -205,7 +329,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuidEhLYPkk2secDCqqjbClBS" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuid72oW8oAS-kgoy_LoIYQ4U" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -346,7 +470,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidGBZwFEofCaxTx7a6YMAZQ" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidt1QUOJ8khIJhdG2WuCY2x" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -471,7 +595,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuidZrS8g1n39IQKQo1QoehCM" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuid8ZD50-ELRi-_VENCzbw6O" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -546,7 +670,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidzDjuNCT8BlL-ovCN6aFBJ" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidih4QMCF10ezrvQItIWM2V" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -688,7 +812,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidcndW6kQxzJWvw7dcpJ8Gt" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuiddYOD98kO7Ab38t5v5b_h-" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -790,7 +914,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidCvy8cFuMVSO02EouHaNVX" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidU-AGSRXVzpQS7fDLb5x4t" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -946,7 +1070,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidYT3_ohJIoEnH40Qw1nxcR" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidQiNr21QHQFQq3NTKYwVNq" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1059,7 +1183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid61H6Lv1lbZZiSrK4DkBgp" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidnLAryTRzgW1eXtsjRY1Vi" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1152,186 +1276,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidiUNaHKJAFQsjRWwq3QkZs" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-5-linux本地用户和组管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2025-10-22T01:38:58.000Z" itemprop="datePublished">2025-10-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/">5.linux本地用户和组管理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Linux-本地用户和组管理"><a href="#Linux-本地用户和组管理" class="headerlink" title="Linux 本地用户和组管理"></a>Linux 本地用户和组管理</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Linux 系统中的用户和组管理是权限控制的基础。它允许系统管理员定义谁可以访问哪些资源以及他们可以执行哪些操作。</p>
-<h2 id="2-用户和组管理命令"><a href="#2-用户和组管理命令" class="headerlink" title="2. 用户和组管理命令"></a>2. 用户和组管理命令</h2><h3 id="2-1-用户管理命令"><a href="#2-1-用户管理命令" class="headerlink" title="2.1 用户管理命令"></a>2.1 用户管理命令</h3><ul>
-<li><code>useradd</code>: 添加用户</li>
-<li><code>userdel</code>: 删除用户</li>
-<li><code>usermod</code>: 修改用户属性</li>
-</ul>
-<h3 id="2-2-组管理命令"><a href="#2-2-组管理命令" class="headerlink" title="2.2 组管理命令"></a>2.2 组管理命令</h3><ul>
-<li><code>groupadd</code>: 添加组</li>
-<li><code>groupdel</code>: 删除组</li>
-</ul>
-<h3 id="2-3-权限切换命令"><a href="#2-3-权限切换命令" class="headerlink" title="2.3 权限切换命令"></a>2.3 权限切换命令</h3><ul>
-<li><code>su - username</code>: 切换到指定用户（<code>-</code> 表示切换到该用户的环境）。</li>
-<li><code>sudo command</code>: 以超级用户权限执行命令。</li>
-<li><code>visudo</code>: 编辑 <code>/etc/sudoers</code> 文件，用于配置 <code>sudo</code> 权限。</li>
-</ul>
-<h2 id="3-用户和组相关配置文件"><a href="#3-用户和组相关配置文件" class="headerlink" title="3. 用户和组相关配置文件"></a>3. 用户和组相关配置文件</h2><ul>
-<li><code>/etc/passwd</code>: 用户账户信息</li>
-<li><code>/etc/group</code>: 组信息</li>
-<li><code>/etc/gshadow</code>: 组密码和组管理员信息</li>
-<li><code>/etc/sudoers</code>: 配置哪些用户或组可以使用 <code>sudo</code> 以及他们可以执行哪些命令。</li>
-</ul>
-<h2 id="4-实操演示"><a href="#4-实操演示" class="headerlink" title="4. 实操演示"></a>4. 实操演示</h2><p>在Linux系统中，配置用户和组（例如使用 useradd, groupadd, userdel, groupdel, usermod 等命令）通常需要 root 用户的权限。这是因为用户和组的管理涉及到系统级别的安全和资源分配，只有 root 用户（或通过 sudo 获得 root 权限的用户）才能执行这些操作，以确保系统的稳定性和安全性。</p>
-<h3 id="4-1-切换到-Root-用户"><a href="#4-1-切换到-Root-用户" class="headerlink" title="4.1 切换到 Root 用户"></a>4.1 切换到 Root 用户</h3><p>首先我们使用<code>su -</code>来切换到root。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pxqixFiB5Q.png" alt="VirtualBoxVM_pxqixFiB5Q.png"></p>
-<h3 id="4-2-添加用户"><a href="#4-2-添加用户" class="headerlink" title="4.2 添加用户"></a>4.2 添加用户</h3><p>然后我们可以尝试使用<code>useradd</code>来添加一个账户。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_FQLiI4LrjL.png" alt="VirtualBoxVM_FQLiI4LrjL.png"></p>
-<p>可以看到我们的账户已经创建完毕了，并且我们的&#x2F;home目录下也多了一个目录。</p>
-<h3 id="4-3-创建组"><a href="#4-3-创建组" class="headerlink" title="4.3 创建组"></a>4.3 创建组</h3><p>接下来我们创建一个组试试。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_B1mVSA6bGw.png" alt="VirtualBoxVM_B1mVSA6bGw.png"></p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QNr99TvNze.png" alt="VirtualBoxVM_QNr99TvNze.png"></p>
-<p>在<code>/etc/group</code>里面可以看到所有关于组和其id的信息。</p>
-<h3 id="4-4-删除用户"><a href="#4-4-删除用户" class="headerlink" title="4.4 删除用户"></a>4.4 删除用户</h3><p>如果我们要删除用户的话，如果仅仅使用<code>userdel noob</code>，noob的home目录以及mailbox file仍然会存在，建议使用<code>-r</code>选项，在删除用户的同时，也移除该用户的家目录和邮箱文件。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ukurkiXySM.png" alt="VirtualBoxVM_ukurkiXySM.png"></p>
-<h3 id="4-5-修改用户属性-usermod"><a href="#4-5-修改用户属性-usermod" class="headerlink" title="4.5 修改用户属性 (usermod)"></a>4.5 修改用户属性 (<code>usermod</code>)</h3><p>然后我们尝试一下使用usermod。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_xEu4SD6qtp.png" alt="VirtualBoxVM_xEu4SD6qtp.png"></p>
-<p><code>usermod -G</code>用于修改一个用户所属的“附加组”，在 Linux 中，一个用户必须属于一个“主组” (primary group)，并且可以同时属于多个“附加组”。</p>
-<p>但是你有没有发现，我们执行完之后，&#x2F;home目录下的noob目录仍然属于noob组。因为noob的主组还是noob。</p>
-<p>如果你这时候使用<code>usermod -g</code>这个小写的g，它也只会改变用户在系统中的“默认主组”设置（即 &#x2F;etc&#x2F;passwd 文件中的 GID）。它不会自动去修改该用户已经拥有的所有文件（比如 &#x2F;home&#x2F;noob 目录）的属组。</p>
-<h3 id="4-6-修改文件属组-chgrp"><a href="#4-6-修改文件属组-chgrp" class="headerlink" title="4.6 修改文件属组 (chgrp)"></a>4.6 修改文件属组 (<code>chgrp</code>)</h3><p>如果你修改隶属于noob的所有文件变为fools所属的话，我们就需要使用change group命令<code>chgrp</code>：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JQAyISr3ei.png" alt="VirtualBoxVM_JQAyISr3ei.png"></p>
-<p><code>chgrp -R</code> 中的 <code>-R</code> 选项代表 “Recursive”（递归）。它的意思是：不仅改变你指定目录的属组，还要进入这个目录，改变里面所有文件、所有子目录、以及子目录里的所有文件的属组，一直重复下去，直到覆盖所有内容。</p>
-<h3 id="4-7-深入理解配置文件"><a href="#4-7-深入理解配置文件" class="headerlink" title="4.7 深入理解配置文件"></a>4.7 深入理解配置文件</h3><p>现在我们来看一看刚才提到的<code>/etc/passwd</code>有什么内容：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_poiJUg52KB.png" alt="VirtualBoxVM_poiJUg52KB.png"></p>
-<p>可以看到每当你创建一个新用户的时候，最下方就会被添加新的信息。</p>
-<p><code>/etc/passwd</code> 是一个用冒号分隔的文本文件，其中每一行都代表一个系统用户账户。它定义了用户的核心信息，如<strong>用户名</strong>（第1字段）、<strong>用户ID (UID)</strong>（第3字段）、<strong>主组ID (GID)</strong>（第4字段）。它还指定了用户的<strong>家目录</strong>（第6字段）和登录时运行的 <strong>Shell 程序</strong>（第7字段），其中 <code>/usr/sbin/nologin</code> 表示该账户禁止登录。</p>
-<p>我们继续看一看其他的文件都是什么内容，对于<code>/etc/group</code>：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_VHeuCP5Yu9.png" alt="VirtualBoxVM_VHeuCP5Yu9.png"></p>
-<p><code>/etc/group</code> 文件中的每一行都定义了一个用户组，它通过冒号分隔，依次显示了<strong>组名</strong>、占位符 (<code>x</code>)、<strong>组ID (GID)</strong>、以及<strong>该组的附加成员列表</strong>（用逗号分隔）。这个文件是 Linux 权限系统的核心，它通过 GID 来标识组，并通过附加成员列表来决定哪些用户可以“共享”这个组的权限。</p>
-<p>在 <code>/etc/group</code> 文件的上下文中，那个 <code>x</code> 占位符的意思是：<strong>“这个组的加密密码存储在别处。”</strong></p>
-<p>这个“别处”就是 <code>/etc/gshadow</code> 文件。</p>
-<ol>
-<li><strong>历史原因：</strong> 在非常古老的 Unix&#x2F;Linux 系统中，组的加密密码（如果设置了的话）会<em>直接</em>存放在 <code>/etc/group</code> 文件的第二个字段。</li>
-<li><strong>安全问题：</strong> <code>/etc/group</code> 文件需要被系统上所有用户读取（以便知道谁在哪个组里）。如果密码也存在这里，任何用户都可以拿到所有组的加密密码去尝试破解。</li>
-<li><strong>现代方案：</strong> 为了安全，系统把真正的组密码（如果有的话）转移到了一个只有 <code>root</code> 用户才能读取的 <code>/etc/gshadow</code> 文件中。原来的位置就用一个 <code>x</code> 来“占位”，表示“密码已启用并已转移”。</li>
-</ol>
-<p><strong>一句话总结：</strong> 那个 <code>x</code> 是一个安全改进的产物，它告诉你这个组的真实密码信息被安全地存放在 <code>/etc/gshadow</code> 文件里了。</p>
-<p>（P.S. 实际上，“组密码”这个功能本身现在已经非常非常少用了。大多数组（如 <code>x</code> 所示）虽然启用了 shadow 密码，但并没有设置实际的密码。）</p>
-<p>接下来我们来看看<code>/etc/gshadow</code>：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gAqw7fhMRa.png" alt="VirtualBoxVM_gAqw7fhMRa.png"></p>
-<p><code>/etc/gshadow</code> 文件是 <code>/etc/group</code> 文件的“影子文件”，它以安全的方式存储<strong>组密码</strong>和<strong>组管理员</strong>信息，并且为了安全，它<strong>只能被 <code>root</code> 用户读取</strong>。</p>
-<p>它的每一行也由冒号 <code>:</code> 分隔，包含 <code>4</code> 个字段：</p>
-<ol>
-<li><p><strong>组名</strong> (Group Name)</p>
-<ul>
-<li>对应于 <code>/etc/group</code> 中的组名。</li>
-</ul>
-</li>
-<li><p><strong>加密的组密码</strong> (Encrypted Password)</p>
-<ul>
-<li>这才是真正存储组密码的地方（而不是 <code>/etc/group</code> 里的 <code>x</code>）。</li>
-<li>如果这里是 <code>!</code> 或 <code>*</code>，意味着这个组被锁定了，或者<strong>没有设置密码</strong>（这是最常见的情况）。</li>
-<li>如果这里是空的，表示该组没有密码。</li>
-</ul>
-</li>
-<li><p><strong>组管理员</strong> (Group Administrators)</p>
-<ul>
-<li>一个用逗号分隔的用户名列表，这些人可以管理这个组的成员（比如添加或删除成员）。</li>
-<li>这个字段<strong>通常是空的</strong>。</li>
-</ul>
-</li>
-<li><p><strong>组成员</strong> (Group Members)</p>
-<ul>
-<li>一个用逗号分隔的用户名列表，这些人是这个组的成员。</li>
-<li>这和 <code>/etc/group</code> 文件的第 4 字段（附加成员列表）功能基本一样。</li>
-</ul>
-</li>
-</ol>
-<h3 id="4-8-组合命令示例"><a href="#4-8-组合命令示例" class="headerlink" title="4.8 组合命令示例"></a>4.8 组合命令示例</h3><p>接下来我们尝试一下组合命令：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_D6DYVhjxvN.png" alt="VirtualBoxVM_D6DYVhjxvN.png"></p>
-<p><code>useradd -g fools -s /bin/bash -c &quot;second noob&quot; -m -d /home/noob2 noob2</code></p>
-<ul>
-<li><p><strong><code>useradd</code></strong>: “添加用户”的主命令。</p>
-</li>
-<li><p><strong><code>-g fools</code></strong>:</p>
-<ul>
-<li><code>-g</code> (group) 指定用户的**“主组”**。</li>
-<li>强制将新用户 <code>noob2</code> 的主组设为 <code>fools</code> 组。</li>
-<li><em>(后面的 <code>id noob2</code> 命令也确认了这一点，显示 <code>gid=1002(fools)</code>)</em></li>
-</ul>
-</li>
-<li><p><strong><code>-s /bin/bash</code></strong>:</p>
-<ul>
-<li><code>-s</code> (shell) 指定用户的**“登录 Shell”**。</li>
-<li>将 <code>noob2</code> 的 Shell 设为 <code>/bin/bash</code>，这意味着该用户可以正常登录和使用命令行。</li>
-</ul>
-</li>
-<li><p><strong><code>-c &quot;second noob&quot;</code></strong>:</p>
-<ul>
-<li><code>-c</code> (comment) 添加**“备注”**信息，通常是用户的全名。</li>
-<li>备注内容是 “second noob”。</li>
-<li><em>(后面的 <code>tac /etc/passwd</code> 命令确认了这一点)</em></li>
-</ul>
-</li>
-<li><p><strong><code>-m</code></strong>:</p>
-<ul>
-<li><code>-m</code> (create home) 这是“<strong>创建家目录</strong>”的选项。</li>
-<li>它告诉 <code>useradd</code> 命令：“<strong>如果家目录不存在，就必须创建它</strong>。”</li>
-</ul>
-</li>
-<li><p><strong><code>-d /home/noob2</code></strong>:</p>
-<ul>
-<li><code>-d</code> (directory) 指定**“家目录的路径”**。</li>
-<li>把 <code>noob2</code> 的家目录路径设为 <code>/home/noob2</code>。</li>
-</ul>
-</li>
-<li><p><strong><code>noob2</code></strong>:</p>
-<ul>
-<li>放在命令最后的是你要创建的<strong>用户名</strong>。</li>
-</ul>
-</li>
-</ul>
-<h3 id="m-和-d-是如何协同工作的？"><a href="#m-和-d-是如何协同工作的？" class="headerlink" title="-m 和 -d 是如何协同工作的？"></a><code>-m</code> 和 <code>-d</code> 是如何协同工作的？</h3><p>这两个选项一起使用是标准操作：</p>
-<ol>
-<li><strong><code>-d /home/noob2</code></strong> 告诉系统：“这个用户的家目录路径是 <code>/home/noob2</code>。”</li>
-<li><strong><code>-m</code></strong> 告诉系统：“现在，<strong>请真的去创建 <code>/home/noob2</code> 这个目录</strong>。”</li>
-</ol>
-<p><strong>如果没有 <code>-m</code> 会怎样？</strong><br>系统只会在 <code>/etc/passwd</code> 文件里<em>记录</em>家目录是 <code>/home/noob2</code>，但<strong>不会真的在磁盘上创建这个文件夹</strong>。当 <code>noob2</code> 登录时就会因为找不到家目录而出错。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidhBtQKDXNFrd5wOk5W5Tu9" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidTr-urn-kHE0c_DIXUcOEY" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1347,7 +1292,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -1386,6 +1331,10 @@
       <ul>
         
           <li>
+            <a href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/">14.linux安装更新和管理软件包</a>
+          </li>
+        
+          <li>
             <a href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">13.linux归档压缩和传输文件</a>
           </li>
         
@@ -1399,10 +1348,6 @@
         
           <li>
             <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/">Troubleshoot Linux 1 修改sshd端口重启报错</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/">10.linux配置和保护SSH</a>
           </li>
         
       </ul>

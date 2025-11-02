@@ -73,6 +73,99 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-6-linux用户管理和权限" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" class="article-date">
+  <time class="dt-published" datetime="2025-10-24T01:42:44.000Z" itemprop="datePublished">2025-10-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/">6.linux用户管理和权限</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-用户管理和权限"><a href="#Linux-用户管理和权限" class="headerlink" title="Linux 用户管理和权限"></a>Linux 用户管理和权限</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在管理Linux系统时，尤其是在需要批量创建和管理用户账户的场景下，手动为每个用户进行繁琐的参数配置显然效率低下。为了简化这一过程并确保安全策略的一致性，Linux提供了强大的配置文件和命令来帮助我们集中管理用户策略和权限。本文将重点介绍如何通过<code>/etc/login.defs</code>文件、<code>chage</code>命令以及<code>su</code>和<code>sudo</code>命令，高效地进行用户安全设置和权限管理。</p>
+<h2 id="一、-设置用户默认策略：-etc-login-defs-文件"><a href="#一、-设置用户默认策略：-etc-login-defs-文件" class="headerlink" title="一、 设置用户默认策略：/etc/login.defs 文件"></a>一、 设置用户默认策略：<code>/etc/login.defs</code> 文件</h2><p>当我们创建新用户时，系统会根据<code>/etc/login.defs</code>文件中的预设值来为用户配置初始属性。这个文件定义了用户账户的全局默认策略，例如密码的有效期、长度要求等。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SzIhON8hUd.png" alt="VirtualBoxVM_SzIhON8hUd.png"></p>
+<h4 id="login-defs-文件中的重要参数"><a href="#login-defs-文件中的重要参数" class="headerlink" title="login.defs 文件中的重要参数"></a><code>login.defs</code> 文件中的重要参数</h4><ul>
+<li><code>PASS_MAX_DAYS 99999</code>: 密码最长有效期（天）。</li>
+<li><code>PASS_MIN_DAYS 0</code>: 密码最短有效期（天）。</li>
+<li><code>PASS_MIN_LEN 5</code>: 密码最小长度。</li>
+<li><code>PASS_WARN_AGE 7</code>: 密码过期前多少天开始警告用户。</li>
+</ul>
+<p>除此之外，该文件还包含了用户ID（UID）和组ID（GID）的范围等信息。了解并根据安全需求配置此文件，是实现标准化用户管理的第一步。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SKsdGHyAQB.png" alt="VirtualBoxVM_SKsdGHyAQB.png"></p>
+<h2 id="二、-精细化用户密码策略：chage-命令"><a href="#二、-精细化用户密码策略：chage-命令" class="headerlink" title="二、 精细化用户密码策略：chage 命令"></a>二、 精细化用户密码策略：<code>chage</code> 命令</h2><p><code>chage</code>命令允许我们针对单个用户，精细化地修改其密码的有效期信息，覆盖<code>/etc/login.defs</code>中的全局设置。</p>
+<h4 id="chage-命令详解"><a href="#chage-命令详解" class="headerlink" title="chage 命令详解"></a><code>chage</code> 命令详解</h4><p><strong>语法示例:</strong><br><code>chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user</code></p>
+<p><strong>常用参数说明:</strong></p>
+<ul>
+<li><code>-d, --lastday LAST_DAY</code>: 密码上次更改的日期（自1970-01-01以来的天数）。</li>
+<li><code>-m, --mindays MIN_DAYS</code>: 密码更改之间的最短天数。</li>
+<li><code>-M, --maxdays MAX_DAYS</code>: 密码的最长有效期（天）。</li>
+<li><code>-W, --warndays WARN_DAYS</code>: 密码过期前警告用户的天数。</li>
+<li><code>-I, --inactive INACTIVE</code>: 密码过期后账户被禁用的天数。</li>
+<li><code>-E, --expiredate EXPIRE_DATE</code>: 账户被禁用的绝对日期。</li>
+</ul>
+<p><strong>操作示例：</strong><br>我们可以使用<code>chage</code>命令查看和修改特定用户的密码策略。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_BAOKfnlfgB.png" alt="VirtualBoxVM_BAOKfnlfgB.png"></p>
+<h2 id="三、-权限切换与提升：su-和-sudo"><a href="#三、-权限切换与提升：su-和-sudo" class="headerlink" title="三、 权限切换与提升：su 和 sudo"></a>三、 权限切换与提升：<code>su</code> 和 <code>sudo</code></h2><p>在日常管理中，我们经常需要在不同用户间切换，或者以更高的权限执行特定命令。</p>
+<h3 id="1-切换用户：su-命令"><a href="#1-切换用户：su-命令" class="headerlink" title="1. 切换用户：su 命令"></a>1. 切换用户：<code>su</code> 命令</h3><p><code>su - &lt;username&gt;</code>命令可以让我们切换到指定的用户，并加载该用户的环境变量（<code>-</code>的作用）。</p>
+<ul>
+<li>从<code>root</code>用户切换到任何其他用户，不需要输入密码。</li>
+<li>从普通用户切换到<code>root</code>或其他用户，需要输入目标用户的密码。</li>
+</ul>
+<p><em>注意：在使用<code>su</code>切换到新用户前，如果该用户没有密码，<code>root</code>用户需要先使用<code>passwd &lt;username&gt;</code>为其设置密码。</em></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_fcp2asq46q.png" alt="VirtualBoxVM_fcp2asq46q.png"></p>
+<h3 id="2-提升命令权限：sudo-命令"><a href="#2-提升命令权限：sudo-命令" class="headerlink" title="2. 提升命令权限：sudo 命令"></a>2. 提升命令权限：<code>sudo</code> 命令</h3><p><code>sudo</code>命令允许普通用户以超级用户（root）的权限执行特定的、经过授权的命令，而无需知道<code>root</code>用户的密码。这是一种更安全、更可控的权限管理方式。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_CpJYblRhZB.png" alt="VirtualBoxVM_CpJYblRhZB.png"></p>
+<h4 id="配置-sudo-权限"><a href="#配置-sudo-权限" class="headerlink" title="配置 sudo 权限"></a>配置 <code>sudo</code> 权限</h4><p>要让一个用户能够使用<code>sudo</code>，必须在<code>/etc/sudoers</code>文件中进行配置。<strong>强烈建议使用<code>visudo</code>命令来编辑此文件</strong>，因为它会在保存时检查语法错误，防止配置错误导致系统无法使用<code>sudo</code>。</p>
+<p>我们切换到<code>root</code>用户，执行<code>visudo</code>。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jqgS8JZFnb.png" alt="VirtualBoxVM_jqgS8JZFnb.png"></p>
+<p>有两种常见的方式为用户授予<code>sudo</code>权限：</p>
+<p><strong>方法一：直接在<code>sudoers</code>文件中添加用户</strong></p>
+<p>在文件中添加如下格式的行：<br><code>username ALL=(ALL) ALL</code></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_6HFNqO3JKO.png" alt="VirtualBoxVM_6HFNqO3JKO.png"></p>
+<p><strong>方法二：将用户添加到<code>wheel</code>组（推荐）</strong></p>
+<p>在很多Linux发行版中，<code>/etc/sudoers</code>文件默认配置允许<code>wheel</code>组的成员执行所有命令。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_Xwx2TsqYAU.png" alt="VirtualBoxVM_Xwx2TsqYAU.png"></p>
+<p>因此，我们只需将用户添加为<code>wheel</code>组的附加组即可，这是一种更简洁、更易于管理的方式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usermod -aG wheel lpt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_nUP7Xr6rZH.png" alt="VirtualBoxVM_nUP7Xr6rZH.png"></p>
+<p>完成配置后，该用户就可以成功使用<code>sudo</code>执行命令了。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gIQxh4kcmj.png" alt="VirtualBoxVM_gIQxh4kcmj.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了Linux中与用户账户策略和权限管理相关的几个核心工具。通过配置<code>/etc/login.defs</code>实现全局用户策略，使用<code>chage</code>命令对单个用户进行密码时效的精细化调整，以及利用<code>su</code>和<code>sudo</code>进行灵活的权限切换和提升。掌握这些工具，将使你的Linux系统管理工作更加高效和安全。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidFYBqhxTZR-nSbUF6NN0FB" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-5-linux本地用户和组管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" class="article-date">
@@ -240,7 +333,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuid_0RvJwd9FFso78BQKS87d" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidq3GYcSlqawwqfnDz3GRnE" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -381,7 +474,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidGyJ2mvJhW3UGL9xex-SEe" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidb-_HyRIhACWf0KFVQKnL1" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -467,7 +560,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidOsRAnqwOBldbZOfN0vIJY" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidUalWRC_wO9q0jym-rAdE1" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -619,7 +712,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidD6YNPwyZCfd51l6uKHoKq" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidL4mpFuYEbix2I3fOwBp1c" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -706,7 +799,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidAHwO-LH_TCvBp4tv1Ot8t" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuiduROhb8e_lkWRKXkpXKwjj" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -758,7 +851,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidClo8iLnVVtWWh3B95E_G0" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidkK6eB5w2MVgiFW05cFoyj" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -874,7 +967,7 @@ return {1, 2};                      // 如果函数返回类型是vector&lt;int&
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidtq8waGtIQ2gwckzIF44Os" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidoyB5Vz4qpsAB00t_tGpQf" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1037,7 +1130,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidjQfsISzehfTqaYovHhGR0" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/3%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%97%E4%B8%B2/" data-id="cuidJr5ZZxp6eynvvQa7_MAXr" data-title="3.无重复字符的最大字串" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1111,175 +1204,7 @@ public:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuidq0-4UMa3opcsqX68QpHVt" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-搭建个人-团队专属永久图床" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" class="article-date">
-  <time class="dt-published" datetime="2025-10-02T12:16:20.000Z" itemprop="datePublished">2025-10-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/">使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="使用-Cloudflare-R2-ShareX-搭建个人-团队专属“永久”图床"><a href="#使用-Cloudflare-R2-ShareX-搭建个人-团队专属“永久”图床" class="headerlink" title="使用 Cloudflare R2 + ShareX 搭建个人&#x2F;团队专属“永久”图床"></a>使用 Cloudflare R2 + ShareX 搭建个人&#x2F;团队专属“永久”图床</h1><p>本指南旨在提供一个从零开始，利用 Cloudflare R2 的免费套餐和 ShareX 的强大功能，搭建一个高性能、高可靠性、几乎零成本且数据完全由自己掌控的图床的完整流程。</p>
-<p><strong>最终效果</strong>：通过一个快捷键截图，图片自动上传到你的专属存储空间，或手动上传自己的图片，自动将 Markdown 格式的链接复制到剪贴板，实现无缝写作。</p>
-<hr>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
-<li><a href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%E9%85%8D%E7%BD%AE-cloudflare-r2-%E4%BA%91%E7%AB%AF%E5%AD%98%E5%82%A8">第一部分：配置 Cloudflare R2 (云端存储)</a></li>
-<li><a href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%E9%85%8D%E7%BD%AE-sharex-%E6%A1%8C%E9%9D%A2%E5%AE%A2%E6%88%B7%E7%AB%AF">第二部分：配置 ShareX (桌面客户端)</a></li>
-<li><a href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%E4%BC%98%E5%8C%96-sharex-%E5%B7%A5%E4%BD%9C%E6%B5%81">第三部分：优化 ShareX 工作流</a></li>
-<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-faq-%E4%B8%8E%E6%8E%92%E9%94%99">常见问题 (F.A.Q) 与排错</a></li>
-</ol>
-<hr>
-<h2 id="第一部分：配置-Cloudflare-R2-云端存储"><a href="#第一部分：配置-Cloudflare-R2-云端存储" class="headerlink" title="第一部分：配置 Cloudflare R2 (云端存储)"></a>第一部分：配置 Cloudflare R2 (云端存储)</h2><p>首先来到Cloudflare开通R2存储。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/%E5%9B%BE%E7%89%87_20250927143514.png"></p>
-<h3 id="1-1-创建-R2-存储桶-Bucket"><a href="#1-1-创建-R2-存储桶-Bucket" class="headerlink" title="1.1 创建 R2 存储桶 (Bucket)"></a>1.1 创建 R2 存储桶 (Bucket)</h3><p>存储桶是存放你所有图片的容器。</p>
-<ol>
-<li>登录 Cloudflare 控制台，在左侧菜单进入 <strong>R2</strong>。</li>
-<li>点击 <strong>Create bucket (创建存储桶)</strong>。</li>
-<li><strong>Bucket name</strong>: 输入一个全局唯一的存储桶名称 (例如 <code>your-org-images-2025</code>)。</li>
-<li><strong>Location</strong>: 保持默认的 <strong>Automatic</strong>。</li>
-<li>点击 <strong>Create bucket</strong>。</li>
-</ol>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/xrRAVMB2Sz.png"></p>
-<h3 id="1-2-开放存储桶的公开访问权限"><a href="#1-2-开放存储桶的公开访问权限" class="headerlink" title="1.2 开放存储桶的公开访问权限"></a>1.2 开放存储桶的公开访问权限</h3><p>为了让上传的图片能被外部访问，需要开启公共访问。</p>
-<ol>
-<li>进入你刚创建的存储桶，点击顶部的 <strong>Settings (设置)</strong> 选项卡。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/1r0AU3aWkD.png" alt="1r0AU3aWkD.png"></li>
-<li>在 <strong>下方Public Development URL</strong> 部分，点击右侧的 <strong>Enable</strong>。</li>
-<li>输入确认信息。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/fgc4amk7S7.png" alt="fgc4amk7S7.png"></li>
-<li><strong>记下</strong>这里显示的 <code>https://pub-....r2.dev</code> 格式的 URL，这是你的公共访问域名。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/RmQwxSxpLi.png" alt="RmQwxSxpLi.png"></li>
-</ol>
-<h3 id="1-3-创建用于上传的-API-Token"><a href="#1-3-创建用于上传的-API-Token" class="headerlink" title="1.3 创建用于上传的 API Token"></a>1.3 创建用于上传的 API Token</h3><p>API Token 是让 ShareX 有权限上传文件到 R2 的“钥匙”。</p>
-<ol>
-<li>回到 R2 的主页（概览页面），点击右上角的 <strong>Manage API Tokens (管理 R2 API 令牌)</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/CTzhiiSl04.png" alt="CTzhiiSl04.png"></li>
-<li>点击 <strong>Create Account API token (创建 API 令牌)</strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/FBEzXXohz7.png" alt="FBEzXXohz7.png"></li>
-<li><strong>Permissions (权限)</strong>: <strong>务必选择 <code>Object Read &amp; Write</code> (对象读和写)</strong>。这是最关键的一步，只读权限会导致上传失败。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/xB4pYQOeEI.png" alt="xB4pYQOeEI.png"></li>
-<li>点击 <strong>Create API token</strong>。</li>
-<li><strong>⚠️ 立即复制并保存！</strong> 页面上会显示 <code>Access Key ID</code> 和 <code>Secret Access Key</code>。<strong>这两个密钥只会出现这一次</strong>，请立刻将它们复制并粘贴到一个安全的地方。最下方的Default endpoints链接也需要保存一下。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/kg9E8tEozI.png" alt="kg9E8tEozI.png"></li>
-</ol>
-<hr>
-<h2 id="第二部分：配置-ShareX-桌面客户端"><a href="#第二部分：配置-ShareX-桌面客户端" class="headerlink" title="第二部分：配置 ShareX (桌面客户端)"></a>第二部分：配置 ShareX (桌面客户端)</h2><h3 id="2-1-下载并安装-ShareX"><a href="#2-1-下载并安装-ShareX" class="headerlink" title="2.1 下载并安装 ShareX"></a>2.1 下载并安装 ShareX</h3><p>从官网下载最新版本：<a target="_blank" rel="noopener" href="https://getsharex.com/">https://getsharex.com/</a></p>
-<h3 id="2-2-配置-S3-上传目标"><a href="#2-2-配置-S3-上传目标" class="headerlink" title="2.2 配置 S3 上传目标"></a>2.2 配置 S3 上传目标</h3><p>这是整个配置过程的核心。</p>
-<ol>
-<li>打开 ShareX，在主界面点击 <code>Destination settings...</code>。</li>
-<li>在弹出的窗口左侧选择 <code>Amazon S3</code>，在右侧输入你的配置信息。</li>
-<li>按照下表精确填写你的 R2 信息：</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>ShareX 设置项</th>
-<th>填写内容</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Access key ID</strong></td>
-<td>粘贴你保存的 <code>Access Key ID</code></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Secret access key</strong></td>
-<td>粘贴你保存的 <code>Secret Access Key</code></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Region</strong></td>
-<td>留空</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Endpoints</strong></td>
-<td>留空</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Endpoint</strong></td>
-<td><code>https://&lt;你的AccountID&gt;.r2.cloudflarestorage.com</code></td>
-<td>如果你在刚才保存过可以直接复制，切记最后没有<code>/</code>。</td>
-</tr>
-<tr>
-<td><strong>Bucket name</strong></td>
-<td>你的 R2 存储桶名称 (例如 <code>your-org-images-2025</code>)</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Upload path</strong></td>
-<td><code>img/%y/%mo/%d/</code></td>
-<td>按 <code>img/年/月/日/</code> 格式存放图片，有助于管理。ShareX 的变量格式是 <code>%</code>。（也可自定义）</td>
-</tr>
-<tr>
-<td><strong>Use custom domain</strong></td>
-<td><strong>勾选此项</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>(自定义域名输入框)</td>
-<td><code>https://&lt;你记下的r2.dev公共URL&gt;</code></td>
-<td><strong>注意</strong>：这里只填刚才你记下的Public Development URL，不要加后面的 <code>$key$</code>。ShareX 新版本会自动处理。</td>
-</tr>
-</tbody></table>
-<h4 id="2-2-1-关键的高级-Advanced-设置"><a href="#2-2-1-关键的高级-Advanced-设置" class="headerlink" title="2.2.1 关键的高级 (Advanced) 设置"></a>2.2.1 关键的高级 (Advanced) 设置</h4><p>在 S3 配置窗口的最下方，找到 <strong>Advanced</strong> 区域，进行如下设置：</p>
-<ul>
-<li><code>Set public-read ACL on file</code>: <strong>必须取消勾选</strong>。R2 不支持此功能，勾选会导致 <code>403 Forbidden</code> 错误。</li>
-<li><code>Use path style request</code>: <strong>必须勾选</strong>。R2 需要这种格式的请求 URL。</li>
-</ul>
-<h3 id="2-3-将-S3-设置为默认图片上传器"><a href="#2-3-将-S3-设置为默认图片上传器" class="headerlink" title="2.3 将 S3 设置为默认图片上传器"></a>2.3 将 S3 设置为默认图片上传器</h3><ol>
-<li>回到 ShareX 主界面。</li>
-<li>点击 <code>Destinations</code> -&gt; <code>Image uploader</code> -&gt; <code>File uploader</code> -&gt; 选择 <code>Amazon S3</code>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/Code_nqStY1UhqR.png" alt="Code_nqStY1UhqR.png"></li>
-</ol>
-<hr>
-<h2 id="第三部分：优化-ShareX-工作流"><a href="#第三部分：优化-ShareX-工作流" class="headerlink" title="第三部分：优化 ShareX 工作流"></a>第三部分：优化 ShareX 工作流</h2><h3 id="3-1-自动复制-Markdown-链接"><a href="#3-1-自动复制-Markdown-链接" class="headerlink" title="3.1 自动复制 Markdown 链接"></a>3.1 自动复制 Markdown 链接</h3><ol>
-<li>在 ShareX 主界面，点击 <code>Task settings...</code>。</li>
-<li>在弹出的窗口左侧选择下方的 <strong><code>Advanced</code></strong>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_ZWFVlZZu0W.png" alt="ShareX_ZWFVlZZu0W.png"></li>
-<li>接着，点击 <code>After upload</code> 下方的 <code>ClipboardContentFormat</code>。</li>
-<li>将里面的内容替换为markdown格式 <code>![$filename]($result)</code> 。</li>
-</ol>
-<h3 id="3-2-打开自动复制到剪切板"><a href="#3-2-打开自动复制到剪切板" class="headerlink" title="3.2 打开自动复制到剪切板"></a>3.2 打开自动复制到剪切板</h3><ol>
-<li>在主页面的 <code>After upload tasks</code> -&gt; 右侧选择 <code>Copy URL to clipboard</code>。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_zf6qftjnu6.png" alt="ShareX_zf6qftjnu6.png"></li>
-</ol>
-<h3 id="3-3-修改热键"><a href="#3-3-修改热键" class="headerlink" title="3.3 修改热键"></a>3.3 修改热键</h3><p>在主页面的 <code>Hotkey settings</code> 中可以修改热键，实现截图直接上传并复制markdown到剪贴板一条龙。</p>
-<hr>
-<h2 id="常见问题-F-A-Q-与排错"><a href="#常见问题-F-A-Q-与排错" class="headerlink" title="常见问题 (F.A.Q) 与排错"></a>常见问题 (F.A.Q) 与排错</h2><p><strong>Q1: 上传时报错 <code>(403) Forbidden</code>，怎么办？</strong><br><strong>A1:</strong> 这是最常见的问题，请检查以下两项 S3 高级设置：</p>
-<ol>
-<li>确保 <strong><code>Set public-read ACL on file</code></strong> <strong>没有</strong>被勾选。</li>
-<li>确保 <strong><code>Use path style request</code></strong> <strong>已经</strong>被勾选。</li>
-<li>如果依然报错，请重新生成一个<strong>权限为 <code>Object Read &amp; Write</code> 的 API Token</strong> 并更新到 ShareX 中。</li>
-</ol>
-<p><strong>Q2: 我不是想上传截图，我想上传我自己本地的别的图片</strong><br><strong>A2:</strong><br><strong>使用左侧的upload选项卡</strong>: 在选项卡内选择你需要的上传内容。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/09/ShareX_34TAgHco1T.png" alt="ShareX_34TAgHco1T.png"></p>
-<p><strong>Q3: PicGo 为什么不能用？</strong><br><strong>A3:</strong> 在我的测试中，PicGo 的 S3 插件与 Cloudflare R2 存在一些兼容性问题，导致文件名和路径处理不正确。ShareX 的 S3 实现更标准，是目前更可靠的选择。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA-%E5%9B%A2%E9%98%9F%E4%B8%93%E5%B1%9E%E6%B0%B8%E4%B9%85%E5%9B%BE%E5%BA%8A/" data-id="cuideDOCs4v5akOp-Jn6VALSK" data-title="使用 Cloudflare R2 + ShareX 搭建个人/团队专属“永久”图床" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/49%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" data-id="cuidMm_TmIAGNVvT6X81Cx6nX" data-title="49.字母异位词分组" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1334,6 +1259,10 @@ public:
       <ul>
         
           <li>
+            <a href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">15.linux访问文件系统</a>
+          </li>
+        
+          <li>
             <a href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/">14.linux安装更新和管理软件包</a>
           </li>
         
@@ -1347,10 +1276,6 @@ public:
         
           <li>
             <a href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">11.linux日志监控与时间同步</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/">Troubleshoot Linux 1 修改sshd端口重启报错</a>
           </li>
         
       </ul>

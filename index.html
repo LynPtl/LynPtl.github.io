@@ -73,6 +73,108 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-15-linux访问文件系统" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="article-date">
+  <time class="dt-published" datetime="2025-11-03T01:51:43.000Z" itemprop="datePublished">2025-11-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">15.linux访问文件系统</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-访问文件系统"><a href="#Linux-访问文件系统" class="headerlink" title="Linux 访问文件系统"></a>Linux 访问文件系统</h1><ul>
+<li><p>文件系统是一种结构化的方式，用于存储所有文件和目录。</p>
+</li>
+<li><p>要访问这些文件，我们需要使用导航工具。</p>
+</li>
+<li><p>以下是用于访问 Linux 文件系统的基本工具或命令：</p>
+<ul>
+<li><p><code>ls</code>：列出目录内容</p>
+<ul>
+<li><code>ls</code> 命令用于显示指定目录中的文件和子目录。如果不指定目录，则显示当前目录的内容。</li>
+<li><strong>基础用法示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出当前目录的内容</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出/home目录的内容</span></span><br><span class="line"><span class="built_in">ls</span> /home</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以长格式（long format）列出内容，显示权限、所有者、大小和修改日期等详细信息</span></span><br><span class="line"><span class="built_in">ls</span> -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有文件，包括隐藏文件（以.开头的文件）</span></span><br><span class="line"><span class="built_in">ls</span> -a</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>cd</code>：更改目录</p>
+<ul>
+<li><code>cd</code> (Change Directory) 命令用于从一个目录切换到另一个目录。</li>
+<li><strong>基础用法示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到 /var/log 目录</span></span><br><span class="line"><span class="built_in">cd</span> /var/log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换到上一级目录</span></span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line"></span><br><span class="line"><span class="comment"># 快速返回当前用户的主目录</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="comment"># 或者直接使用 cd</span></span><br><span class="line"><span class="built_in">cd</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>pwd</code>：显示当前工作目录</p>
+<ul>
+<li><code>pwd</code> (Print Working Directory) 命令用于显示您当前所在的完整目录路径。</li>
+<li><strong>基础用法示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印出当前工作目录的绝对路径</span></span><br><span class="line"><span class="built_in">pwd</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>df</code>：报告文件系统磁盘空间使用情况</p>
+<ul>
+<li><code>df</code> (Disk Free) 命令用于显示文件系统的总空间、已用空间、可用空间和挂载点。</li>
+<li><strong>基础用法示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示所有已挂载文件系统的空间使用情况</span></span><br><span class="line"><span class="built_in">df</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类可读的格式（例如 KB, MB, GB）显示，更易于阅读</span></span><br><span class="line"><span class="built_in">df</span> -h</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>du</code>：估算文件空间使用情况</p>
+<ul>
+<li><code>du</code> (Disk Usage) 命令用于估算文件和目录占用的磁盘空间大小。</li>
+<li><strong>基础用法示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示当前目录下每个子目录占用的空间</span></span><br><span class="line"><span class="built_in">du</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类可读的格式显示当前目录的总大小</span></span><br><span class="line"><span class="built_in">du</span> -sh .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类可读的格式显示/home目录下所有文件和目录的大小</span></span><br><span class="line"><span class="built_in">du</span> -h /home</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>fdisk</code>：操作磁盘分区表</p>
+<ul>
+<li><code>fdisk</code> 是一个强大的命令行工具，用于查看、创建和管理磁盘分区。此命令通常需要管理员权限。</li>
+<li><strong>基础用法示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有磁盘及其分区表（需要root或sudo权限）</span></span><br><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>绝对路径和相对路径</strong></p>
+<ul>
+<li>在 Linux 中，路径是定位文件或目录的方式。</li>
+<li><strong>绝对路径</strong>：路径总是从根目录 <code>/</code> 开始。它是一个完整的、明确的路径，无论您当前在哪个目录下，它都指向同一个位置。例如：<code>/home/user/documents/file.txt</code>。</li>
+<li><strong>相对路径</strong>：路径是相对于您当前的“工作目录”而言的。它不以 <code>/</code> 开头。例如，如果您在 <code>/home/user</code> 目录下，那么 <code>documents/file.txt</code> 就是一个相对路径。</li>
+</ul>
+</li>
+<li><p><strong>特殊目录符号</strong></p>
+<ul>
+<li><code>~</code> (波浪号&#x2F;Tilde)：代表当前用户的主目录。例如，如果您的用户名是 <code>alex</code>，那么 <code>~</code> 就等同于 <code>/home/alex</code>。</li>
+<li><code>.</code> (单个点)：代表当前目录。</li>
+<li><code>..</code> (两个点)：代表上一级（父）目录。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" data-id="cuidxEBC7-Nejf2Mg0sMWLOdO" data-title="15.linux访问文件系统" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-14-linux安装更新和管理软件包" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" class="article-date">
@@ -185,7 +287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" data-id="cuidvx0fBxfM3Gt2Kv7UjV4qX" data-title="14.linux安装更新和管理软件包" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" data-id="cuidRkm8PU6YC29jCGuibvNVO" data-title="14.linux安装更新和管理软件包" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -329,7 +431,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuid72oW8oAS-kgoy_LoIYQ4U" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuidaVv8JIrqKhZvmcFvdW_Ao" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -470,7 +572,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidt1QUOJ8khIJhdG2WuCY2x" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidNwaVzcxO2A6w2EZuejHkg" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -595,7 +697,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuid8ZD50-ELRi-_VENCzbw6O" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuidzBil-52R4XLE1FOPXtDD1" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -670,7 +772,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidih4QMCF10ezrvQItIWM2V" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidqG-FoGs3xHVIiBoqVmpW0" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -812,7 +914,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuiddYOD98kO7Ab38t5v5b_h-" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidg2yQjcItuM5oP1PxLDJR-" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -914,7 +1016,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidU-AGSRXVzpQS7fDLb5x4t" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidDLyTiHlah-lDJbZ1NxDRU" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1070,7 +1172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidQiNr21QHQFQq3NTKYwVNq" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidAMZRI9SQ8T6hVechhYCBQ" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1183,100 +1285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidnLAryTRzgW1eXtsjRY1Vi" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-6-linux用户管理和权限" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" class="article-date">
-  <time class="dt-published" datetime="2025-10-24T01:42:44.000Z" itemprop="datePublished">2025-10-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/">6.linux用户管理和权限</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Linux-用户管理和权限"><a href="#Linux-用户管理和权限" class="headerlink" title="Linux 用户管理和权限"></a>Linux 用户管理和权限</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在管理Linux系统时，尤其是在需要批量创建和管理用户账户的场景下，手动为每个用户进行繁琐的参数配置显然效率低下。为了简化这一过程并确保安全策略的一致性，Linux提供了强大的配置文件和命令来帮助我们集中管理用户策略和权限。本文将重点介绍如何通过<code>/etc/login.defs</code>文件、<code>chage</code>命令以及<code>su</code>和<code>sudo</code>命令，高效地进行用户安全设置和权限管理。</p>
-<h2 id="一、-设置用户默认策略：-etc-login-defs-文件"><a href="#一、-设置用户默认策略：-etc-login-defs-文件" class="headerlink" title="一、 设置用户默认策略：/etc/login.defs 文件"></a>一、 设置用户默认策略：<code>/etc/login.defs</code> 文件</h2><p>当我们创建新用户时，系统会根据<code>/etc/login.defs</code>文件中的预设值来为用户配置初始属性。这个文件定义了用户账户的全局默认策略，例如密码的有效期、长度要求等。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SzIhON8hUd.png" alt="VirtualBoxVM_SzIhON8hUd.png"></p>
-<h4 id="login-defs-文件中的重要参数"><a href="#login-defs-文件中的重要参数" class="headerlink" title="login.defs 文件中的重要参数"></a><code>login.defs</code> 文件中的重要参数</h4><ul>
-<li><code>PASS_MAX_DAYS 99999</code>: 密码最长有效期（天）。</li>
-<li><code>PASS_MIN_DAYS 0</code>: 密码最短有效期（天）。</li>
-<li><code>PASS_MIN_LEN 5</code>: 密码最小长度。</li>
-<li><code>PASS_WARN_AGE 7</code>: 密码过期前多少天开始警告用户。</li>
-</ul>
-<p>除此之外，该文件还包含了用户ID（UID）和组ID（GID）的范围等信息。了解并根据安全需求配置此文件，是实现标准化用户管理的第一步。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_SKsdGHyAQB.png" alt="VirtualBoxVM_SKsdGHyAQB.png"></p>
-<h2 id="二、-精细化用户密码策略：chage-命令"><a href="#二、-精细化用户密码策略：chage-命令" class="headerlink" title="二、 精细化用户密码策略：chage 命令"></a>二、 精细化用户密码策略：<code>chage</code> 命令</h2><p><code>chage</code>命令允许我们针对单个用户，精细化地修改其密码的有效期信息，覆盖<code>/etc/login.defs</code>中的全局设置。</p>
-<h4 id="chage-命令详解"><a href="#chage-命令详解" class="headerlink" title="chage 命令详解"></a><code>chage</code> 命令详解</h4><p><strong>语法示例:</strong><br><code>chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user</code></p>
-<p><strong>常用参数说明:</strong></p>
-<ul>
-<li><code>-d, --lastday LAST_DAY</code>: 密码上次更改的日期（自1970-01-01以来的天数）。</li>
-<li><code>-m, --mindays MIN_DAYS</code>: 密码更改之间的最短天数。</li>
-<li><code>-M, --maxdays MAX_DAYS</code>: 密码的最长有效期（天）。</li>
-<li><code>-W, --warndays WARN_DAYS</code>: 密码过期前警告用户的天数。</li>
-<li><code>-I, --inactive INACTIVE</code>: 密码过期后账户被禁用的天数。</li>
-<li><code>-E, --expiredate EXPIRE_DATE</code>: 账户被禁用的绝对日期。</li>
-</ul>
-<p><strong>操作示例：</strong><br>我们可以使用<code>chage</code>命令查看和修改特定用户的密码策略。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_BAOKfnlfgB.png" alt="VirtualBoxVM_BAOKfnlfgB.png"></p>
-<h2 id="三、-权限切换与提升：su-和-sudo"><a href="#三、-权限切换与提升：su-和-sudo" class="headerlink" title="三、 权限切换与提升：su 和 sudo"></a>三、 权限切换与提升：<code>su</code> 和 <code>sudo</code></h2><p>在日常管理中，我们经常需要在不同用户间切换，或者以更高的权限执行特定命令。</p>
-<h3 id="1-切换用户：su-命令"><a href="#1-切换用户：su-命令" class="headerlink" title="1. 切换用户：su 命令"></a>1. 切换用户：<code>su</code> 命令</h3><p><code>su - &lt;username&gt;</code>命令可以让我们切换到指定的用户，并加载该用户的环境变量（<code>-</code>的作用）。</p>
-<ul>
-<li>从<code>root</code>用户切换到任何其他用户，不需要输入密码。</li>
-<li>从普通用户切换到<code>root</code>或其他用户，需要输入目标用户的密码。</li>
-</ul>
-<p><em>注意：在使用<code>su</code>切换到新用户前，如果该用户没有密码，<code>root</code>用户需要先使用<code>passwd &lt;username&gt;</code>为其设置密码。</em></p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_fcp2asq46q.png" alt="VirtualBoxVM_fcp2asq46q.png"></p>
-<h3 id="2-提升命令权限：sudo-命令"><a href="#2-提升命令权限：sudo-命令" class="headerlink" title="2. 提升命令权限：sudo 命令"></a>2. 提升命令权限：<code>sudo</code> 命令</h3><p><code>sudo</code>命令允许普通用户以超级用户（root）的权限执行特定的、经过授权的命令，而无需知道<code>root</code>用户的密码。这是一种更安全、更可控的权限管理方式。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_CpJYblRhZB.png" alt="VirtualBoxVM_CpJYblRhZB.png"></p>
-<h4 id="配置-sudo-权限"><a href="#配置-sudo-权限" class="headerlink" title="配置 sudo 权限"></a>配置 <code>sudo</code> 权限</h4><p>要让一个用户能够使用<code>sudo</code>，必须在<code>/etc/sudoers</code>文件中进行配置。<strong>强烈建议使用<code>visudo</code>命令来编辑此文件</strong>，因为它会在保存时检查语法错误，防止配置错误导致系统无法使用<code>sudo</code>。</p>
-<p>我们切换到<code>root</code>用户，执行<code>visudo</code>。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jqgS8JZFnb.png" alt="VirtualBoxVM_jqgS8JZFnb.png"></p>
-<p>有两种常见的方式为用户授予<code>sudo</code>权限：</p>
-<p><strong>方法一：直接在<code>sudoers</code>文件中添加用户</strong></p>
-<p>在文件中添加如下格式的行：<br><code>username ALL=(ALL) ALL</code></p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_6HFNqO3JKO.png" alt="VirtualBoxVM_6HFNqO3JKO.png"></p>
-<p><strong>方法二：将用户添加到<code>wheel</code>组（推荐）</strong></p>
-<p>在很多Linux发行版中，<code>/etc/sudoers</code>文件默认配置允许<code>wheel</code>组的成员执行所有命令。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_Xwx2TsqYAU.png" alt="VirtualBoxVM_Xwx2TsqYAU.png"></p>
-<p>因此，我们只需将用户添加为<code>wheel</code>组的附加组即可，这是一种更简洁、更易于管理的方式。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usermod -aG wheel lpt</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_nUP7Xr6rZH.png" alt="VirtualBoxVM_nUP7Xr6rZH.png"></p>
-<p>完成配置后，该用户就可以成功使用<code>sudo</code>执行命令了。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gIQxh4kcmj.png" alt="VirtualBoxVM_gIQxh4kcmj.png"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了Linux中与用户账户策略和权限管理相关的几个核心工具。通过配置<code>/etc/login.defs</code>实现全局用户策略，使用<code>chage</code>命令对单个用户进行密码时效的精细化调整，以及利用<code>su</code>和<code>sudo</code>进行灵活的权限切换和提升。掌握这些工具，将使你的Linux系统管理工作更加高效和安全。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidTr-urn-kHE0c_DIXUcOEY" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid4treqhtIFBq3I0P-t8wNM" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1331,6 +1340,10 @@
       <ul>
         
           <li>
+            <a href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">15.linux访问文件系统</a>
+          </li>
+        
+          <li>
             <a href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/">14.linux安装更新和管理软件包</a>
           </li>
         
@@ -1344,10 +1357,6 @@
         
           <li>
             <a href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">11.linux日志监控与时间同步</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/">Troubleshoot Linux 1 修改sshd端口重启报错</a>
           </li>
         
       </ul>

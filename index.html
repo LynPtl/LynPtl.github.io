@@ -73,6 +73,97 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-16-linux分析服务器和获取支持" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/" class="article-date">
+  <time class="dt-published" datetime="2025-11-09T23:45:56.000Z" itemprop="datePublished">2025-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/">16.linux分析服务器和获取支持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-分析服务器和获取支持"><a href="#Linux-分析服务器和获取支持" class="headerlink" title="Linux 分析服务器和获取支持"></a>Linux 分析服务器和获取支持</h1><ul>
+<li>当您的 Linux Redhat 服务器出现问题时，您将需要使用 <code>top</code>、<code>free</code>、<code>df</code>、<code>du</code> 等监控命令。系统管理员还应查看 <code>/var/log</code> 目录中的系统日志，然后联系 Redhat 技术支持以获取更多帮助。</li>
+<li>Redhat 使系统管理员可以更轻松地使用名为 <strong>Cockpit</strong> 的基于 Web 的应用程序来管理和分析服务器。</li>
+<li>要从 Redhat 获得支持，系统管理员可以在 Linux 系统上以 root 用户身份运行 <code>sosreport</code> 实用程序或在较新版本中运行 “<code>sos report</code>”，该实用程序将收集日志和配置文件，然后将它们传输到 Redhat 支持服务器。现在使用 Cockpit 应用程序，可以在基于 Web 的门户网站上生成报告。</li>
+</ul>
+<p>获取Redhat为你提供的case id之后，你就可以向他们上传你的日志了。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_fsOVCMhvnk.png" alt="VirtualBoxVM_fsOVCMhvnk.png"></p>
+<ul>
+<li>Cockpit 基于 Web 的界面除了可以从 Redhat 进行监控和获得支持外，还提供了许多其他功能。</li>
+</ul>
+<h2 id="Cockpit"><a href="#Cockpit" class="headerlink" title="Cockpit"></a>Cockpit</h2><ul>
+<li>Cockpit 是由 Red Hat 赞助的服务器管理工具，专注于提供现代化且用户友好的界面来管理和维护服务器。</li>
+<li>Cockpit 是一个易于使用、集成、一目了然且开放的基于 Web 的服务器界面。</li>
+<li>该应用程序可在大多数 Linux 发行版中使用，例如 CentOS、Redhat、Ubuntu 和 Fedora。</li>
+<li>它在 Redhat 8 中默认安装，在版本 7 中是可选的。</li>
+<li>它可以通过一个非常易于访问的 Web 连接来监控系统资源、添加或删除帐户、监控系统使用情况、关闭系统以及执行其他一些任务。</li>
+</ul>
+<h2 id="安装、配置和管理-Cockpit"><a href="#安装、配置和管理-Cockpit" class="headerlink" title="安装、配置和管理 Cockpit"></a>安装、配置和管理 Cockpit</h2><ul>
+<li><p>检查网络连接</p>
+<ul>
+<li><code>ping www.google.com</code></li>
+</ul>
+</li>
+<li><p>以 root 用户身份安装 cockpit 软件包</p>
+<ul>
+<li><code>yum/dnf install cockpit -y</code> (适用于 RH 或 CentOS)<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_5VW4spMjjM.png" alt="VirtualBoxVM_5VW4spMjjM.png"><br>我这里是已经安装过了</li>
+<li><code>apt-get install cockpit</code> (适用于 Ubuntu)</li>
+</ul>
+</li>
+<li><p>启动并启用该服务</p>
+<ul>
+<li><code>systemctl start|enable cockpit</code></li>
+</ul>
+</li>
+<li><p>检查服务状态</p>
+<ul>
+<li><code>systemctl status cockpit</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_Dj0Ywb5QmM.png" alt="VirtualBoxVM_Dj0Ywb5QmM.png"></li>
+</ul>
+</li>
+<li><p>访问 Web 界面</p>
+<ul>
+<li><code>https://127.0.0.1:9090</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_30QJMtTHJY.png" alt="VirtualBoxVM_30QJMtTHJY.png"><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_WAKF9NJP02.png" alt="VirtualBoxVM_WAKF9NJP02.png"></li>
+</ul>
+<p>这里用的是127.0.0.1的地址，如果你想要开放到其他地方，那你就需要先用<code>ip addr</code>，记下那个ipv4地址，并且通过防火墙开放9090端口，这之后同一局域网下的其他主机就能访问该界面了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Add the cockpit service to the firewall rules (this opens port 9090)</span><br><span class="line">firewall-cmd --add-service=cockpit --permanent</span><br><span class="line"></span><br><span class="line"># Reload the firewall to apply the changes</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/firefox_7AJBMHshJX.png" alt="firefox_7AJBMHshJX.png"></p>
+<p>接下来就请你自己探索一下这个东西吧，虽然是一个非常好的东西，但是这不代表你可以忘记那些我们之前使用的命令。</p>
+</li>
+</ul>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>到这里，我们已经完成了RH124的所有内容，接下来我们将进入RH134课程。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/" data-id="cuidwae-Q102vsjGGAkHl8zO3" data-title="16.linux分析服务器和获取支持" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-15-linux访问文件系统" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="article-date">
@@ -163,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" data-id="cuidxEBC7-Nejf2Mg0sMWLOdO" data-title="15.linux访问文件系统" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" data-id="cuidn9M959-Kz88xsNFRPcLP0" data-title="15.linux访问文件系统" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -287,7 +378,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" data-id="cuidRkm8PU6YC29jCGuibvNVO" data-title="14.linux安装更新和管理软件包" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" data-id="cuidyzxrcJ6qQG_kd3iqsst7y" data-title="14.linux安装更新和管理软件包" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -431,7 +522,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuidaVv8JIrqKhZvmcFvdW_Ao" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuid9rFM6kdSRwQFFOJS5mefD" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -572,7 +663,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidNwaVzcxO2A6w2EZuejHkg" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidAHtSw29jtUK2Y1J2eYNHQ" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -697,7 +788,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuidzBil-52R4XLE1FOPXtDD1" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuidI_UgcvDhP5_-88BLJt_Wh" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -772,7 +863,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidqG-FoGs3xHVIiBoqVmpW0" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuidKMpwSSDyJpmAuSz0MHMfs" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -914,7 +1005,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidg2yQjcItuM5oP1PxLDJR-" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidKacopUbYaYrJ0oaHmtFbJ" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1016,7 +1107,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidDLyTiHlah-lDJbZ1NxDRU" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidovg-SiVb1nUuqofokD-H1" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1172,120 +1263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidAMZRI9SQ8T6hVechhYCBQ" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-7-linux文件权限与所有权" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" class="article-date">
-  <time class="dt-published" datetime="2025-10-24T22:19:56.000Z" itemprop="datePublished">2025-10-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/">7.linux文件权限与所有权</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Linux-文件权限与所有权"><a href="#Linux-文件权限与所有权" class="headerlink" title="Linux 文件权限与所有权"></a>Linux 文件权限与所有权</h1><h2 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h2><p>在 UNIX 和 Linux 系统中，文件和目录的访问权限是系统安全的基础。</p>
-<h3 id="权限类型"><a href="#权限类型" class="headerlink" title="权限类型"></a>权限类型</h3><p>每个文件和目录都有三种基本权限：</p>
-<ul>
-<li><strong><code>r</code> (Read - 读取):</strong><ul>
-<li>对于文件：可以查看文件内容。</li>
-<li>对于目录：可以列出目录中的文件和子目录。</li>
-</ul>
-</li>
-<li><strong><code>w</code> (Write - 写入):</strong><ul>
-<li>对于文件：可以修改文件内容。</li>
-<li>对于目录：可以在目录中创建、删除或重命名文件。</li>
-</ul>
-</li>
-<li><strong><code>x</code> (Execute - 执行):</strong><ul>
-<li>对于文件：可以将文件作为程序执行。</li>
-<li>对于目录：可以进入该目录（例如，使用 <code>cd</code> 命令）。</li>
-</ul>
-</li>
-</ul>
-<h3 id="权限级别"><a href="#权限级别" class="headerlink" title="权限级别"></a>权限级别</h3><p>这三种权限分别应用于三个不同的级别：</p>
-<ul>
-<li><strong><code>u</code> (User - 用户):</strong> 文件的所有者。</li>
-<li><strong><code>g</code> (Group - 组):</strong> 拥有该文件的用户组。</li>
-<li><strong><code>o</code> (Others - 其他):</strong> 系统上的所有其他用户。</li>
-</ul>
-<h3 id="查看权限"><a href="#查看权限" class="headerlink" title="查看权限"></a>查看权限</h3><p>使用 <code>ls -l</code> 命令可以查看文件和目录的详细信息，包括其权限。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_HwRsK09O7B.png" alt="VirtualBoxVM_HwRsK09O7B.png"></p>
-<p>权限字符串（例如 <code>-rwxr-xr--</code>）的第一位表示文件类型（<code>-</code> 表示普通文件，<code>d</code> 表示目录）。接下来的九位分为三组，分别代表所有者、所属组和其他用户的权限。</p>
-<p><strong>示例分析 (<code>-rw-r--r--</code>):</strong></p>
-<ul>
-<li><strong>所有者 (<code>rw-</code>):</strong> 可以读取和写入，但不能执行。</li>
-<li><strong>所属组 (<code>r--</code>):</strong> 只能读取。</li>
-<li><strong>其他用户 (<code>r--</code>):</strong> 只能读取。</li>
-</ul>
-<h3 id="修改权限-chmod"><a href="#修改权限-chmod" class="headerlink" title="修改权限 (chmod)"></a>修改权限 (<code>chmod</code>)</h3><p><code>chmod</code> 命令用于修改文件或目录的权限。</p>
-<p><strong>使用方法:</strong></p>
-<p>可以使用符号模式（<code>u</code>, <code>g</code>, <code>o</code>, <code>a</code> (all) 和 <code>+</code>, <code>-</code>, <code>=</code>）来添加、删除或设置权限。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_6rP9k0Ad3h.png" alt="VirtualBoxVM_6rP9k0Ad3h.png"></p>
-<p><strong>示例:</strong></p>
-<ul>
-<li>为所属组添加写入权限：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> g+w error.log</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_UY52ik3ttn.png" alt="VirtualBoxVM_UY52ik3ttn.png"></p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JwZyceXRcl.png" alt="VirtualBoxVM_JwZyceXRcl.png"></p>
-<hr>
-<h2 id="文件所有权"><a href="#文件所有权" class="headerlink" title="文件所有权"></a>文件所有权</h2><h3 id="所有权概念"><a href="#所有权概念" class="headerlink" title="所有权概念"></a>所有权概念</h3><ul>
-<li><strong>用户 (User):</strong> 文件或目录的创建者，即所有者。</li>
-<li><strong>组 (Group):</strong> 一个用户组，可以共享文件访问权限。</li>
-</ul>
-<h3 id="修改所有权"><a href="#修改所有权" class="headerlink" title="修改所有权"></a>修改所有权</h3><h4 id="chown-命令"><a href="#chown-命令" class="headerlink" title="chown 命令"></a><code>chown</code> 命令</h4><p><code>chown</code> 命令用于更改文件或目录的所有者和&#x2F;或所属组。</p>
-<p><strong>使用方法:</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> [选项] 新所有者[:新组] 文件或目录</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例:</strong></p>
-<ul>
-<li>将 <code>file.txt</code> 的所有者更改为 <code>user1</code>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> user1 file.txt</span><br></pre></td></tr></table></figure></li>
-<li>同时更改所有者和所属组:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> user1:group1 file.txt</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="chgrp-命令"><a href="#chgrp-命令" class="headerlink" title="chgrp 命令"></a><code>chgrp</code> 命令</h4><p><code>chgrp</code> 命令仅用于更改文件或目录的所属组。</p>
-<p><strong>使用方法:</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chgrp</span> [选项] 新组 文件或目录</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例:</strong></p>
-<ul>
-<li>将 <code>file.txt</code> 的所属组更改为 <code>group1</code>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chgrp</span> group1 file.txt</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="递归更改-R"><a href="#递归更改-R" class="headerlink" title="递归更改 (-R)"></a>递归更改 (<code>-R</code>)</h4><p><code>-R</code> 选项可以递归地更改目录及其所有内容的所 有权。</p>
-<p><strong>示例:</strong></p>
-<ul>
-<li>递归地将 <code>/data</code> 目录的所有权赋予 <code>user1</code>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> -R user1 /data</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid4treqhtIFBq3I0P-t8wNM" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidFrUFuvb4rugp7UfRN7Y9F" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1340,6 +1318,10 @@
       <ul>
         
           <li>
+            <a href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/">16.linux分析服务器和获取支持</a>
+          </li>
+        
+          <li>
             <a href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">15.linux访问文件系统</a>
           </li>
         
@@ -1353,10 +1335,6 @@
         
           <li>
             <a href="/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/">12.linux网络管理</a>
-          </li>
-        
-          <li>
-            <a href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">11.linux日志监控与时间同步</a>
           </li>
         
       </ul>

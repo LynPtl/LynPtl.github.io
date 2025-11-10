@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>17.linux_shell入门 | LynPtl&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Linux Shell入门（施工中）Linux shell 脚本是系统管理员用来自动执行日常重复性任务的强大工具。 Shell简介 什么是 Shell？ 它就像一个容器 用户和内核&#x2F;操作系统之间的接口 CLI 是一个 Shell   查找您的 Shell echo $0 可用的 Shell “cat &#x2F;etc&#x2F;shells” 那些用户们的 Shell？&#x2F;etc&#x2F;passwd （如果这个文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="17.linux_shell入门">
+<meta property="og:url" content="https://lynptl.github.io/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="LynPtl&#39;s Blog">
+<meta property="og:description" content="Linux Shell入门（施工中）Linux shell 脚本是系统管理员用来自动执行日常重复性任务的强大工具。 Shell简介 什么是 Shell？ 它就像一个容器 用户和内核&#x2F;操作系统之间的接口 CLI 是一个 Shell   查找您的 Shell echo $0 可用的 Shell “cat &#x2F;etc&#x2F;shells” 那些用户们的 Shell？&#x2F;etc&#x2F;passwd （如果这个文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_KGa19AcOH9.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_8ZjB94MngO.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_g3SNULXNQv.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_dXJ0I2osJZ.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_jujQamtBu9.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_iD4y7sPlQ4.png">
+<meta property="article:published_time" content="2025-11-11T01:16:23.000Z">
+<meta property="article:modified_time" content="2025-11-10T14:17:20.903Z">
+<meta property="article:author" content="LynPtl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_KGa19AcOH9.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LynPtl's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LynPtl&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/image-bed.html">图床</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://LynPtl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-17-linux-shell入门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-11-11T01:16:23.000Z" itemprop="datePublished">2025-11-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>►<a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Shell%E5%85%A5%E9%97%A8/">Shell入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      17.linux_shell入门
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-Shell入门（施工中）"><a href="#Linux-Shell入门（施工中）" class="headerlink" title="Linux Shell入门（施工中）"></a>Linux Shell入门（施工中）</h1><p>Linux shell 脚本是系统管理员用来自动执行日常重复性任务的强大工具。</p>
+<h2 id="Shell简介"><a href="#Shell简介" class="headerlink" title="Shell简介"></a>Shell简介</h2><ul>
+<li>什么是 Shell？<ul>
+<li>它就像一个容器</li>
+<li>用户和内核&#x2F;操作系统之间的接口</li>
+<li>CLI 是一个 Shell</li>
+</ul>
+</li>
+<li>查找您的 Shell<ul>
+<li><code>echo $0</code></li>
+<li>可用的 Shell “<code>cat /etc/shells</code>”<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_KGa19AcOH9.png" alt="VirtualBoxVM_KGa19AcOH9.png"></li>
+<li>那些用户们的 Shell？<code>/etc/passwd</code> （如果这个文件里面的内容是什么你忘记了，那你就应该要复习了）</li>
+</ul>
+</li>
+<li>Windows GUI 是一个 shell</li>
+<li>Linux KDE GUI 是一个 shell</li>
+<li>Linux sh、bash 等都是 shell</li>
+</ul>
+<h2 id="Shell脚本"><a href="#Shell脚本" class="headerlink" title="Shell脚本"></a>Shell脚本</h2><ul>
+<li>什么是 Shell 脚本？<ul>
+<li>shell 脚本是一个可执行文件，其中包含按顺序执行的多个 shell 命令。该文件可以包含：</li>
+<li>Shell (<code>#!/bin/bash</code>)</li>
+<li>注释 (<code># comments</code>)</li>
+<li>命令 (<code>echo</code>, <code>cp</code>, <code>grep</code> 等)</li>
+<li>语句 (<code>if</code>, <code>while</code>, <code>for</code> 等)</li>
+</ul>
+</li>
+<li>Shell 脚本应具有可执行权限（例如 <code>-rwxr-xr-x</code>）</li>
+<li>Shell 脚本可以从绝对路径调用（例如 <code>/home/userdir/script.bash</code>）</li>
+<li>如果从当前位置调用，则为 <code>./script.bash</code></li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_8ZjB94MngO.png" alt="VirtualBoxVM_8ZjB94MngO.png">、</p>
+<p>这个例子就是想要告诉你，你需要赋予该脚本文件可执行权限。</p>
+<p>我们再写一个别的试试看？</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_g3SNULXNQv.png" alt="VirtualBoxVM_g3SNULXNQv.png"></p>
+<h2 id="Shell-变量例"><a href="#Shell-变量例" class="headerlink" title="Shell 变量例"></a>Shell 变量例</h2><p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_dXJ0I2osJZ.png" alt="VirtualBoxVM_dXJ0I2osJZ.png"></p>
+<h2 id="Shell-获取用户输出"><a href="#Shell-获取用户输出" class="headerlink" title="Shell 获取用户输出"></a>Shell 获取用户输出</h2><p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_jujQamtBu9.png" alt="VirtualBoxVM_jujQamtBu9.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_iD4y7sPlQ4.png" alt="VirtualBoxVM_iD4y7sPlQ4.png"></p>
+<p>shell是空格敏感的，建议定义变量的时候等号左右两边不要有任何空格。</p>
+<h2 id="Shell-脚本-基本脚本"><a href="#Shell-脚本-基本脚本" class="headerlink" title="Shell 脚本 - 基本脚本"></a>Shell 脚本 - 基本脚本</h2><ul>
+<li>使用 <code>echo</code> 输出到屏幕</li>
+<li>创建任务<ul>
+<li>告诉您的 id、当前位置、您的文件&#x2F;目录、系统信息</li>
+<li>创建文件或目录</li>
+<li>输出到文件 “<code>&gt;</code>”</li>
+</ul>
+</li>
+<li>通过脚本过滤&#x2F;文本处理器 (<code>cut</code>, <code>awk</code>, <code>grep</code>, <code>sort</code>, <code>uniq</code>, <code>wc</code>)</li>
+</ul>
+<h2 id="if-then-脚本"><a href="#if-then-脚本" class="headerlink" title="if-then 脚本"></a>if-then 脚本</h2><ul>
+<li>If then 语句<ul>
+<li><code>If this happens = do this</code></li>
+<li><code>Otherwise = do that</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="For-Loop-脚本"><a href="#For-Loop-脚本" class="headerlink" title="For-Loop 脚本"></a>For-Loop 脚本</h2><ul>
+<li>For 循环<ul>
+<li><code>Keep running until specified number of variable</code></li>
+<li><code>e.g: variable = 10 then run the script 10 times</code></li>
+<li><code>OR</code></li>
+<li><code>variable = green, blue, red (then run the script 3 times for each color.</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="grep-egrep-文本处理器命令"><a href="#grep-egrep-文本处理器命令" class="headerlink" title="grep&#x2F;egrep - 文本处理器命令"></a>grep&#x2F;egrep - 文本处理器命令</h2><ul>
+<li>什么是 grep？<ul>
+<li>grep 命令代表“全局正则表达式打印”，它逐行处理文本并打印与指定模式匹配的任何行</li>
+</ul>
+</li>
+<li><code>grep --version</code> 或 <code>grep --help</code> &#x3D; 检查版本或帮助</li>
+<li><code>grep keyword file</code> &#x3D; 从文件中搜索关键字</li>
+<li><code>grep -c keyword file</code> &#x3D; 搜索关键字并计数</li>
+<li><code>grep -i KEYword file</code> &#x3D; 搜索关键字忽略大小写</li>
+<li><code>grep -n keyword file</code> &#x3D; 显示匹配的行及其行号</li>
+<li><code>grep -v keyword file</code> &#x3D; 显示除关键字外的所有内容</li>
+<li><code>grep keyword file | awk &#39;{print $1}&#39;</code> &#x3D; 搜索关键字然后只给出第一个字段</li>
+<li><code>ls -l | grep Desktop</code> &#x3D; 搜索关键字然后只给出第一个字段</li>
+<li><code>egrep -i &quot;keyword|keyword2&quot; file</code> &#x3D; 搜索 2 个关键字。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/" data-id="cuidQ1GnVX9Diy3v-iUgeYDzT" data-title="17.linux_shell入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">16.linux分析服务器和获取支持</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Linux%E6%8E%92%E9%94%99/">Linux排错</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Shell%E5%85%A5%E9%97%A8/">Shell入门</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">十一月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/">17.linux_shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/">16.linux分析服务器和获取支持</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">15.linux访问文件系统</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/">14.linux安装更新和管理软件包</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">13.linux归档压缩和传输文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LynPtl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/image-bed.html" class="mobile-nav-link">图床</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

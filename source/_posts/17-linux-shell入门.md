@@ -5,7 +5,7 @@ categories:
   - Linux入门
   - Shell入门
 ---
-# Linux Shell入门（施工中）
+# Linux Shell入门
 
 Linux shell 脚本是系统管理员用来自动执行日常重复性任务的强大工具。
 
@@ -71,6 +71,13 @@ shell是空格敏感的，建议定义变量的时候等号左右两边不要有
     *   `If this happens = do this`
     *   `Otherwise = do that`
 
+![VirtualBoxVM_Szp4KJ0pdP.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_Szp4KJ0pdP.png)
+
+我们再随便写一个别的例子：
+
+![VirtualBoxVM_wrrs9ox1sX.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_wrrs9ox1sX.png)
+
+
 ## For-Loop 脚本
 
 *   For 循环
@@ -78,6 +85,10 @@ shell是空格敏感的，建议定义变量的时候等号左右两边不要有
     *   `e.g: variable = 10 then run the script 10 times`
     *   `OR`
     *   `variable = green, blue, red (then run the script 3 times for each color.`
+
+![VirtualBoxVM_AHARnsN3BW.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_AHARnsN3BW.png)
+
+![VirtualBoxVM_eJNjG6LWnW.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_eJNjG6LWnW.png)
 
 ## grep/egrep - 文本处理器命令
 
@@ -90,5 +101,9 @@ shell是空格敏感的，建议定义变量的时候等号左右两边不要有
 *   `grep -n keyword file` = 显示匹配的行及其行号
 *   `grep -v keyword file` = 显示除关键字外的所有内容
 *   `grep keyword file | awk '{print $1}'` = 搜索关键字然后只给出第一个字段
-*   `ls -l | grep Desktop` = 搜索关键字然后只给出第一个字段
+*   `ls -l | grep Desktop` = 这个你肯定知道什么意思
 *   `egrep -i "keyword|keyword2" file` = 搜索 2 个关键字。
+  
+![VirtualBoxVM_Ib6tN0ffoT.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_Ib6tN0ffoT.png)
+
+你可以将这些选项组合使用，请问你`-vi`选项是什么意思呢？

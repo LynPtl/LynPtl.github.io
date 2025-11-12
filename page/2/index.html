@@ -73,6 +73,108 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-9-linux服务与守护进程控制" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" class="article-date">
+  <time class="dt-published" datetime="2025-10-28T01:36:08.000Z" itemprop="datePublished">2025-10-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/">9.linux服务与守护进程控制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-服务与守护进程控制"><a href="#Linux-服务与守护进程控制" class="headerlink" title="Linux 服务与守护进程控制"></a>Linux 服务与守护进程控制</h1><h2 id="1-服务与守护进程基础"><a href="#1-服务与守护进程基础" class="headerlink" title="1. 服务与守护进程基础"></a>1. 服务与守护进程基础</h2><ul>
+<li><strong>服务 (Service)</strong> 或 <strong>应用程序 (Application)</strong> 在启动后会创建进程。当这些进程在后台持续运行时，它们就变成了 <strong>守护进程 (Daemon)</strong>。</li>
+<li>大多数服务都是守护进程。</li>
+<li>服务由 <code>systemctl</code> 命令控制。</li>
+<li><code>systemctl</code> 是一个 <code>systemd</code> 工具，负责控制 <code>systemd</code> 系统和服务管理器。</li>
+<li><code>systemd</code> 是一系列系统管理守护进程、工具和库的集合，它取代了 System V init 守护进程。</li>
+<li><code>systemd</code> 是大多数守护进程的父进程。</li>
+<li>控制服务的命令是 <code>systemctl</code>。</li>
+</ul>
+<hr>
+<h2 id="2-systemctl-命令详解与使用场景"><a href="#2-systemctl-命令详解与使用场景" class="headerlink" title="2. systemctl 命令详解与使用场景"></a>2. systemctl 命令详解与使用场景</h2><ul>
+<li><p><strong>检查系统是否安装了 systemd</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl --version</span><br></pre></td></tr></table></figure>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_CrBKqMAkpw.png" alt="VirtualBoxVM_CrBKqMAkpw.png"></p>
+</li>
+<li><p><strong>检查 systemd 是否正在运行</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep system</span><br></pre></td></tr></table></figure>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_RNswmKmk94.png" alt="VirtualBoxVM_RNswmKmk94.png"></p>
+</li>
+<li><p><strong>检查所有正在运行的服务</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl --all</span><br></pre></td></tr></table></figure>
+<p>列出所有 <code>systemd</code> 单元，包括非活动状态的。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_VcBiaiBH6u.png" alt="VirtualBoxVM_VcBiaiBH6u.png"></p>
+</li>
+<li><p><strong>管理服务状态 (status|start|stop|restart)</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status|start|stop|restart application.service</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>status</code>: 查看服务详细状态和日志。</li>
+<li><code>start</code>: 启动已停止的服务。</li>
+<li><code>stop</code>: 停止正在运行的服务。</li>
+<li><code>restart</code>: 重启服务，常用于配置更新后。</li>
+</ul>
+<p>比如我们尝试一下查看<code>firewalld</code>服务：<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_VBCgftyiKu.png" alt="VirtualBoxVM_VBCgftyiKu.png"><br>你在这里可以看到服务的状态，服务的路径等等信息。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_BrAi99nD5r.png" alt="VirtualBoxVM_BrAi99nD5r.png"></p>
+<p>这里我们尝试用<code>systemctl stop</code>杀掉这个服务尝试一下。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_too14Rx5eu.png" alt="VirtualBoxVM_too14Rx5eu.png"></p>
+<p>这里使用<code>ps</code>命令发现这里没有什么信息了。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_nTRFg6ryiG.png" alt="VirtualBoxVM_nTRFg6ryiG.png"></p>
+<p>再尝试用<code>system start</code>重启这个服务。</p>
+<p>有的时候你可能更改了某些配置，你想重启该服务获取新的状态，你就可以使用<code>systemctl restart</code>来实现。</p>
+<p>停止服务的最好方法就是使用<code>systemctl stop</code>，而不是<code>kill</code>。你可以使用<code>kill</code>之后使用<code>systemctl status</code>来观察和使用<code>systemctl stop</code>的区别在哪里。</p>
+</li>
+<li><p><strong>重新加载服务的配置</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl reload application.service</span><br></pre></td></tr></table></figure>
+<p>在不中断服务的情况下应用新的配置。<br>重新加载不会影响你的服务，而停止和启动是会影响的。如果你在配置的时候停止一个服务，那服务在停止的时候就会失效。但是如果你更改配置文件并使用reload，他会将配置文件重新加载到systemctl，而无需停止和启动应用程序。</p>
+</li>
+<li><p><strong>设置服务开机自启 (enable|disable)</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span>|<span class="built_in">disable</span> application.service</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>enable</code>: 配置服务在系统启动时自动启动。</li>
+<li><code>disable</code>: 阻止服务在系统启动时自动启动。</li>
+</ul>
+</li>
+<li><p><strong>彻底禁用服务 (mask|unmask)</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl mask|unmask application.service</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>mask</code>: 强制禁用服务，防止其被任何方式启动。</li>
+<li><code>unmask</code>: 解除服务的强制禁用状态。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidgBuly5eIx_56C7LABfTmW" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-8-linux进程管理与资源监控" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" class="article-date">
@@ -217,7 +319,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuid4ztuNkHD0s0j27YNDr7X-" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidv_897IQmuuskNQr-XHEHC" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -330,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidQhc3ghr0O89e5qnhZTjcq" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuid3QHmoJUoSD5-np2vp3IXD" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -423,7 +525,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidlYGpxXzTucxuvupt_4Drb" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidgp8ENM_1rCPcppiAy9BNy" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -602,7 +704,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidBgucNO0PgZoWDVr0291vY" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidikRatC7Uh9ABXCVv1vbVT" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -743,7 +845,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidFgu1xeaxgXd2aKqjF0ZB3" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidYqNHAfqvq-Mu8eZnfCk-F" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -829,7 +931,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidKbHFmDAAaXKorTFepXQYL" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidr-aTRyIZxQTMnyLYJ8Fac" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -981,7 +1083,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidmHr0ysSgpN4ySyV6I92eZ" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidMn8L4tuYJKAtEIHejyI7f" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1068,7 +1170,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidGK2nuWuZQLRaS6VnHiz7w" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/16/1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E5%AE%89%E8%A3%85linux/" data-id="cuidfb9v6fWaMlhsYePS-dtUq" data-title="1.虚拟机和安装linux" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1120,123 +1222,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidLkIaTcYDH74i5hYaLViVa" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-1两数之和" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" class="article-date">
-  <time class="dt-published" datetime="2025-10-02T12:18:01.000Z" itemprop="datePublished">2025-10-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">1.两数之和</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1 两数之和"></a>1 两数之和</h1><p>其实C++才是最适合研究算法的语言，但是我已经很多年没有碰cpp了，上一次碰的时候应该还是大二打第二次蓝桥杯的时候用的，或许我都快把万能头怎么写给忘掉了。</p>
-<p>#include&lt;bits&#x2F;stdc++.h&gt;<br>using namespace std;<br>结果居然是用Python写的这道题。因为最近几乎只是用过这一种语言。<br>一开始犯了很愚蠢的错误，我没有看清变量名，反而把初始化的数据结构名当作变量名了。<br>算法题的函数传参似乎都比较严格。在函数声明的时候就已经规范好了数据类型。<br>写了一个很基础的n^2遍历。</p>
-<p>这里有一个时间复杂度更低的方法O(1)就是哈希表 hash table。<br>unordered_map<br>值得一提的是，我看了人家hashtable的c++题解之后，立刻提出了一个问题：<br>“在不考虑内部顺序和哈希冲突的情况下，hash table的功能是否和dictionary数据类型有点相似呢？”  </p>
-<hr>
-<p>是的，在不考虑内部顺序和哈希冲突的情况下，哈希表(hash table)的功能确实与字典(dictionary)数据类型非常相似。<br>实际上，Python的字典(dict)就是使用哈希表作为其底层实现的。这两者之间的关系非常紧密：</p>
-<p>键值对存储：两者都是通过键值对(key-value pairs)来存储数据。<br>快速查找：两者都提供接近O(1)的时间复杂度进行查找操作。也就是说，无论字典有多大，查找一个键所需的时间基本是常数时间。<br>通过键访问：两者都是通过键来访问对应的值，而不是通过索引位置。</p>
-<p>不过，当我们考虑内部顺序和哈希冲突时，确实会发现一些区别：</p>
-<p>内部顺序：传统的哈希表通常不保证顺序，而Python的字典从Python 3.7开始保证了插入顺序。<br>哈希冲突处理：不同哈希表实现可能使用不同的哈希冲突解决策略，例如开放寻址法或链式哈希。Python的字典使用开放寻址法来处理哈希冲突。  </p>
-<hr>
-<pre><code>class Solution {
-public:
-    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
-        unordered_map&lt;int, int&gt; hashtable;
-        for (int i = 0; i &lt; nums.size(); ++i) {
-            auto it = hashtable.find(target - nums[i]);
-            if (it != hashtable.end()) {
-                return {it-&gt;second, i};
-            }
-            hashtable[nums[i]] = i;
-        }
-        return {};
-    }
-};
-
-作者：御三五 🥇
-链接：https://leetcode.cn/problems/two-sum/solutions/657225/tu-jie-guan-fang-tui-jian-ti-jie-liang-s-02xs/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-</code></pre>
-<hr>
-<pre><code>class Solution:
-    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
-        hashtable = dict()
-        for i, num in enumerate(nums):
-            if target - num in hashtable:
-                return [hashtable[target - num], i]
-            hashtable[nums[i]] = i
-        return []
-
-作者：御三五 🥇
-链接：https://leetcode.cn/problems/two-sum/solutions/657225/tu-jie-guan-fang-tui-jian-ti-jie-liang-s-02xs/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-</code></pre>
-<hr>
-<pre><code>class Solution:
-    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
-        length = len(nums)
-        for i in range(length):
-            for j in range(i+1, length):
-                if nums[i]+nums[j] == target:
-                    result = [i,j]
-                    return result
-</code></pre>
-<h2 id="C-容器"><a href="#C-容器" class="headerlink" title="C++容器"></a>C++容器</h2><p>对于.find() 方法对于所有 C++ 标准库中的 unordered_ 系列容器基本上都是一样的。这些容器包括：<br>-unordered_map<br>-unordered_multimap<br>-unordered_set<br>-unordered_multiset<br>所有这些容器的 .find() 都返回一个迭代器，如果找到了元素，返回指向该元素的迭代器，如果没找到元素，返回 容器.end()    </p>
-<p>时间复杂度：<br>平均情况：O(1)（常数时间）<br>最坏情况：O(n)（当哈希冲突严重时）</p>
-<p>用法：  </p>
-<pre><code>auto it = container.find(key);
-if (it != container.end()) {
-    // 找到了元素
-}
-</code></pre>
-<p>这里auto是自动分配类型，因为这里是一个容器类型，通常就直接用auto自动适配了。<br>对于map而言，find()搜索的是key。  </p>
-<p>对于unordered_map&lt;int,int&gt; example访问key和value：<br>example-&gt;first 访问key<br>example-&gt;second 访问value<br>此外，如果要返回容器类型，那么是用{}来包裹值。  </p>
-<pre><code>// 创建并初始化vector
-vector&lt;int&gt; nums = {1, 2, 3, 4, 5};  // 初始化一个包含5个元素的vector
-
-// 直接构造
-vector&lt;int&gt; nums2 {1, 2, 3, 4, 5};   // 等同于上面的写法
-
-// 函数返回
-return {1, 2};                      // 如果函数返回类型是vector&lt;int&gt;，这会创建并返回包含两个元素的vector
-</code></pre>
-<p>C++11 引入了花括号初始化（uniform initialization）作为一种通用的初始化容器的方式<br>适用于所有标准容器类型（vector, map, set 等）</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/02/1%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" data-id="cuidEufl4Lql4XJv1k3UaXqVd" data-title="1.两数之和" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/02/128%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" data-id="cuidefbjWe8isN8rSC3lBbQBw" data-title="128.最长连续序列" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1291,6 +1277,10 @@ return {1, 2};                      // 如果函数返回类型是vector&lt;int&
       <ul>
         
           <li>
+            <a href="/2025/11/13/18-linux%E8%AE%A1%E5%88%92%E6%9C%AA%E6%9D%A5%E4%BB%BB%E5%8A%A1/">18.linux计划未来任务</a>
+          </li>
+        
+          <li>
             <a href="/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/">17.linux_shell入门</a>
           </li>
         
@@ -1304,10 +1294,6 @@ return {1, 2};                      // 如果函数返回类型是vector&lt;int&
         
           <li>
             <a href="/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/">14.linux安装更新和管理软件包</a>
-          </li>
-        
-          <li>
-            <a href="/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">13.linux归档压缩和传输文件</a>
           </li>
         
       </ul>

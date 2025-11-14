@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>19.linux优化系统性能 | LynPtl&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Linux 优化系统性能Linux 系统在默认安装后已经经过了良好的调整，但仍可以根据系统性能和应用程序要求进行一些调整。 什么是 tuned？ tuned 的发音是 “tune-d” Tune 用于系统调优，d 代表守护进程 它是一个 systemd 服务，用于调整 Linux 系统性能 tuned 软件包的名称是 tuned tuned 服务附带预定义的配置文件和设置 根据选择的配置文件，tu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="19.linux优化系统性能">
+<meta property="og:url" content="https://lynptl.github.io/2025/11/15/19-linux%E4%BC%98%E5%8C%96%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/index.html">
+<meta property="og:site_name" content="LynPtl&#39;s Blog">
+<meta property="og:description" content="Linux 优化系统性能Linux 系统在默认安装后已经经过了良好的调整，但仍可以根据系统性能和应用程序要求进行一些调整。 什么是 tuned？ tuned 的发音是 “tune-d” Tune 用于系统调优，d 代表守护进程 它是一个 systemd 服务，用于调整 Linux 系统性能 tuned 软件包的名称是 tuned tuned 服务附带预定义的配置文件和设置 根据选择的配置文件，tu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_uR9da9NXI9.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_6XzVHGPiKq.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_eh0IlmMQxw.png">
+<meta property="og:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_HgLhq1XXrO.png">
+<meta property="article:published_time" content="2025-11-15T02:53:21.000Z">
+<meta property="article:modified_time" content="2025-11-14T15:54:20.162Z">
+<meta property="article:author" content="LynPtl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_uR9da9NXI9.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LynPtl's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LynPtl&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/image-bed.html">图床</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://LynPtl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-19-linux优化系统性能" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/11/15/19-linux%E4%BC%98%E5%8C%96%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/" class="article-date">
+  <time class="dt-published" datetime="2025-11-15T02:53:21.000Z" itemprop="datePublished">2025-11-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      19.linux优化系统性能
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-优化系统性能"><a href="#Linux-优化系统性能" class="headerlink" title="Linux 优化系统性能"></a>Linux 优化系统性能</h1><p>Linux 系统在默认安装后已经经过了良好的调整，但仍可以根据系统性能和应用程序要求进行一些调整。</p>
+<h2 id="什么是-tuned？"><a href="#什么是-tuned？" class="headerlink" title="什么是 tuned？"></a>什么是 tuned？</h2><ul>
+<li><code>tuned</code> 的发音是 “tune-d”</li>
+<li><code>Tune</code> 用于系统调优，<code>d</code> 代表守护进程</li>
+<li>它是一个 <code>systemd</code> 服务，用于调整 Linux 系统性能</li>
+<li><code>tuned</code> 软件包的名称是 <code>tuned</code></li>
+<li><code>tuned</code> 服务附带预定义的配置文件和设置</li>
+<li>根据选择的配置文件，<code>tuned</code> 服务会自动调整系统以获得最佳性能。例如，如果您正在下载大文件，<code>tuned</code> 将调整网络，或者如果检测到高存储读&#x2F;写，它将调整 IO 设置</li>
+<li><code>tuned</code> 守护进程在服务启动时或选择新的调优配置文件时应用系统设置。</li>
+</ul>
+<h2 id="tuned-配置文件"><a href="#tuned-配置文件" class="headerlink" title="tuned 配置文件"></a>tuned 配置文件</h2><table>
+<thead>
+<tr>
+<th align="left">Tuned profile</th>
+<th align="left">Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">balanced</td>
+<td align="left">适用于需要在节能和性能之间取得平衡的系统</td>
+</tr>
+<tr>
+<td align="left">desktop</td>
+<td align="left">源自 balanced 配置文件。提供更快的交互式应用程序响应</td>
+</tr>
+<tr>
+<td align="left">throughput-performance</td>
+<td align="left">调整系统以实现最大吞吐量</td>
+</tr>
+<tr>
+<td align="left">latency-performance</td>
+<td align="left">适用于需要低延迟且以功耗为代价的服务器系统</td>
+</tr>
+<tr>
+<td align="left">network-latency</td>
+<td align="left">源自 latency-performance 配置文件。它启用其他网络调整参数以提供低网络延迟</td>
+</tr>
+<tr>
+<td align="left">network-throughput</td>
+<td align="left">源自 throughput-performance 配置文件。应用其他网络调整参数以实现最大网络吞吐量</td>
+</tr>
+<tr>
+<td align="left">powersave</td>
+<td align="left">调整系统以实现最大节能</td>
+</tr>
+<tr>
+<td align="left">oracle</td>
+<td align="left">针对基于吞吐量性能配置文件的 Oracle 数据库负载进行了优化</td>
+</tr>
+<tr>
+<td align="left">virtual-guest</td>
+<td align="left">如果在虚拟机上运行，则调整系统以获得最大性能</td>
+</tr>
+<tr>
+<td align="left">virtual-host</td>
+<td align="left">如果作为虚拟机的主机，则调整系统以获得最大性能</td>
+</tr>
+</tbody></table>
+<h2 id="tuned-命令"><a href="#tuned-命令" class="headerlink" title="tuned 命令"></a>tuned 命令</h2><ul>
+<li>检查是否已安装 tuned 软件包<ul>
+<li><code>rpm -qa | grep tuned</code></li>
+</ul>
+</li>
+<li>如果尚未安装，请安装 tuned 软件包<ul>
+<li><code>yum install tuned</code></li>
+</ul>
+</li>
+<li>检查 tuned 服务状态<ul>
+<li><code>systemctl status|enable|start tuned</code></li>
+<li><code>systemctl enable tuned</code> (在启动时启用)<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_uR9da9NXI9.png" alt="VirtualBoxVM_uR9da9NXI9.png"></li>
+</ul>
+</li>
+<li>用于更改 tuned 守护进程设置的命令<ul>
+<li><code>tuned-adm</code></li>
+</ul>
+</li>
+<li>检查哪个配置文件处于活动状态<ul>
+<li><code>tuned-adm active</code> 当你想知道系统当前正应用哪一套优化规则时，使用此命令。</li>
+</ul>
+</li>
+<li>列出可用的配置文件<ul>
+<li><code>tuned-adm list</code> 这会显示一个列表，包含像 balanced, powersave, throughput-performance 等所有可用的预设配置文件，方便您从中选择。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_6XzVHGPiKq.png" alt="VirtualBoxVM_6XzVHGPiKq.png"></li>
+</ul>
+</li>
+<li>更改为所需的配置文件<ul>
+<li><code>tuned-adm profile profile-name</code> 切换到指定的性能配置文件。</li>
+<li>例如: <code>tuned-adm profile virtual-guest</code> 会将系统优化设置为最适合虚拟机客户机的模式。</li>
+</ul>
+</li>
+<li>检查 tuned 的建议<ul>
+<li><code>tuned-adm recommend</code> 让 tuned 根据它对您当前系统硬件和状态的分析，推荐一个最合适的配置文件。</li>
+</ul>
+</li>
+<li>关闭 tuned 设置守护进程<ul>
+<li><code>tuned-adm off</code> 关闭 tuned 的动态调优功能。tuned 将停止监控系统并停止应用任何优化规则。系统参数会恢复到 tuned 干预之前的状态。如果想完全禁用，除了 off 之外，还应该用 systemctl disable –now tuned 来停止并禁用该服务。</li>
+</ul>
+</li>
+<li>通过 Web 控制台更改配置文件<ul>
+<li>登录到 <code>https://192.168.1.x:9090</code> （记不记得这是之前我们介绍过的那个Cockpit）</li>
+<li><code>Overview</code> -&gt; <code>Configuration</code> -&gt; <code>Performance profile</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="nice-renice"><a href="#nice-renice" class="headerlink" title="nice&#x2F;renice"></a>nice&#x2F;renice</h2><ul>
+<li>保持系统微调的另一种方法是通过 <code>nice</code> 和 <code>renice</code> 命令确定进程的优先级</li>
+<li>如果服务器有 1 个 CPU，那么它一次只能执行 1 个计算&#x2F;进程，而其他进程必须等待（先进先出）</li>
+<li>使用 <code>nice</code> 和 <code>renice</code> 命令，我们可以使系统优先处理某些进程</li>
+<li>此优先级可以设置在 40 个不同的级别</li>
+<li><code>nice</code> 级别值的范围从 -20（最高优先级）到 19（最低优先级），默认情况下，进程继承其父进程的 <code>nice</code> 级别，通常为 0。</li>
+</ul>
+<h2 id="检查进程优先级"><a href="#检查进程优先级" class="headerlink" title="检查进程优先级"></a>检查进程优先级</h2><ul>
+<li>检查进程优先级<ul>
+<li><code>top</code></li>
+</ul>
+</li>
+<li><code>Ni</code> 值是就是Nice值，是用户空间和优先级，<code>PR</code> 是 Linux 内核使用的进程的实际优先级。在 Linux 系统中，优先级范围是 0 到 139，其中 0 到 99 用于实时，100 到 139 用于用户<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_eh0IlmMQxw.png" alt="VirtualBoxVM_eh0IlmMQxw.png"></li>
+<li>也可以通过 <code>ps</code> 命令以及正确的选项查看进程优先级<ul>
+<li><code>$ ps axo pid,comm,nice,cls --sort=-nice</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_HgLhq1XXrO.png" alt="VirtualBoxVM_HgLhq1XXrO.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="设置-更改进程优先级"><a href="#设置-更改进程优先级" class="headerlink" title="设置&#x2F;更改进程优先级"></a>设置&#x2F;更改进程优先级</h2><ul>
+<li>设置进程优先级<ul>
+<li><code>nice -n # process-name</code></li>
+<li>例如 <code>nice -n -15 top</code></li>
+</ul>
+</li>
+<li>更改进程优先级<ul>
+<li><code>renice -n # process-name</code></li>
+<li>例如 <code>renice -n 12 PID</code></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/11/15/19-linux%E4%BC%98%E5%8C%96%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/" data-id="cuidw1tMEkapPK2_CkU02BKF3" data-title="19.linux优化系统性能" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/11/13/18-linux%E8%AE%A1%E5%88%92%E6%9C%AA%E6%9D%A5%E4%BB%BB%E5%8A%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">18.linux计划未来任务</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Linux%E6%8E%92%E9%94%99/">Linux排错</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E5%85%A5%E9%97%A8/Shell%E5%85%A5%E9%97%A8/">Shell入门</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">十一月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/11/15/19-linux%E4%BC%98%E5%8C%96%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/">19.linux优化系统性能</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/13/18-linux%E8%AE%A1%E5%88%92%E6%9C%AA%E6%9D%A5%E4%BB%BB%E5%8A%A1/">18.linux计划未来任务</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/">17.linux_shell入门</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/">16.linux分析服务器和获取支持</a>
+          </li>
+        
+          <li>
+            <a href="/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">15.linux访问文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LynPtl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/image-bed.html" class="mobile-nav-link">图床</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -73,6 +73,150 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-21-linux管理SELinux安全性" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/11/15/21-linux%E7%AE%A1%E7%90%86SELinux%E5%AE%89%E5%85%A8%E6%80%A7/" class="article-date">
+  <time class="dt-published" datetime="2025-11-15T23:38:23.000Z" itemprop="datePublished">2025-11-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/11/15/21-linux%E7%AE%A1%E7%90%86SELinux%E5%AE%89%E5%85%A8%E6%80%A7/">21.linux管理SELinux安全性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-管理-SELinux-安全性-（补图中）"><a href="#Linux-管理-SELinux-安全性-（补图中）" class="headerlink" title="Linux 管理 SELinux 安全性 （补图中）"></a>Linux 管理 SELinux 安全性 （补图中）</h1><h2 id="什么是-SELinux？"><a href="#什么是-SELinux？" class="headerlink" title="什么是 SELinux？"></a>什么是 SELinux？</h2><ul>
+<li>Security-Enhanced Linux (SELinux) 是一个 Linux 内核安全模块，它提供了一种支持访问控制安全策略的机制，包括强制访问控制 (MAC)。</li>
+<li>它是美国国家安全局 (NSA) 和 SELinux 社区的一个项目。</li>
+<li>与标准的自由访问控制 (DAC)（如 <code>chmod</code>）不同，SELinux 强制执行系统范围的策略，即使是 root 用户也可能受到限制。</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/uploads/1763208961600-pq0szv-image.png" alt="image.png"></p>
+<p><em>上图解释：在传统的 DAC 模型下，如果 Apache 服务被攻破，攻击者可能获得该进程的所有者权限，从而访问用户主目录中的文件。在 SELinux (MAC) 模型下，即使服务被攻破，SELinux 策略也会阻止它访问策略之外的资源（如用户主目录），除非有明确的规则允许。</em></p>
+<h2 id="SELinux-Security-Enhanced-Linux"><a href="#SELinux-Security-Enhanced-Linux" class="headerlink" title="SELinux (Security Enhanced Linux)"></a>SELinux (Security Enhanced Linux)</h2><h3 id="SELinux-模式"><a href="#SELinux-模式" class="headerlink" title="SELinux 模式"></a>SELinux 模式</h3><ul>
+<li><strong>Enforcing</strong>: 默认启用。强制执行 SELinux 安全策略，阻止并记录所有违反策略的活动。</li>
+<li><strong>Permissive</strong>: 禁用强制执行，但会记录所有违反策略的活动。这对于调试和排查问题非常有用。</li>
+<li><strong>Disabled</strong>: 完全禁用 SELinux，不记录任何活动。</li>
+</ul>
+<h3 id="检查-SELinux-状态"><a href="#检查-SELinux-状态" class="headerlink" title="检查 SELinux 状态"></a>检查 SELinux 状态</h3><p>您可以使用 <code>sestatus</code> 或 <code>getenforce</code> 命令来查看 SELinux 的当前状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看详细的 SELinux 状态</span></span><br><span class="line">sestatus</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者只查看当前模式</span></span><br><span class="line">getenforce</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/11/VirtualBoxVM_2QqUku9Tn5.png" alt="VirtualBoxVM_2QqUku9Tn5.png"></p>
+<h3 id="SELinux-设置"><a href="#SELinux-设置" class="headerlink" title="SELinux 设置"></a>SELinux 设置</h3><ul>
+<li><p><strong>临时更改模式</strong><br>您可以使用 <code>setenforce</code> 命令在 <code>Enforcing</code> 和 <code>Permissive</code> 模式之间切换。这在系统重启后会失效。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到 Permissive 模式</span></span><br><span class="line">setenforce 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换回 Enforcing 模式</span></span><br><span class="line">setenforce 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>永久更改模式</strong><br>要永久更改 SELinux 模式，需要修改配置文件 <code>/etc/selinux/config</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑配置文件</span></span><br><span class="line"><span class="comment"># 将 SELINUX=enforcing 修改为 SELINUX=permissive 或 SELINUX=disabled</span></span><br><span class="line">vi /etc/selinux/config</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>: 修改此文件后需要重启系统才能生效。</p>
+</li>
+<li><p><strong><code>.autorelabel</code> 文件</strong><br>如果在禁用 SELinux 后重新启用它，或者文件系统的 SELinux 标签出现问题，您可以在根目录下创建一个名为 <code>.autorelabel</code> 的空文件，然后重启系统。这会强制系统在下次启动时重新标记所有文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> /.autorelabel</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="SELinux-的两个核心概念"><a href="#SELinux-的两个核心概念" class="headerlink" title="SELinux 的两个核心概念"></a>SELinux 的两个核心概念</h3><ul>
+<li><strong>标签 (Labeling)</strong>: SELinux 为系统中的每个主体（进程）和客体（文件、目录、端口等）分配一个安全上下文（Context）。</li>
+<li><strong>类型强制 (Type Enforcement)</strong>: SELinux 的主要决策机制。它通过策略规则来控制一个特定类型的主体（如 <code>httpd_t</code>）能否访问一个特定类型的客体（如 <code>httpd_sys_content_t</code>）。</li>
+</ul>
+<h3 id="查看文件-目录的-SELinux-标签"><a href="#查看文件-目录的-SELinux-标签" class="headerlink" title="查看文件&#x2F;目录的 SELinux 标签"></a>查看文件&#x2F;目录的 SELinux 标签</h3><ul>
+<li><p>使用 <code>ls -lZ</code> 或 <code>ls -dZ</code> 命令可以查看文件或目录的 SELinux 上下文。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 /usr/sbin/httpd 文件的标签</span></span><br><span class="line">[root@localhost ~]# <span class="built_in">ls</span> -lZ /usr/sbin/httpd</span><br><span class="line">-rwxr-xr-x. root root system_u:object_r:httpd_exec_t:s0 /usr/sbin/httpd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 /etc/httpd 目录的标签</span></span><br><span class="line">[root@localhost ~]# <span class="built_in">ls</span> -dZ /etc/httpd</span><br><span class="line">drwxr-xr-x. root root system_u:object_r:httpd_config_t:s0 /etc/httpd</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="查看进程和套接字的-SELinux-标签"><a href="#查看进程和套接字的-SELinux-标签" class="headerlink" title="查看进程和套接字的 SELinux 标签"></a>查看进程和套接字的 SELinux 标签</h3><ul>
+<li><p><strong>查看进程标签</strong>: 使用 <code>ps axZ</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 httpd 进程的标签</span></span><br><span class="line">[root@localhost ~]# ps axZ | grep httpd</span><br><span class="line">system_u:system_r:httpd_t:s0   21289 ?      Ss   0:00 /usr/sbin/httpd -DFOREGROUND</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看套接字（端口）标签</strong>: 使用 <code>netstat -tnlpZ</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 httpd 监听的端口标签</span></span><br><span class="line">[root@localhost ~]# netstat -tnlpZ | grep http</span><br><span class="line">tcp6       0      0 :::80                   :::*                    LISTEN      system_u:system_r:httpd_t:s0 21289/httpd</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="SELinux-标签（安全上下文）详解"><a href="#SELinux-标签（安全上下文）详解" class="headerlink" title="SELinux 标签（安全上下文）详解"></a>SELinux 标签（安全上下文）详解</h3><p>SELinux 标签也称为安全上下文，其标准格式为 <code>user:role:type:level</code>。让我们用 <code>system_u:object_r:httpd_exec_t:s0</code> 这个例子来详细解释每个部分：</p>
+<ol>
+<li><p><strong>User (<code>system_u</code>)</strong>: 代表 <strong>SELinux 用户</strong>。这与常规的 Linux 用户账户（如 <code>root</code>）不同。它定义了该用户在 SELinux 策略中的权限范围。<code>system_u</code> 是一个用于系统进程和对象的通用 SELinux 用户。</p>
+</li>
+<li><p><strong>Role (<code>object_r</code>)</strong>: 代表 <strong>SELinux 角色</strong>。它作为“用户”和“类型”之间的桥梁。对于文件、目录等资源（即“客体”），其角色几乎总是 <code>object_r</code>。对于正在运行的进程（即“主体”），您通常会看到 <code>system_r</code> 角色。</p>
+</li>
+<li><p><strong>Type (<code>httpd_exec_t</code>)</strong>: 这是日常 SELinux 管理中<strong>最关键的部分</strong>。<strong>类型</strong>定义了一个文件或进程的“身份”。SELinux 的所有策略规则都是基于类型来制定的。例如：</p>
+<ul>
+<li><code>httpd_exec_t</code>: 表示这是一个可供 Apache (httpd) 服务<strong>执行</strong>的文件。</li>
+<li><code>httpd_config_t</code>: 表示这是一个 Apache 服务的<strong>配置文件</strong>。</li>
+<li><code>httpd_t</code>: 表示这是正在运行的 Apache 服务<strong>进程</strong>自身的类型。</li>
+</ul>
+<p>SELinux 的核心机制是“类型强制 (Type Enforcement)”，它会制定类似这样的规则：“类型为 <code>httpd_t</code> 的进程，被允许读取类型为 <code>httpd_config_t</code> 的文件，并执行类型为 <code>httpd_exec_t</code> 的文件。”</p>
+</li>
+<li><p><strong>Level (<code>s0</code>)</strong>: 这与一个叫做“多级别安全 (MLS)”的高级功能相关。它定义了一个“敏感度级别”，其中 <code>s0</code> 是最低级别。该机制用于防止信息从高密级流向低密级。在大多数标准服务器配置中，这个值通常固定为 <code>s0</code>，您一般无需关心。</p>
+</li>
+</ol>
+<p>总而言之，在处理 SELinux 问题时，<strong>类型 (Type)</strong> 是您最需要关注的部分。它精确地告诉 SELinux 系统中的每个文件和进程是什么，以便 SELinux 能够严格执行策略，决定“谁可以对谁做什么”。</p>
+<h3 id="管理-SELinux-设置的命令"><a href="#管理-SELinux-设置的命令" class="headerlink" title="管理 SELinux 设置的命令"></a>管理 SELinux 设置的命令</h3><ul>
+<li><code>semanage</code> 命令用于管理 SELinux 的设置，包括：<ul>
+<li><code>login</code>：管理 SELinux 用户到 Linux 用户的映射。</li>
+<li><code>user</code>：管理 SELinux 用户。</li>
+<li><code>port</code>：管理端口的 SELinux 类型。</li>
+<li><code>interface</code>：管理网络接口的 SELinux 类型。</li>
+<li><code>module</code>：管理 SELinux 策略模块。</li>
+<li><code>node</code>：管理网络节点的 SELinux 类型。</li>
+<li><code>file context</code>：管理文件上下文的映射规则。</li>
+<li><code>boolean</code>：管理 SELinux 布尔值，用于启用或禁用策略中的特定规则。</li>
+<li><code>permissive state</code>：管理域的宽容状态。</li>
+<li><code>dontaudit</code>：管理 <code>dontaudit</code> 规则，用于隐藏某些拒绝消息。</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用布尔值和-chcon"><a href="#使用布尔值和-chcon" class="headerlink" title="使用布尔值和 chcon"></a>使用布尔值和 chcon</h3><h4 id="SELinux-布尔值-Boolean"><a href="#SELinux-布尔值-Boolean" class="headerlink" title="SELinux 布尔值 (Boolean)"></a>SELinux 布尔值 (Boolean)</h4><p>布尔值是 SELinux 中的一种开关机制（ON &#x2F; OFF），用于在运行时动态修改策略行为，而无需重写或重新加载整个策略。</p>
+<ul>
+<li><p>SELinux 提供了许多预定义的布尔值。</p>
+</li>
+<li><p>例如，您可以通过布尔值来控制：</p>
+<ul>
+<li>是否允许 FTP 服务访问用户主目录 (<code>ftp_home_dir</code>)。</li>
+<li>Web 服务器是否可以连接到 LDAP 服务器 (<code>httpd_can_network_connect</code>)。</li>
+</ul>
+</li>
+<li><p><strong>列出所有布尔值及其当前状态</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getsebool -a</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">semanage boolean -l</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>启用或禁用一个布尔值</strong><br>使用 <code>setsebool</code> 命令。<code>-P</code> 标志使其永久生效（即重启后保持不变）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 永久开启一个名为 boolean_name 的布尔值</span></span><br><span class="line">setsebool -P boolean_name on</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="检查-SELinux-错误"><a href="#检查-SELinux-错误" class="headerlink" title="检查 SELinux 错误"></a>检查 SELinux 错误</h4><p>当 SELinux 阻止某个操作时，相关的错误信息通常会被记录到审计日志中。您可以使用 <code>journalctl</code> 来查看它们。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 过滤与 &quot;avc: denied&quot; 相关的日志</span></span><br><span class="line">journalctl -g <span class="string">&quot;avc: denied&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="更改文件或目录的类型标签"><a href="#更改文件或目录的类型标签" class="headerlink" title="更改文件或目录的类型标签"></a>更改文件或目录的类型标签</h4><p>在某些情况下，您可能需要手动更改文件或目录的 SELinux 类型以匹配策略。</p>
+<ul>
+<li><p><strong>临时更改 (chcon)</strong><br><code>chcon</code> 命令可以立即更改文件或目录的类型，但这种更改是临时的。如果系统执行了文件系统重新标记 (<code>restorecon</code> 或 <code>touch /.autorelabel</code>)，这些更改将会丢失。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chcon</span> -t httpd_sys_content_t /path/to/your/file</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>永久更改 (semanage fcontext)</strong><br>要进行永久性更改，您应该使用 <code>semanage fcontext</code> 来定义一个文件路径的默认上下文规则，然后使用 <code>restorecon</code> 来应用这个规则。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 添加一个新的上下文规则</span></span><br><span class="line">semanage fcontext -a -t httpd_sys_content_t <span class="string">&quot;/path/to/your/directory(/.*)?&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 应用规则，恢复默认上下文</span></span><br><span class="line">restorecon -Rv /path/to/your/directory</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/11/15/21-linux%E7%AE%A1%E7%90%86SELinux%E5%AE%89%E5%85%A8%E6%80%A7/" data-id="cuid5VTcyslaLb_dlDf1t0LXZ" data-title="21.linux管理SELinux安全性" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-20-linux-ACL控制文件访问" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/11/15/20-linux-ACL%E6%8E%A7%E5%88%B6%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE/" class="article-date">
@@ -145,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/15/20-linux-ACL%E6%8E%A7%E5%88%B6%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE/" data-id="cuidePkT8xK2NHhW_5KHoah5N" data-title="20.linux ACL控制文件访问" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/15/20-linux-ACL%E6%8E%A7%E5%88%B6%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE/" data-id="cuidNODB4wN7SaF2ui1IMm8B2" data-title="20.linux ACL控制文件访问" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -320,7 +464,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/15/19-linux%E4%BC%98%E5%8C%96%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/" data-id="cuidZ_a-xf1grg2-1vD43edLi" data-title="19.linux优化系统性能" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/15/19-linux%E4%BC%98%E5%8C%96%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/" data-id="cuidsNapocdozEB4xYehqYScn" data-title="19.linux优化系统性能" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -442,7 +586,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/13/18-linux%E8%AE%A1%E5%88%92%E6%9C%AA%E6%9D%A5%E4%BB%BB%E5%8A%A1/" data-id="cuidSQah0TAVlzOXQ4ax-pfwA" data-title="18.linux计划未来任务" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/13/18-linux%E8%AE%A1%E5%88%92%E6%9C%AA%E6%9D%A5%E4%BB%BB%E5%8A%A1/" data-id="cuid92_H15QEPgMJF0Mpz-off" data-title="18.linux计划未来任务" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -571,7 +715,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/" data-id="cuid_lHa0mMbbS0zVcDagckfo" data-title="17.linux_shell入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/" data-id="cuidtMR0PMCR5mdpHum5EdvdI" data-title="17.linux_shell入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -662,7 +806,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/" data-id="cuidAdJMDbKd-WJV3BReYcn8N" data-title="16.linux分析服务器和获取支持" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/" data-id="cuidioSmoCjGn4MTuPMfXGgaM" data-title="16.linux分析服务器和获取支持" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -764,7 +908,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" data-id="cuidJ-abbKFGuaatxOYUQOUwP" data-title="15.linux访问文件系统" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/03/15-linux%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" data-id="cuid7B2fE5Nqp7CTYrMdmMZws" data-title="15.linux访问文件系统" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -888,7 +1032,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" data-id="cuidHzaJAzilxojhF_l89iYkp" data-title="14.linux安装更新和管理软件包" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/02/14-linux%E5%AE%89%E8%A3%85%E6%9B%B4%E6%96%B0%E5%92%8C%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6%E5%8C%85/" data-id="cuidQSY0-igiDtqraK1Lx8UXF" data-title="14.linux安装更新和管理软件包" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1032,7 +1176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuidrpyGzPp89z8XDSDOvXj0p" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/11/01/13-linux%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%92%8C%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" data-id="cuidFgX72q4Vs6ocAg8fl1ivR" data-title="13.linux归档压缩和传输文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1173,132 +1317,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidA3gxTanII-D6wnZQA8CN4" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-11-linux日志监控与时间同步" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" class="article-date">
-  <time class="dt-published" datetime="2025-10-30T01:44:00.000Z" itemprop="datePublished">2025-10-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">11.linux日志监控与时间同步</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Linux-日志监控与时间同步"><a href="#Linux-日志监控与时间同步" class="headerlink" title="Linux 日志监控与时间同步"></a>Linux 日志监控与时间同步</h1><h2 id="1-日志监控-Log-Monitoring"><a href="#1-日志监控-Log-Monitoring" class="headerlink" title="1. 日志监控 (Log Monitoring)"></a>1. 日志监控 (Log Monitoring)</h2><ul>
-<li><strong>目的</strong>: 系统管理中非常重要的一部分，用于分析系统事件和故障排除。</li>
-<li><strong>日志目录</strong>: <code>/var/log</code></li>
-<li><strong>常见日志文件&#x2F;目录</strong>:<ul>
-<li><code>boot</code>: 系统启动日志</li>
-<li><code>chronyd</code>: NTP (Network Time Protocol) 服务日志</li>
-<li><code>cron</code>: 计划任务日志</li>
-<li><code>maillog</code>: 邮件服务日志</li>
-<li><code>secure</code>: 安全相关日志 (如认证失败)</li>
-<li><code>messages</code>: 核心系统日志</li>
-<li><code>httpd</code>: Web 服务器 (Apache) 日志</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jsOwGTYJhf.png" alt="VirtualBoxVM_jsOwGTYJhf.png"></p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_DA5KNbi58H.png" alt="VirtualBoxVM_DA5KNbi58H.png"></p>
-<p>对于那些<code>root</code>所有权的文件，我们作为一个普通用户是无权的。需要提权之后才能查看。<br>（当然有一部分并不是不能看，还记得我们的文件权限吗？那些最后对于所有人开放r权限的就可以看。）</p>
-<p>切换到root用户后，我们尝试来看一个日志。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kuvzsNnH8H.png" alt="VirtualBoxVM_kuvzsNnH8H.png"></p>
-<p>现在看的这个是boot.log，是启动日志。你的每一次开机新产生的启动日志都会覆盖这个文件。</p>
-<p>对于这些日志具体有什么内容，请你自行学习。作为一个合格的管理员，你应该要知道出现什么样的问题需要看哪一个日志。</p>
-<hr>
-<h2 id="2-维护精确时间-Maintaining-Accurate-Time"><a href="#2-维护精确时间-Maintaining-Accurate-Time" class="headerlink" title="2. 维护精确时间 (Maintaining Accurate Time)"></a>2. 维护精确时间 (Maintaining Accurate Time)</h2><ul>
-<li><strong>重要性</strong>:<ul>
-<li>对于跨多个系统的日志文件分析至关重要。</li>
-<li>是生产环境中敏感应用程序 (如数据库) 的要求。</li>
-</ul>
-</li>
-<li><strong>NTP (Network Time Protocol)</strong>:<ul>
-<li>机器与 NTP 服务器同步时间的标准方式。</li>
-<li>NTP 服务器是专门的机器&#x2F;计算机，响应客户端的时间同步请求。</li>
-</ul>
-</li>
-<li><strong>chronyd</strong>:<ul>
-<li>在较新的 Linux 版本中用于时间同步的 NTP 服务。</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-1-时间管理相关命令"><a href="#2-1-时间管理相关命令" class="headerlink" title="2.1. 时间管理相关命令"></a>2.1. 时间管理相关命令</h3><ul>
-<li><strong>显示系统时间&#x2F;日期</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">date</span></span><br></pre></td></tr></table></figure></li>
-<li><strong>时间&#x2F;日期和 NTP 设置命令</strong>: <code>timedatectl</code><ul>
-<li><strong>获取帮助</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl --<span class="built_in">help</span></span><br></pre></td></tr></table></figure></li>
-<li><strong>查看时区列表</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl list-timezones</span><br></pre></td></tr></table></figure></li>
-<li><strong>设置时区</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-timezone America/New_York</span><br></pre></td></tr></table></figure></li>
-<li><strong>设置时间 (HH:MM:SS)</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-time HH:MM:SS</span><br></pre></td></tr></table></figure></li>
-<li><strong>设置时间与日期 (YYYY-MM-DD HH:MM:SS)</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-time <span class="string">&#x27;YYYY-MM-DD HH:MM:SS&#x27;</span></span><br><span class="line"><span class="comment"># 示例: timedatectl set-time &#x27;2021-08-18 20:15:50&#x27;</span></span><br></pre></td></tr></table></figure></li>
-<li><strong>启用 NTP 同步</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-ntp <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kzrc58cNQp.png" alt="VirtualBoxVM_kzrc58cNQp.png"></p>
-<h3 id="2-2-chronyd-详情"><a href="#2-2-chronyd-详情" class="headerlink" title="2.2. chronyd 详情"></a>2.2. chronyd 详情</h3><ul>
-<li><strong>目的</strong>: 时间同步</li>
-<li><strong>包名</strong>: <code>chronyd</code></li>
-<li><strong>配置文件</strong>: <code>/etc/chrony.conf</code></li>
-<li><strong>日志文件</strong>: <code>/var/log/chrony</code></li>
-<li><strong>服务管理</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start/restart chronyd</span><br></pre></td></tr></table></figure></li>
-<li><strong>程序命令</strong>: <code>chronyc</code></li>
-</ul>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0fBDrctMqs.png" alt="VirtualBoxVM_0fBDrctMqs.png"></p>
-<p>如果你没有<code>chronyd</code>，请运行<code>yum install chrony</code>.</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_mTxlrJbiq0.png" alt="VirtualBoxVM_mTxlrJbiq0.png"></p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_56qInuPznr.png" alt="VirtualBoxVM_56qInuPznr.png"></p>
-<p>使用<code>chronyc</code>进入程序，你可以使用<code>help</code>来查看所支持的命令：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0nXkuDhQUc.png" alt="VirtualBoxVM_0nXkuDhQUc.png"></p>
-<p>这里给了一个使用示范，我使用<code>sources</code>查看正在使用的。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QwqPhB9EeR.png" alt="VirtualBoxVM_QwqPhB9EeR.png"></p>
-<p>最后题外话：</p>
-<p>从 <strong>RHEL 7</strong> (Red Hat Enterprise Linux 7) 和 CentOS 7 开始，Red Hat 就已经将默认的 NTP 客户端从 <code>ntpd</code> 换成了 <code>chrony</code>。</p>
-<ul>
-<li><code>chrony</code> (即 <code>chronyd</code> 服务) 被证实<strong>同步速度更快</strong>，<strong>资源占用更低</strong>。</li>
-<li>它对<strong>虚拟机(VM)和网络连接不稳定</strong>的设备（比如笔记本电脑）支持得更好。</li>
-</ul>
-<p>因此，在你现在使用的大多数现代 RHEL&#x2F;CentOS&#x2F;Rocky Linux&#x2F;AlmaLinux 系统上：</p>
-<ol>
-<li><code>ntpd</code> 服务（来自 <code>ntp</code> 软件包）<strong>默认不再安装</strong>。</li>
-<li><code>chronyd</code> 服务（来自 <code>chrony</code> 软件包）<strong>是默认安装并启用的</strong>。</li>
-</ol>
-<p>如果你想查看时间同步服务，你应该检查 <code>chrony</code> 的状态：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status chronyd</span><br></pre></td></tr></table></figure>
-
-<p>如果你确实<strong>特别</strong>需要使用 <code>ntpd</code>，你仍然可以手动安装它（比如 <code>sudo yum install ntp</code>），但在安装前你<strong>必须</strong>先停止并禁用 <code>chrony</code>，因为它们会占用相同的端口（UDP 123）而产生冲突。</p>
-<p>不过，除非有特殊的老旧应用需求，否则强烈推荐使用现代的 <code>chrony</code>。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuid0bJwg0Ty8uATiRgk3KqnY" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/12-linux%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/" data-id="cuidnt8dunwaey7llUxjg1V9i" data-title="12.linux网络管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1353,6 +1372,10 @@
       <ul>
         
           <li>
+            <a href="/2025/11/15/21-linux%E7%AE%A1%E7%90%86SELinux%E5%AE%89%E5%85%A8%E6%80%A7/">21.linux管理SELinux安全性</a>
+          </li>
+        
+          <li>
             <a href="/2025/11/15/20-linux-ACL%E6%8E%A7%E5%88%B6%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE/">20.linux ACL控制文件访问</a>
           </li>
         
@@ -1366,10 +1389,6 @@
         
           <li>
             <a href="/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/">17.linux_shell入门</a>
-          </li>
-        
-          <li>
-            <a href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/">16.linux分析服务器和获取支持</a>
           </li>
         
       </ul>

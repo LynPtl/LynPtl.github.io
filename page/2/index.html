@@ -73,6 +73,131 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-11-linux日志监控与时间同步" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" class="article-date">
+  <time class="dt-published" datetime="2025-10-30T01:44:00.000Z" itemprop="datePublished">2025-10-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">11.linux日志监控与时间同步</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-日志监控与时间同步"><a href="#Linux-日志监控与时间同步" class="headerlink" title="Linux 日志监控与时间同步"></a>Linux 日志监控与时间同步</h1><h2 id="1-日志监控-Log-Monitoring"><a href="#1-日志监控-Log-Monitoring" class="headerlink" title="1. 日志监控 (Log Monitoring)"></a>1. 日志监控 (Log Monitoring)</h2><ul>
+<li><strong>目的</strong>: 系统管理中非常重要的一部分，用于分析系统事件和故障排除。</li>
+<li><strong>日志目录</strong>: <code>/var/log</code></li>
+<li><strong>常见日志文件&#x2F;目录</strong>:<ul>
+<li><code>boot</code>: 系统启动日志</li>
+<li><code>chronyd</code>: NTP (Network Time Protocol) 服务日志</li>
+<li><code>cron</code>: 计划任务日志</li>
+<li><code>maillog</code>: 邮件服务日志</li>
+<li><code>secure</code>: 安全相关日志 (如认证失败)</li>
+<li><code>messages</code>: 核心系统日志</li>
+<li><code>httpd</code>: Web 服务器 (Apache) 日志</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_jsOwGTYJhf.png" alt="VirtualBoxVM_jsOwGTYJhf.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_DA5KNbi58H.png" alt="VirtualBoxVM_DA5KNbi58H.png"></p>
+<p>对于那些<code>root</code>所有权的文件，我们作为一个普通用户是无权的。需要提权之后才能查看。<br>（当然有一部分并不是不能看，还记得我们的文件权限吗？那些最后对于所有人开放r权限的就可以看。）</p>
+<p>切换到root用户后，我们尝试来看一个日志。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kuvzsNnH8H.png" alt="VirtualBoxVM_kuvzsNnH8H.png"></p>
+<p>现在看的这个是boot.log，是启动日志。你的每一次开机新产生的启动日志都会覆盖这个文件。</p>
+<p>对于这些日志具体有什么内容，请你自行学习。作为一个合格的管理员，你应该要知道出现什么样的问题需要看哪一个日志。</p>
+<hr>
+<h2 id="2-维护精确时间-Maintaining-Accurate-Time"><a href="#2-维护精确时间-Maintaining-Accurate-Time" class="headerlink" title="2. 维护精确时间 (Maintaining Accurate Time)"></a>2. 维护精确时间 (Maintaining Accurate Time)</h2><ul>
+<li><strong>重要性</strong>:<ul>
+<li>对于跨多个系统的日志文件分析至关重要。</li>
+<li>是生产环境中敏感应用程序 (如数据库) 的要求。</li>
+</ul>
+</li>
+<li><strong>NTP (Network Time Protocol)</strong>:<ul>
+<li>机器与 NTP 服务器同步时间的标准方式。</li>
+<li>NTP 服务器是专门的机器&#x2F;计算机，响应客户端的时间同步请求。</li>
+</ul>
+</li>
+<li><strong>chronyd</strong>:<ul>
+<li>在较新的 Linux 版本中用于时间同步的 NTP 服务。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-1-时间管理相关命令"><a href="#2-1-时间管理相关命令" class="headerlink" title="2.1. 时间管理相关命令"></a>2.1. 时间管理相关命令</h3><ul>
+<li><strong>显示系统时间&#x2F;日期</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">date</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>时间&#x2F;日期和 NTP 设置命令</strong>: <code>timedatectl</code><ul>
+<li><strong>获取帮助</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl --<span class="built_in">help</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>查看时区列表</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl list-timezones</span><br></pre></td></tr></table></figure></li>
+<li><strong>设置时区</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-timezone America/New_York</span><br></pre></td></tr></table></figure></li>
+<li><strong>设置时间 (HH:MM:SS)</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-time HH:MM:SS</span><br></pre></td></tr></table></figure></li>
+<li><strong>设置时间与日期 (YYYY-MM-DD HH:MM:SS)</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-time <span class="string">&#x27;YYYY-MM-DD HH:MM:SS&#x27;</span></span><br><span class="line"><span class="comment"># 示例: timedatectl set-time &#x27;2021-08-18 20:15:50&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>启用 NTP 同步</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-ntp <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_kzrc58cNQp.png" alt="VirtualBoxVM_kzrc58cNQp.png"></p>
+<h3 id="2-2-chronyd-详情"><a href="#2-2-chronyd-详情" class="headerlink" title="2.2. chronyd 详情"></a>2.2. chronyd 详情</h3><ul>
+<li><strong>目的</strong>: 时间同步</li>
+<li><strong>包名</strong>: <code>chronyd</code></li>
+<li><strong>配置文件</strong>: <code>/etc/chrony.conf</code></li>
+<li><strong>日志文件</strong>: <code>/var/log/chrony</code></li>
+<li><strong>服务管理</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start/restart chronyd</span><br></pre></td></tr></table></figure></li>
+<li><strong>程序命令</strong>: <code>chronyc</code></li>
+</ul>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0fBDrctMqs.png" alt="VirtualBoxVM_0fBDrctMqs.png"></p>
+<p>如果你没有<code>chronyd</code>，请运行<code>yum install chrony</code>.</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_mTxlrJbiq0.png" alt="VirtualBoxVM_mTxlrJbiq0.png"></p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_56qInuPznr.png" alt="VirtualBoxVM_56qInuPznr.png"></p>
+<p>使用<code>chronyc</code>进入程序，你可以使用<code>help</code>来查看所支持的命令：</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_0nXkuDhQUc.png" alt="VirtualBoxVM_0nXkuDhQUc.png"></p>
+<p>这里给了一个使用示范，我使用<code>sources</code>查看正在使用的。</p>
+<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_QwqPhB9EeR.png" alt="VirtualBoxVM_QwqPhB9EeR.png"></p>
+<p>最后题外话：</p>
+<p>从 <strong>RHEL 7</strong> (Red Hat Enterprise Linux 7) 和 CentOS 7 开始，Red Hat 就已经将默认的 NTP 客户端从 <code>ntpd</code> 换成了 <code>chrony</code>。</p>
+<ul>
+<li><code>chrony</code> (即 <code>chronyd</code> 服务) 被证实<strong>同步速度更快</strong>，<strong>资源占用更低</strong>。</li>
+<li>它对<strong>虚拟机(VM)和网络连接不稳定</strong>的设备（比如笔记本电脑）支持得更好。</li>
+</ul>
+<p>因此，在你现在使用的大多数现代 RHEL&#x2F;CentOS&#x2F;Rocky Linux&#x2F;AlmaLinux 系统上：</p>
+<ol>
+<li><code>ntpd</code> 服务（来自 <code>ntp</code> 软件包）<strong>默认不再安装</strong>。</li>
+<li><code>chronyd</code> 服务（来自 <code>chrony</code> 软件包）<strong>是默认安装并启用的</strong>。</li>
+</ol>
+<p>如果你想查看时间同步服务，你应该检查 <code>chrony</code> 的状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status chronyd</span><br></pre></td></tr></table></figure>
+
+<p>如果你确实<strong>特别</strong>需要使用 <code>ntpd</code>，你仍然可以手动安装它（比如 <code>sudo yum install ntp</code>），但在安装前你<strong>必须</strong>先停止并禁用 <code>chrony</code>，因为它们会占用相同的端口（UDP 123）而产生冲突。</p>
+<p>不过，除非有特殊的老旧应用需求，否则强烈推荐使用现代的 <code>chrony</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lynptl.github.io/2025/10/30/11-linux%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" data-id="cuid2j-sjAYYJ7i13uFeJSc0Y" data-title="11.linux日志监控与时间同步" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Troubleshoot-Linux-1-修改sshd端口重启报错" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" class="article-date">
@@ -136,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuid1UBaOEHjl3vsqQe-8ed-2" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/30/Troubleshoot-Linux-1-%E4%BF%AE%E6%94%B9sshd%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99/" data-id="cuid7-55pY3QuD2lfCogSHFvA" data-title="Troubleshoot Linux 1 修改sshd端口重启报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -278,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidt08gRb7Oleaa6lV4UXdZB" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/29/10-linux%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BF%9D%E6%8A%A4SSH/" data-id="cuidUM7F1KBSMmtE1fZ-MOzAA" data-title="10.linux配置和保护SSH" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -380,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidJ04frXZB_RN7bd1bjcmhO" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/28/9-linux%E6%9C%8D%E5%8A%A1%E4%B8%8E%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" data-id="cuidgLTkkBv5drcLw7A009XmB" data-title="9.linux服务与守护进程控制" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -536,7 +661,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidQms-dyA3E13tP1mXsh6pN" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/25/8-linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7/" data-id="cuidZ5gVIDwx6-yTIxwxzzn1R" data-title="8.linux进程管理与资源监控" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -649,7 +774,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidwjAIvVxbnkPlFYD7oSAJB" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/7-linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E6%89%80%E6%9C%89%E6%9D%83/" data-id="cuidcQo5RD1V_40qFlRtK5OAW" data-title="7.linux文件权限与所有权" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -742,7 +867,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidif_3W4ByaL6YA56k3vf6H" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/24/6-linux%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90/" data-id="cuidEf63sQ3I9OtVr-jLZtDY3" data-title="6.linux用户管理和权限" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -921,7 +1046,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuidMM0sqUCJU09XhebsYEKtS" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/22/5-linux%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="cuid8hjiVxTSA-5LsPAMSlUOZ" data-title="5.linux本地用户和组管理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1062,7 +1187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuidI4yLXjYIIU7nALt71I_sL" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/20/4-Linux%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cuiddnDx9Y2nUVDor0yPlIB25" data-title="4.Linux文本编辑器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1148,159 +1273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidwo3nyg9juQIGwM88Z9_yE" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2-从命令行管理文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2025-10-17T21:20:20.000Z" itemprop="datePublished">2025-10-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%85%A5%E9%97%A8/">Linux入门</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/">2.从命令行管理文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Linux-2-从命令行管理文件"><a href="#Linux-2-从命令行管理文件" class="headerlink" title="Linux 2 从命令行管理文件"></a>Linux 2 从命令行管理文件</h1><p>关于文件系统基础、文件和目录操作、链接、以及I&#x2F;O重定向和管道的核心概念。</p>
-<hr>
-<h2 id="1-文件系统-Filesystem-基础"><a href="#1-文件系统-Filesystem-基础" class="headerlink" title="1. 文件系统 (Filesystem) 基础"></a>1. 文件系统 (Filesystem) 基础</h2><h3 id="什么是文件系统？"><a href="#什么是文件系统？" class="headerlink" title="什么是文件系统？"></a>什么是文件系统？</h3><ul>
-<li>文件系统是操作系统用来管理文件和目录的一种机制。</li>
-<li>它控制着数据如何被存储和检索，实现对文件和目录的有序化、结构化管理。</li>
-<li>常见的类Unix文件系统类型包括：<code>ext3</code>, <code>ext4</code>, <code>xfs</code>。</li>
-</ul>
-<h3 id="ls-l-输出详解"><a href="#ls-l-输出详解" class="headerlink" title="ls -l 输出详解"></a><code>ls -l</code> 输出详解</h3><p>执行 <code>ls -l</code> 命令可以查看文件和目录的详细属性，输出结果通常包含9列：</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_2JATjTiWmo.png" alt="VirtualBoxVM_2JATjTiWmo.png"></p>
-<ol>
-<li><strong>文件类型和权限</strong>: 第一个字符表示类型（<code>-</code> 普通文件, <code>d</code> 目录, <code>l</code> 符号链接），后面9个字符表示权限。</li>
-<li><strong>硬链接数</strong>: 指向此文件inode的硬链接数量。</li>
-<li><strong>所有者 (Owner)</strong>: 文件或目录的拥有者。</li>
-<li><strong>所属组 (Group)</strong>: 文件或目录所属的用户组。</li>
-<li><strong>大小 (Size)</strong>: 文件的大小（以字节为单位）。</li>
-<li><strong>最后修改月份</strong>: …</li>
-<li><strong>最后修改日期</strong>: …</li>
-<li><strong>最后修改时间</strong>: …</li>
-<li><strong>名称 (Name)</strong>: 文件或目录的名称。</li>
-</ol>
-<p>举个例子，如果我对<code>-</code>开头的文件使用cd命令，是会被拒绝的，因为这是一个普通文件而不是一个目录。</p>
-<hr>
-<h2 id="2-核心文件-目录操作命令"><a href="#2-核心文件-目录操作命令" class="headerlink" title="2. 核心文件&#x2F;目录操作命令"></a>2. 核心文件&#x2F;目录操作命令</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><ul>
-<li><strong>创建文件</strong>:<ul>
-<li><code>touch &lt;filename&gt;</code>: 创建一个空文件或更新现有文件的时间戳。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_fbQmsabdCL.png" alt="VirtualBoxVM_fbQmsabdCL.png"></li>
-<li><code>cp &lt;source&gt; &lt;destination&gt;</code>: 复制文件。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_IsxqxI6uee.png" alt="VirtualBoxVM_IsxqxI6uee.png"></li>
-<li><code>vi &lt;filename&gt;</code>: 使用 <code>vi</code> 编辑器创建并编辑文件。输入<code>:</code>进入命令行模式，<code>wq</code>退出并保存。<code>vi/vim</code>的更多详细操作我们暂且按下不表。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_lCQqIF4OsD.png" alt="VirtualBoxVM_lCQqIF4OsD.png"><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_rm1HpuZGCu.png" alt="VirtualBoxVM_rm1HpuZGCu.png"></li>
-</ul>
-</li>
-<li><strong>创建目录</strong>:<ul>
-<li><code>mkdir &lt;dirname&gt;</code>: 创建一个新目录。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_HjFMv0fGgi.png" alt="VirtualBoxVM_HjFMv0fGgi.png"></li>
-</ul>
-</li>
-</ul>
-<h3 id="维护"><a href="#维护" class="headerlink" title="维护"></a>维护</h3><ul>
-<li><strong>复制</strong>: <code>cp</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_NPQoyFceDj.png" alt="VirtualBoxVM_NPQoyFceDj.png"><br>你可以随时用<code>man</code>命令来查看关于这些命令的文档。</li>
-<li><strong>删除</strong>: <code>rm</code> (文件), <code>rmdir</code> (空目录), <code>rm -r</code> (递归删除目录及其内容)<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_hielyK9uBK.png" alt="VirtualBoxVM_hielyK9uBK.png"><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_yQLvdzhCH3.png" alt="VirtualBoxVM_yQLvdzhCH3.png"></li>
-<li><strong>移动&#x2F;重命名</strong>: <code>mv</code><br>重命名也是使用<code>mv</code>命令，mv并不是单纯的移动。而是“修改指针”或者“复制并删除”。<br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_RJVHDT0lBs.png" alt="VirtualBoxVM_RJVHDT0lBs.png"></li>
-<li><strong>更改属组</strong>: <code>chgrp</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_D4Bj8wEr4H.png" alt="VirtualBoxVM_D4Bj8wEr4H.png"></li>
-<li><strong>更改属主</strong>: <code>chown</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_gDnKuWtUBd.png" alt="VirtualBoxVM_gDnKuWtUBd.png"></li>
-</ul>
-<hr>
-<h2 id="3-硬链接-Hard-Link-vs-软链接-Soft-Link"><a href="#3-硬链接-Hard-Link-vs-软链接-Soft-Link" class="headerlink" title="3. 硬链接 (Hard Link) vs 软链接 (Soft Link)"></a>3. 硬链接 (Hard Link) vs 软链接 (Soft Link)</h2><ul>
-<li><strong>Inode</strong>: 可以理解为文件在硬盘上的唯一标识符，存储了文件的元数据（如权限、大小、位置等）。</li>
-</ul>
-<h3 id="硬链接-ln"><a href="#硬链接-ln" class="headerlink" title="硬链接 (ln)"></a>硬链接 (<code>ln</code>)</h3><ul>
-<li><strong>创建</strong>: <code>ln &lt;original_file&gt; &lt;hard_link_name&gt;</code></li>
-<li><strong>特性</strong>:<ul>
-<li>实质上是给同一个 inode 创建了另一个文件名。</li>
-<li>删除、移动或重命名原始文件，不会影响硬链接，因为它直接指向 inode。</li>
-<li>不能跨文件系统创建。</li>
-<li>不能对目录创建硬链接。</li>
-</ul>
-</li>
-</ul>
-<h3 id="软链接-符号链接-ln-s"><a href="#软链接-符号链接-ln-s" class="headerlink" title="软链接&#x2F;符号链接 (ln -s)"></a>软链接&#x2F;符号链接 (<code>ln -s</code>)</h3><ul>
-<li><strong>创建</strong>: <code>ln -s &lt;original_file&gt; &lt;soft_link_name&gt;</code></li>
-<li><strong>特性</strong>:<ul>
-<li>相当于一个快捷方式，存储的是原始文件的路径。</li>
-<li>如果原始文件被删除、移动或重命名，软链接将失效（dangling link）。</li>
-<li>可以跨文件系统创建。</li>
-<li>可以对目录创建软链接。</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/Acrobat_r72maEYC26.png" alt="Acrobat_r72maEYC26.png"></p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_270WwlUQZC.png" alt="VirtualBoxVM_270WwlUQZC.png"></p>
-<p>通过这张图我们可以看到，硬链接的inode号是一样的，而软链接的是不一样的。</p>
-<p><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_TswrrY0LRT.png" alt="VirtualBoxVM_TswrrY0LRT.png"></p>
-<p>如果我们rm掉~目录下的源文件，你发现那个硬链接的还是会在，硬链接数从2变为了1，而软链接的变成了悬空的指针（变成了红色高亮的断开链接）。</p>
-<hr>
-<h2 id="4-I-O-重定向与管道"><a href="#4-I-O-重定向与管道" class="headerlink" title="4. I&#x2F;O 重定向与管道"></a>4. I&#x2F;O 重定向与管道</h2><p>Linux Shell中有三个标准流：</p>
-<ul>
-<li>文件描述符<strong>0</strong>: <code>stdin</code> (标准输入)</li>
-<li>文件描述符<strong>1</strong>: <code>stdout</code> (标准输出)</li>
-<li>文件描述符<strong>2</strong>: <code>stderr</code> (标准错误)</li>
-</ul>
-<h3 id="重定向-Redirects"><a href="#重定向-Redirects" class="headerlink" title="重定向 (Redirects)"></a>重定向 (Redirects)</h3><ul>
-<li><strong>输出重定向</strong>:<ul>
-<li><code>&gt;</code>: 将命令的 <strong>标准输出</strong> 重定向到一个文件（覆盖文件原有内容）。<code>&gt;</code> 符号默认就是操作 <code>1 (stdout)</code>。<ul>
-<li><code>ls -l &gt; listings.txt</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_f7QGhtEPSz.png" alt="VirtualBoxVM_f7QGhtEPSz.png"></li>
-</ul>
-</li>
-<li><code>&gt;&gt;</code>: 将命令的 <strong>标准输出</strong> 追加到一个文件的末尾。<ul>
-<li><code>echo &quot;Hello&quot; &gt;&gt; listings.txt</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_awiNI9DV83.png" alt="VirtualBoxVM_awiNI9DV83.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>错误重定向</strong>:<ul>
-<li><code>2&gt;</code>: 将命令的 <strong>标准错误</strong> 重定向到一个文件。<ul>
-<li><code>ls /nonexistent 2&gt; error.log</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_AXNVY779w6.png" alt="VirtualBoxVM_AXNVY779w6.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>输入重定向</strong>:<ul>
-<li><code>&lt;</code>: 将文件的内容作为命令的 <strong>标准输入</strong>。<ul>
-<li><code>cat &lt; listings.txt</code><br><img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_2zVUYsvw02.png" alt="VirtualBoxVM_2zVUYsvw02.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="管道-Pipes"><a href="#管道-Pipes" class="headerlink" title="管道 (Pipes)"></a>管道 (Pipes)</h3><ul>
-<li><strong>符号</strong>: <code>|</code></li>
-<li><strong>作用</strong>: 将一个命令的 <code>stdout</code> 直接连接到另一个命令的 <code>stdin</code>，实现命令的串联处理。</li>
-<li><strong>示例</strong>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 ls -l 的输出通过 more 命令进行分页显示</span></span><br><span class="line"><span class="built_in">ls</span> -l | more</span><br></pre></td></tr></table></figure>
-<img src="https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_wzmqbbh4BI.png" alt="VirtualBoxVM_wzmqbbh4BI.png"></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lynptl.github.io/2025/10/17/2-%E4%BB%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6/" data-id="cuidUllbHKPebxWbeSrhpgl9t" data-title="2.从命令行管理文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://lynptl.github.io/2025/10/19/3-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4/" data-id="cuidHEsCJ6PKjq1ncQ6GFC3w0" data-title="3.Linux帮助命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1355,6 +1328,10 @@
       <ul>
         
           <li>
+            <a href="/2025/11/15/21-linux%E7%AE%A1%E7%90%86SELinux%E5%AE%89%E5%85%A8%E6%80%A7/">21.linux管理SELinux安全性</a>
+          </li>
+        
+          <li>
             <a href="/2025/11/15/20-linux-ACL%E6%8E%A7%E5%88%B6%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE/">20.linux ACL控制文件访问</a>
           </li>
         
@@ -1368,10 +1345,6 @@
         
           <li>
             <a href="/2025/11/11/17-linux-shell%E5%85%A5%E9%97%A8/">17.linux_shell入门</a>
-          </li>
-        
-          <li>
-            <a href="/2025/11/09/16-linux%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E8%8E%B7%E5%8F%96%E6%94%AF%E6%8C%81/">16.linux分析服务器和获取支持</a>
           </li>
         
       </ul>

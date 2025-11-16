@@ -28,6 +28,7 @@ menu:
 # Define paths for custom files, relative to the site root.
 custom_file_path:
   style: source/_data/style.styl
+  footer: source/_data/footer.swig
 
 favicon:
   small: /favicon-16x16.png
@@ -67,3 +68,7 @@ symbols_count_time:
 sidebar:
   b2t: true
   scrollpercent: true
+
+# Footer
+footer:
+  powered: false

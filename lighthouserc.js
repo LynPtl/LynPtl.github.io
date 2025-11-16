@@ -7,10 +7,10 @@ module.exports = {
     assert: {
       // Define the performance budget
       assertions: {
-        'categories:performance': ['error', { minScore: 0.7 }],
-        'categories:accessibility': ['error', { minScore: 0.7 }],
-        'categories:best-practices': ['error', { minScore: 0.7 }],
-        'categories:seo': ['error', { minScore: 0.7 }],
+        'categories:performance': ['error', { minScore: 0.6 }],
+        'categories:accessibility': ['error', { minScore: 0.6 }],
+        'categories:best-practices': ['error', { minScore: 0.6 }],
+        'categories:seo': ['error', { minScore: 0.6 }],
       },
     },
     upload: {

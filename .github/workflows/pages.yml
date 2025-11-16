@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-npm-cache
       - name: Install Dependencies
-        run: npm install
+        run: npm install && npm install -g @lhci/cli@0.13.x
       - name: Build
         run: npm run build
       - name: Link Checker
@@ -37,11 +37,7 @@ jobs:
           args: --verbose --no-progress './public/**/*.html'
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Lighthouse CI
-        uses: lighthouse-ci/action@v10
-        with:
-          upload_temporary_public_storage: true
-          assert_results_min_score_performance: 0.9
-          assert_results_min_score_accessibility: 0.9
+        run: lhci autorun
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

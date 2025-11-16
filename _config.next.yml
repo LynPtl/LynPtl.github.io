@@ -1,0 +1,38 @@
+# Schemes
+scheme: Gemini
+
+# Sidebar Avatar
+avatar:
+  url: /android-chrome-192x192.png
+  rounded: true
+  rotated: false
+
+# Sidebar Social Links
+social:
+  GitHub: https://github.com/LynPtl || fab fa-github
+  E-Mail: mailto:ptlantern@gmail.com || fa fa-envelope
+  QQ: tencent://message/?uin=2763909063 || fab fa-qq
+
+menu:
+  home: / || fa fa-home
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+  image-bed: /image-bed.html || fa fa-image
+  #about: /about/ || fa fa-user
+  #schedule: /schedule/ || fa fa-calendar
+  #sitemap: /sitemap.xml || fa fa-sitemap
+  #commonweal: /404.html || fa fa-heartbeat
+
+# Custom File paths
+# Define paths for custom files, relative to the site root.
+custom_file_path:
+  style: source/_data/style.styl
+
+favicon:
+  small: /favicon-16x16.png
+  medium: /favicon-32x32.png
+  apple_touch_icon: /apple-touch-icon.png
+  android_192: /android-chrome-192x192.png
+  android_512: /android-chrome-512x512.png
+  ico: /favicon.ico

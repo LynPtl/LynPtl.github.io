@@ -134,3 +134,7 @@ symbols_count_time:
   exclude_codeblock: true
   awl: 4
   wpm: 275
+
+# Sitemap
+sitemap:
+  path: sitemap.xml

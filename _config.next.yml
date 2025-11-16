@@ -72,3 +72,10 @@ sidebar:
 # Footer
 footer:
   powered: false
+
+# Busuanzi Analytics
+busuanzi_count:
+  enable: true
+  total_visitors: true
+  total_views: true
+  post_views: true

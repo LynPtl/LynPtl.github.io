@@ -36,6 +36,12 @@ jobs:
         with:
           args: --verbose --no-progress './public/**/*.html'
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Lighthouse CI
+        uses: lighthouse-ci/action@v10
+        with:
+          upload_temporary_public_storage: true
+          assert_results_min_score_performance: 0.9
+          assert_results_min_score_accessibility: 0.9
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

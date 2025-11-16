@@ -104,7 +104,7 @@ deploy:
   type: ''
 
 giscus:
-  enable: false
+  enable: true
   repo: "LynPtl/LynPtl.github.io" # Github repository name
   repo_id: "R_kgDOP38XZQ" # Github repository id
   category: "Announcements" # Github discussion category

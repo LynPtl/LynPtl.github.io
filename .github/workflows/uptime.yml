@@ -1,0 +1,25 @@
+name: Uptime CI
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "master"
+      - name: Update summary in README
+        uses: upptime/uptime-monitor@v1.30.5
+        with:
+          command: "readme"
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+      - name: Run uptime CI
+        uses: upptime/uptime-monitor@v1.30.5
+        with:
+          command: "ci"
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}

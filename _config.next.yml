@@ -51,3 +51,19 @@ local_search:
   unescape: false
   # Preload the search data when the page loads.
   preload: false
+
+# Codeblock settings
+codeblock:
+  copy_button:
+    enable: true
+    style: flat
+
+# Post meta display settings
+symbols_count_time:
+  separated_meta: true
+  item_text_post: true
+
+# Sidebar settings
+sidebar:
+  b2t: true
+  scrollpercent: true

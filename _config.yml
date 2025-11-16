@@ -124,3 +124,13 @@ giscus:
   input_position: bottom
   # Load the comments lazily
   loading: lazy
+
+# Symbols Count Time
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: false
+  total_time: false
+  exclude_codeblock: true
+  awl: 4
+  wpm: 275

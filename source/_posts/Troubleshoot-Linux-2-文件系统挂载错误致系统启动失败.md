@@ -1,6 +1,7 @@
 ---
 title: Troubleshoot Linux 2 文件系统挂载错误致系统启动失败
 date: 2025-11-22 22:29:10
+categories:
   - Linux入门
   - Linux排错
 ---

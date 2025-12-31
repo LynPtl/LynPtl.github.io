@@ -1,6 +1,10 @@
 ---
 title: 6.linux用户管理和权限
 date: 2025-10-24 01:42:44
+tags:
+  - Linux
+  - Permissions
+  - User Management
 categories:
   - Linux入门
 ---

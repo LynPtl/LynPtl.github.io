@@ -1,6 +1,9 @@
 ---
 title: 22.linux管理基本存储
 date: 2025-11-18 01:24:27
+tags:
+  - Linux
+  - Storage
 categories:
   - Linux入门
 ---

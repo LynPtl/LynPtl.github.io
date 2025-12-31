@@ -1,6 +1,10 @@
 ---
 title: 16.linux分析服务器和获取支持
 date: 2025-11-09 23:45:56
+tags:
+  - Linux
+  - Support
+  - Analysis
 categories:
   - Linux入门
 ---

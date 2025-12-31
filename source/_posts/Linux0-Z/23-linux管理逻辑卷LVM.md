@@ -1,6 +1,10 @@
 ---
 title: 23.linux管理逻辑卷LVM
 date: 2025-11-22 22:28:34
+tags:
+  - Linux
+  - LVM
+  - Storage
 categories:
   - Linux入门
 ---

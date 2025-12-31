@@ -1,6 +1,10 @@
 ---
 title: 20.linux ACL控制文件访问
 date: 2025-11-15 03:06:30
+tags:
+  - Linux
+  - ACL
+  - Permissions
 categories:
   - Linux入门
 ---

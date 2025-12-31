@@ -1,6 +1,9 @@
 ---
 title: 18.linux计划未来任务
 date: 2025-11-13 01:32:39
+tags:
+  - Linux
+  - Cron
 categories:
   - Linux入门
 ---

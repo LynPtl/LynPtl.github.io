@@ -1,6 +1,10 @@
 ---
 title: 28.linux使用 Podman 运行容器
 date: 2025-11-23 00:09:31
+tags:
+  - Linux
+  - Podman
+  - Container
 categories:
   - Linux入门
 ---

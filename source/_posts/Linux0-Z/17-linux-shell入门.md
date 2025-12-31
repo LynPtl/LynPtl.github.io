@@ -1,6 +1,10 @@
 ---
 title: 17.linux_shell入门
 date: 2025-11-11 01:16:23
+tags:
+  - Linux
+  - Shell
+  - Bash
 categories:
   - Linux入门
   - Shell入门

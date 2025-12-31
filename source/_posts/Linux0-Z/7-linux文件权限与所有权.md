@@ -1,6 +1,10 @@
 ---
 title: 7.linux文件权限与所有权
 date: 2025-10-24 22:19:56
+tags:
+  - Linux
+  - Permissions
+  - Ownership
 categories:
   - Linux入门
 ---

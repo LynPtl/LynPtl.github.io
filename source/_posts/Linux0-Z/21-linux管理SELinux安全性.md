@@ -1,6 +1,10 @@
 ---
 title: 21.linux管理SELinux安全性
 date: 2025-11-15 23:38:23
+tags:
+  - Linux
+  - SELinux
+  - Security
 categories:
   - Linux入门
 ---

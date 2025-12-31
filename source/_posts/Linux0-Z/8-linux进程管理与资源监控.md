@@ -1,7 +1,10 @@
 ---
 title: 8.linux进程管理与资源监控
 date: 2025-10-25 15:00:43
-updated: 2025-10-26 23:06:29
+tags:
+  - Linux
+  - Process
+  - Monitoring
 categories:
   - Linux入门
 ---

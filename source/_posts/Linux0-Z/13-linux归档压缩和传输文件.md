@@ -1,6 +1,10 @@
 ---
 title: 13.linux归档压缩和传输文件
 date: 2025-11-01 01:21:37
+tags:
+  - Linux
+  - Archive
+  - File Transfer
 categories:
   - Linux入门
 ---

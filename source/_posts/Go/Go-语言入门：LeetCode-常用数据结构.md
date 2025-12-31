@@ -1,6 +1,10 @@
 ---
 title: Go 语言入门：LeetCode 常用数据结构
 date: 2025-11-25 02:48:51
+tags:
+  - Go
+  - LeetCode
+  - Data Structure
 categories:
   - Golang入门
 ---

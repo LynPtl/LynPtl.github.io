@@ -1,6 +1,9 @@
 ---
 title: 15.linux访问文件系统
 date: 2025-11-03 01:51:43
+tags:
+  - Linux
+  - File System
 categories:
   - Linux入门
 ---

@@ -1,6 +1,10 @@
 ---
 title: Go 语言开发环境安装与配置
 date: 2025-11-25 02:48:11
+tags:
+  - Go
+  - Environment
+  - Installation
 categories:
   - Golang入门
 ---

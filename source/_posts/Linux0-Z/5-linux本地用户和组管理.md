@@ -1,6 +1,9 @@
 ---
 title: 5.linux本地用户和组管理
 date: 2025-10-22 01:38:58
+tags:
+  - Linux
+  - User Management
 categories:
   - Linux入门
 ---

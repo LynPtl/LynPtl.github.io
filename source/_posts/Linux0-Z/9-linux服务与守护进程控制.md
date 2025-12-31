@@ -1,6 +1,10 @@
 ---
 title: 9.linux服务与守护进程控制
 date: 2025-10-28 01:36:08
+tags:
+  - Linux
+  - Systemd
+  - Services
 categories:
   - Linux入门
 ---

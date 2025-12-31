@@ -1,6 +1,10 @@
 ---
 title: Troubleshoot Linux 1 修改sshd端口重启报错
 date: 2025-10-30 00:02:11
+tags:
+  - Linux
+  - Troubleshooting
+  - SSH
 categories:
   - Linux入门
   - Linux排错

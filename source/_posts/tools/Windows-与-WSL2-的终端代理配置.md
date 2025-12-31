@@ -3,6 +3,8 @@ title:  Windows 与 WSL2 的终端代理配置
 date: 2025-12-26
 tags:
   - 代理
+  - WSL
+  - Windows
 categories:
   - 工具
 ---

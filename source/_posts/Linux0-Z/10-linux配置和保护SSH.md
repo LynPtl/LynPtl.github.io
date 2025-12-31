@@ -1,6 +1,10 @@
 ---
 title: 10.linux配置和保护SSH
 date: 2025-10-29 02:15:15
+tags:
+  - Linux
+  - SSH
+  - Security
 categories:
   - Linux入门
 ---

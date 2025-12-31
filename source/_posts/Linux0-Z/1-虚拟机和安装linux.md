@@ -1,6 +1,10 @@
 ---
 title: 1.虚拟机和安装linux
 date: 2025-10-16 01:55:20
+tags:
+  - Linux
+  - Installation
+  - VirtualBox
 categories:
   - Linux入门
 ---

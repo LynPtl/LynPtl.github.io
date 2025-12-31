@@ -1,6 +1,10 @@
 ---
 title: Linux RHCSA专题结语
 date: 2025-11-23 00:45:59
+tags:
+  - Linux
+  - RHCSA
+  - Summary
 categories:
   - Linux入门
 ---

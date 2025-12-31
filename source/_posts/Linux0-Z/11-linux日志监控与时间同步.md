@@ -1,6 +1,10 @@
 ---
 title: 11.linux日志监控与时间同步
 date: 2025-10-30 01:44:00
+tags:
+  - Linux
+  - Logs
+  - NTP
 categories:
   - Linux入门
 ---

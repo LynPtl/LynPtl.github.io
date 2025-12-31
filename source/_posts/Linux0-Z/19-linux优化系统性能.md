@@ -1,6 +1,9 @@
 ---
 title: 19.linux优化系统性能
 date: 2025-11-15 02:53:21
+tags:
+  - Linux
+  - Performance
 categories:
   - Linux入门
 ---

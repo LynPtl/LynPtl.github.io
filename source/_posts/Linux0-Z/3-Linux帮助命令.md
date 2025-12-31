@@ -1,6 +1,10 @@
 ---
 title: 3.Linux帮助命令
 date: 2025-10-19 00:05:52
+tags:
+  - Linux
+  - Help
+  - Man
 categories:
   - Linux入门
 ---

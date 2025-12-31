@@ -1,6 +1,10 @@
 ---
 title: 24.linux Stratis存储管理
 date: 2025-11-23 00:06:44
+tags:
+  - Linux
+  - Stratis
+  - Storage
 categories:
   - Linux入门
 ---

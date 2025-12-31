@@ -1,6 +1,10 @@
 ---
 title: 27.linux使用防火墙管理网络安全
 date: 2025-11-23 00:08:58
+tags:
+  - Linux
+  - Firewall
+  - Security
 categories:
   - Linux入门
 ---

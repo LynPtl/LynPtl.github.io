@@ -1,6 +1,9 @@
 ---
 title: 12.linux网络管理
 date: 2025-10-30 23:58:19
+tags:
+  - Linux
+  - Network
 categories:
   - Linux入门
 ---

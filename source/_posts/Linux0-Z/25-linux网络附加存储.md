@@ -1,6 +1,10 @@
 ---
 title: 25.linux网络附加存储
 date: 2025-11-23 00:07:23
+tags:
+  - Linux
+  - NAS
+  - NFS
 categories:
   - Linux入门
 ---

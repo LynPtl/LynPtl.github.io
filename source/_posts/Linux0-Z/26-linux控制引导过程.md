@@ -1,6 +1,10 @@
 ---
 title: 26.linux控制引导过程
 date: 2025-11-23 00:08:25
+tags:
+  - Linux
+  - Boot
+  - Grub
 categories:
   - Linux入门
 ---

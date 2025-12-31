@@ -1,6 +1,10 @@
 ---
 title: 4.Linux文本编辑器
 date: 2025-10-20 22:53:35
+tags:
+  - Linux
+  - Vim
+  - Editor
 categories:
   - Linux入门
 ---

@@ -3,6 +3,8 @@ title: WSL2使用windows主机代理
 date: 2025-12-17 17:42:21
 tags:
   - 代理
+  - WSL
+  - Windows
 categories:
   - 工具
 ---

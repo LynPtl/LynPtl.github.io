@@ -1,6 +1,9 @@
 ---
 title: 14.linux安装更新和管理软件包
 date: 2025-11-02 01:38:12
+tags:
+  - Linux
+  - Package Management
 categories:
   - Linux入门
 ---

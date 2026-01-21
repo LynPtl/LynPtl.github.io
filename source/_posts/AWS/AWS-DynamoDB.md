@@ -2,6 +2,12 @@
 title: AWS DynamoDB
 date: 2026-01-21 17:53:41
 tags:
+  - AWS
+  - DynamoDB
+  - Database
+  - NoSQL
+categories:
+  - AWS
 ---
 # Amazon DynamoDB
 

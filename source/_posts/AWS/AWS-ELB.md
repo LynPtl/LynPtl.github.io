@@ -2,6 +2,12 @@
 title: AWS ELB
 date: 2026-01-21 17:55:39
 tags:
+  - AWS
+  - ELB
+  - Load Balancing
+  - Network
+categories:
+  - AWS
 ---
 # AWS Elastic Load Balancing (ELB)
 

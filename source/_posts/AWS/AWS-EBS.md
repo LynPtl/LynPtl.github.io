@@ -2,6 +2,11 @@
 title: AWS EBS
 date: 2026-01-21 17:42:48
 tags:
+  - AWS
+  - EBS
+  - Storage
+categories:
+  - AWS
 ---
 # Amazon EBS (弹性块存储)
 

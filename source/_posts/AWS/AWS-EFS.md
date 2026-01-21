@@ -2,6 +2,12 @@
 title: AWS EFS
 date: 2026-01-21 17:47:47
 tags:
+  - AWS
+  - EFS
+  - Storage
+  - NFS
+categories:
+  - AWS
 ---
 # Amazon EFS (弹性文件系统)
 

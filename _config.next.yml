@@ -18,6 +18,7 @@ menu:
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
+  links: /links/ || fa fa-link
   image-bed: /image-bed.html || fa fa-image
   #about: /about/ || fa fa-user
   #schedule: /schedule/ || fa fa-calendar

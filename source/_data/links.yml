@@ -1,0 +1,24 @@
+- name: LynPtl
+  url: https://lynptl.github.io/
+  avatar: /android-chrome-512x512.png
+  desc: A bug lover.
+
+- name: index
+  url: https://shouw.blog/
+  avatar: https://shouw.blog/avatar.jpg
+  desc: shouw.blog
+
+- name: 内卷地狱
+  url: https://involutionhell.com/
+  avatar: https://ui-avatars.com/api/?name=内卷地狱&background=random
+  desc: involutionhell.com
+
+- name: 发哥的云计算课堂
+  url: https://space.bilibili.com/2051805852
+  avatar: https://ui-avatars.com/api/?name=发哥&background=random
+  desc: Bilibili Space
+
+- name: 黑兔由帝
+  url: https://space.bilibili.com/351510324
+  avatar: https://ui-avatars.com/api/?name=黑兔&background=random
+  desc: Bilibili Space

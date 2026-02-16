@@ -1,5 +1,5 @@
 ---
-title: AWS Auto Scaling Deep Dive
+title: AWS Auto Scaling
 date: 2026-01-28 00:00:00
 tags:
   - AWS

@@ -80,3 +80,18 @@ busuanzi_count:
   total_visitors: true
   total_views: true
   post_views: true
+
+# Animation Settings
+motion:
+  enable: true
+  async: true
+  transition:
+    post_block: fadeIn
+    post_header: fadeIn
+    post_body: fadeIn
+    coll_header: fadeIn
+    sidebar: fadeIn
+  duration: 50
+
+# Lazyload
+lazyload: true

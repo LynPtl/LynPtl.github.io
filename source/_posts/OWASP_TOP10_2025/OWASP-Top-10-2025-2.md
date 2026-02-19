@@ -8,6 +8,7 @@ tags:
   - Security Configuration
 categories:
   - Security
+  - OWASP
 ---
 
 # OWASP Top 10 2025: Application Design Flaws (应用程序设计缺陷)

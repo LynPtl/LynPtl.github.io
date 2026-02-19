@@ -8,6 +8,7 @@ tags:
   - Access Control
 categories:
   - Security
+  - OWASP
 ---
 
 # OWASP 失效的访问控制 (Broken Access Control)

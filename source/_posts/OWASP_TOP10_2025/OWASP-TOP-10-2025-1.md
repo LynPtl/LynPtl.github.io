@@ -8,6 +8,7 @@ tags:
   - Access Control
 categories:
   - Security
+  - OWASP
 ---
 
 # OWASP Top 10 2025: IAAA Failures (IAAA 失败)

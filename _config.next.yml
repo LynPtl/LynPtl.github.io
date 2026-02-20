@@ -1,6 +1,10 @@
 # Schemes
 scheme: Gemini
 
+minify: true
+cache:
+  enable: true
+
 # Sidebar Avatar
 avatar:
   url: /android-chrome-512x512.png

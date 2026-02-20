@@ -632,6 +632,17 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+css-select@^4.0.0:
+  version "4.3.0"
+  resolved "https://registry.npmjs.org/css-select/-/css-select-4.3.0.tgz"
+  integrity sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==
+  dependencies:
+    boolbase "^1.0.0"
+    css-what "^6.0.1"
+    domhandler "^4.3.1"
+    domutils "^2.8.0"
+    nth-check "^2.0.1"
+
 css-select@^4.1.3:
   version "4.3.0"
   resolved "https://registry.npmjs.org/css-select/-/css-select-4.3.0.tgz"
@@ -841,7 +852,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dom-serializer@^1.0.1:
+dom-serializer@^1.0.1, dom-serializer@^1.3.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/dom-serializer/-/dom-serializer-1.4.1.tgz"
   integrity sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==
@@ -901,7 +912,7 @@ domutils@^2.0.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
-domutils@^2.5.2:
+domutils@^2.5.2, domutils@^2.8.0:
   version "2.8.0"
   resolved "https://registry.npmjs.org/domutils/-/domutils-2.8.0.tgz"
   integrity sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==
@@ -1640,6 +1651,17 @@ hexo-cli@^4.3.2:
     resolve "^1.20.0"
     tildify "^2.0.0"
 
+hexo-excerpt@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/hexo-excerpt/-/hexo-excerpt-1.3.1.tgz"
+  integrity sha512-IIK3SxqUxMPJyU2DlN6jKLIpz8fb3QZw6i+FIk6D8T3ncyhPCxnaxAiuj23jdyhsBzyQEpSERcK8SDlHXhYZDQ==
+  dependencies:
+    css-select "^4.0.0"
+    dom-serializer "^1.3.1"
+    domutils "^2.5.2"
+    htmlparser2 "^6.1.0"
+    lodash.defaults "^4.2.0"
+
 hexo-front-matter@^4.2.1:
   version "4.2.1"
   resolved "https://registry.npmjs.org/hexo-front-matter/-/hexo-front-matter-4.2.1.tgz"
@@ -1963,6 +1985,16 @@ htmlparser2@^4.0.0:
     entities "^2.0.0"
 
 htmlparser2@^6.0.0:
+  version "6.1.0"
+  resolved "https://registry.npmjs.org/htmlparser2/-/htmlparser2-6.1.0.tgz"
+  integrity sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==
+  dependencies:
+    domelementtype "^2.0.1"
+    domhandler "^4.0.0"
+    domutils "^2.5.2"
+    entities "^2.0.0"
+
+htmlparser2@^6.1.0:
   version "6.1.0"
   resolved "https://registry.npmjs.org/htmlparser2/-/htmlparser2-6.1.0.tgz"
   integrity sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==
@@ -2412,6 +2444,11 @@ load-json-file@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
+
+lodash.defaults@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npmjs.org/lodash.defaults/-/lodash.defaults-4.2.0.tgz"
+  integrity sha512-qjxPLHd3r5DnsdGacqOMU6pb/avJzdh9tFX2ymgoZE27BmjXrNy/y4LoaiTeAb+O3gL8AfpJGtqfX/ae2leYYQ==
 
 logalot@^2.0.0:
   version "2.1.0"

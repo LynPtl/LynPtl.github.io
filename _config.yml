@@ -159,3 +159,10 @@ js_minifier:
 
 image_minifier:
   enable: false
+
+# Auto Excerpt configuration
+excerpt:
+  depth: 3
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true

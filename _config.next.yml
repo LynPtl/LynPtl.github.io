@@ -101,3 +101,7 @@ math:
   mathjax:
     enable: true
     tags: none
+
+# Performance tuning
+preconnect: true
+pjax: true

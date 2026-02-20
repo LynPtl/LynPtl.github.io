@@ -95,3 +95,9 @@ motion:
 
 # Lazyload
 lazyload: true
+
+math:
+  every_page: false
+  mathjax:
+    enable: true
+    tags: none

@@ -1,12 +1,12 @@
 ---
-title: 3.docker镜像与仓库
+title: 3.Docker镜像与仓库
 date: 2025-12-31 10:34:10
 tags:
   - Docker
   - Image
   - Registry
 categories:
-  - docker
+  - Docker
 ---
 # Docker 学习笔记 (三)：理解镜像与仓库
 

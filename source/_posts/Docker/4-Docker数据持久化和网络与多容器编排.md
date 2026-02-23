@@ -1,5 +1,5 @@
 ---
-title: 4.docker数据持久化和网络与多容器编排
+title: 4.Docker数据持久化和网络与多容器编排
 date: 2026-01-08 23:17:57
 tags:
   - Docker
@@ -7,7 +7,7 @@ tags:
   - Network
   - Compose
 categories:
-  - docker
+  - Docker
 ---
 # Docker 学习笔记 (四)：数据持久化、网络与多容器编排
 

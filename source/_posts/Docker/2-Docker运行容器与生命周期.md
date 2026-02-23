@@ -1,12 +1,12 @@
 ---
-title: 2.docker运行容器与生命周期
+title: 2.Docker运行容器与生命周期
 date: 2025-12-28 00:29:02
 tags:
   - Docker
   - Container
   - Lifecycle
 categories:
-  - docker
+  - Docker
 ---
 # Docker 学习笔记 (二)：运行容器与生命周期
 

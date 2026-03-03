@@ -26,7 +26,6 @@ categories:
 set -o errexit
 set -o nounset
 set -o pipefail
-
 ```
 
 或简写为：`set -euo pipefail`
@@ -53,7 +52,6 @@ set -o pipefail
 
 ```bash
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-
 ```
 
 * **应用场景：** 当脚本需要加载配置文件或调用同目录下的其他组件时，使用 `"$SCRIPT_DIR/config.conf"` 可确保脚本从系统任意路径被调用时都能正常定位资源。
@@ -71,7 +69,6 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pw
 ```bash
 tmp_file=$(mktemp)
 trap 'rm -f "$tmp_file"' EXIT
-
 ```
 
 * **技术要点：** `EXIT` 信号涵盖了正常退出、出错退出以及接收到终止信号（如 Ctrl+C）的情况。
@@ -117,5 +114,4 @@ main() {
 }
 
 main "$@"
-
 ```

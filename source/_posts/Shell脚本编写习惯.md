@@ -2,6 +2,7 @@
 title: Shell脚本编写习惯
 date: 2026-01-11 23:04:14
 tags:
+  - Shell
 categories:
   - Shell入门
 ---

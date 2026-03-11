@@ -7,7 +7,7 @@ tags:
   - Shell
   - Text Processing
 categories:
-  - COMP9044
+  - Shell入门
 ---
 
 # Unix/Linux 文本处理利器：常用过滤器指南

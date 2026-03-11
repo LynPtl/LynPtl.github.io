@@ -7,7 +7,6 @@ tags:
   - Bash
 categories:
   - Linux入门
-  - Shell入门
 ---
 # Linux Shell入门
 

@@ -60,12 +60,30 @@ const sortedYears = Object.keys(postsByYear).sort((a, b) => b - a);
 const searchData = sortedPosts.map(post => {
   const { headings } = post.render();
   const headingTexts = headings?.map(h => h.slug + ' ' + h.text).join(' ') || '';
+  
+  // Get plain text content for search
+  const rawBody = post.body || '';
+  const withoutFrontmatter = rawBody.replace(/^---[\s\S]*?---\n/, '');
+  const withoutCode = withoutFrontmatter.replace(/```[\s\S]*?```/g, '');
+  const plainText = withoutCode
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/[*_~`#]/g, '')
+    .replace(/>\s?/g, '')
+    .replace(/[-+=]+\s/g, '')
+    .replace(/\d+\.\s/g, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  
   return {
     title: post.data.title,
     slug: post.slug,
     tags: post.data.tags || [],
     categories: post.data.categories || [],
     date: post.data.date.toISOString(),
+    formattedDate: formatDateShort(post.data.date),
+    content: plainText.slice(0, 500), // First 500 chars for search
     headings: headingTexts
   };
 });
@@ -268,7 +286,8 @@ const totalCategories = [...new Set(posts.flatMap(post => post.data.categories |
           const tagMatch = post.tags.some(tag => tag.toLowerCase().includes(query));
           const catMatch = post.categories.some(cat => cat.toLowerCase().includes(query));
           const headingMatch = post.headings.toLowerCase().includes(query);
-          return titleMatch || tagMatch || catMatch || headingMatch;
+          const contentMatch = post.content.toLowerCase().includes(query);
+          return titleMatch || tagMatch || catMatch || headingMatch || contentMatch;
         }).slice(0, 10);
         
         if (filtered.length === 0) {
@@ -281,6 +300,14 @@ const totalCategories = [...new Set(posts.flatMap(post => post.data.categories |
           let matchInfo = '';
           if (post.title.toLowerCase().includes(query)) {
             matchInfo = `<span class="match-tag title-match">标题匹配</span>`;
+          } else if (post.content.toLowerCase().includes(query)) {
+            // Extract content snippet around the match
+            const contentLower = post.content.toLowerCase();
+            const matchIndex = contentLower.indexOf(query);
+            const start = Math.max(0, matchIndex - 30);
+            const end = Math.min(post.content.length, matchIndex + query + 30);
+            const snippet = (start > 0 ? '...' : '') + post.content.slice(start, end) + (end < post.content.length ? '...' : '');
+            matchInfo = `<span class="match-tag">内容: ...${snippet}...</span>`;
           } else if (post.headings.toLowerCase().includes(query)) {
             const headings = post.headings.split(' ');
             const matchedHeading = headings.find(h => h.toLowerCase().includes(query));
@@ -298,7 +325,7 @@ const totalCategories = [...new Set(posts.flatMap(post => post.data.categories |
           return `
             <a href="/blog/${post.slug}" class="result-item">
               <div class="result-main">
-                <span class="result-date">{formatDateShort(post.date)}</span>
+                <span class="result-date">${post.formattedDate}</span>
                 <span class="result-title">${highlightMatch(post.title, query)}</span>
               </div>
               ${matchInfo ? `<div class="match-info">${matchInfo}</div>` : ''}

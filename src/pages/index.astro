@@ -68,11 +68,11 @@ const searchData = sortedPosts.map(post => {
   const plainText = withoutCode
     .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
     .replace(/\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
     .replace(/[*_~`#]/g, '')
     .replace(/>\s?/g, '')
     .replace(/[-+=]+\s/g, '')
     .replace(/\d+\.\s/g, '')
-    .replace(/<[^>]*>/g, '')
     .replace(/\s+/g, ' ')
     .trim();
   

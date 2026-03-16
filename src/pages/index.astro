@@ -19,29 +19,14 @@ function formatDateShort(dateRaw: string | Date) {
 // Pre-format dates for all posts
 const postsWithPreview = sortedPosts.map(post => {
   const formattedDate = formatDateShort(post.data.date);
+  // Simply truncate the raw markdown content
   const rawBody = post.body || '';
   const withoutFrontmatter = rawBody.replace(/^---[\s\S]*?---\n/, '');
-  const withoutCode = withoutFrontmatter.replace(/```[\s\S]*?```/g, '');
-  // Remove all markdown syntax and HTML tags
-  let cleanText = withoutCode
-    .replace(/!\[[^\]]*\]\([^)]+\)/g, '') // images
-    .replace(/\[[^\]]*\]\([^)]+\)/g, '') // links
-    .replace(/[*_~`#]/g, '') // markdown symbols
-    .replace(/[-+=]+\s/g, '') // list markers
-    .replace(/\d+\.\s/g, '') // numbered lists
-    .replace(/\s+/g, ' '); // multiple spaces
+  const preview = withoutFrontmatter.slice(0, 150).trim() + (withoutFrontmatter.length > 150 ? '...' : '');
   
-  // Remove ALL HTML tags more aggressively
-  cleanText = cleanText.replace(/<[^>]+>/g, ' ');
-  cleanText = cleanText.replace(/<\/[^>]+>/g, ' ');
-  cleanText = cleanText.replace(/&[a-zA-Z]+;/g, ' '); // HTML entities
-  cleanText = cleanText.trim();
-  
-  const preview = cleanText.slice(0, 120) + (cleanText.length > 120 ? '...' : '');
-  
-  // Count words
-  const chineseChars = (cleanText.match(/[\u4e00-\u9fa5]/g) || []).length;
-  const englishWords = (cleanText.match(/[a-zA-Z]+/g) || []).length;
+  // Count words from the raw content
+  const chineseChars = (withoutFrontmatter.match(/[\u4e00-\u9fa5]/g) || []).length;
+  const englishWords = (withoutFrontmatter.match(/[a-zA-Z]+/g) || []).length;
   const wordCount = chineseChars + englishWords;
   const readingTime = Math.max(1, Math.ceil(wordCount / 300));
   

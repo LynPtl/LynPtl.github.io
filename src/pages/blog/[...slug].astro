@@ -61,8 +61,7 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('.content'), { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   </head>
   <body>
     <!-- Reading progress bar -->
@@ -332,6 +331,20 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
           }
         });
       });
+      
+      // Render math with KaTeX
+      if (typeof katex !== 'undefined') {
+        document.querySelectorAll('.content').forEach(el => {
+          el.innerHTML = el.innerHTML.replace(/\$\$([\s\S]*?)\$\$/g, (match, math) => {
+            try { return katex.renderToString(math.trim(), { throwOnError: false, displayMode: true }); } 
+            catch(e) { return match; }
+          });
+          el.innerHTML = el.innerHTML.replace(/\$([^$\n]+?)\$/g, (match, math) => {
+            try { return katex.renderToString(math.trim(), { throwOnError: false, displayMode: false }); } 
+            catch(e) { return match; }
+          });
+        });
+      }
     </script>
   </body>
 </html>

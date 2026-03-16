@@ -12,41 +12,41 @@ categories:
 
 ## 1. 问题背景
 
-在使用 Windows 10 的 WSL2 (Windows Subsystem for Linux 2) 进行开发时，经常会遇到一个痛点：**WSL2 无法直接使用 Windows 主机上已经配置好的代理软件**。
+在使用 Windows 10 的 WSL2 (Windows Subsystem for Linux 2) 进行开发时，经常会遇到一个痛点：<strong>WSL2 无法直接使用 Windows 主机上已经配置好的代理软件</strong>。
 
 当你打开 WSL 终端时，可能会看到如下提示：
-> `wsl: A localhost proxy configuration was detected but not mirrored into WSL. WSL in NAT mode does not support localhost proxies.`
+> <code>wsl: A localhost proxy configuration was detected but not mirrored into WSL. WSL in NAT mode does not support localhost proxies.</code>
 
 ![image-compressed.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/uploads/1765964127739-1a937p-image-compressed.png)
 
 ### 为什么会这样？
 这涉及到底层的网络架构差异：
-* **WSL 1**：与 Windows 共享网络栈，`localhost` 指向同一个接口。
-* **WSL 2 (NAT 模式)**：本质上是一个运行在 Hyper-V 里的轻量级虚拟机。它拥有独立的虚拟网卡和 IP 地址。
-    * 在 WSL2 里访问 `localhost`，访问的是**虚拟机自己**，而不是外面的 Windows。
-    * Windows 主机对于 WSL2 来说，类似于局域网里的“网关”。
+<em> <strong>WSL 1</strong>：与 Windows 共享网络栈，<code>localhost</code> 指向同一个接口。
+</em> <strong>WSL 2 (NAT 模式)</strong>：本质上是一个运行在 Hyper-V 里的轻量级虚拟机。它拥有独立的虚拟网卡和 IP 地址。
+    <em> 在 WSL2 里访问 <code>localhost</code>，访问的是<strong>虚拟机自己</strong>，而不是外面的 Windows。
+    </em> Windows 主机对于 WSL2 来说，类似于局域网里的“网关”。
 
-**注意**：Windows 11 支持“镜像网络模式 (Mirrored Mode)”可以完美解决此问题，但 Windows 10 用户只能通过 NAT 穿透的方式来解决。
+<strong>注意</strong>：Windows 11 支持“镜像网络模式 (Mirrored Mode)”可以完美解决此问题，但 Windows 10 用户只能通过 NAT 穿透的方式来解决。
 
 ---
 
 ## 2. 解决方案核心步骤
 
 我们要做的只有两件事：
-1.  **Windows 端**：允许代理软件接受来自“局域网”的连接。
-2.  **WSL 端**：动态获取 Windows 主机的 IP，并将流量转发过去。
+1.  <strong>Windows 端</strong>：允许代理软件接受来自“局域网”的连接。
+2.  <strong>WSL 端</strong>：动态获取 Windows 主机的 IP，并将流量转发过去。
 
 ### 第一步：配置 Windows 代理软件 (Allow LAN)
 
 WSL2 对 Windows 来说是外部设备，所以必须开启“允许局域网连接”。
 
 1.  打开你的代理软件（Clash, v2rayN 等）。
-2.  找到 **Allow LAN** (允许局域网连接) 开关并**开启**。
-3.  记下软件的 **HTTP/Port** 端口号。
-    * *Clash 默认为 `7890`*
-    * *v2rayN 默认为 `10809`*
+2.  找到 <strong>Allow LAN</strong> (允许局域网连接) 开关并<strong>开启</strong>。
+3.  记下软件的 <strong>HTTP/Port</strong> 端口号。
+    * *Clash 默认为 <code>7890</code>*
+    * *v2rayN 默认为 <code>10809</code><em>
 
-> **提示**：如果开启后仍然不通，请检查 Windows 防火墙，确保该代理软件在“允许应用通过防火墙”的列表中，或者暂时关闭防火墙测试。
+> <strong>提示</strong>：如果开启后仍然不通，请检查 Windows 防火墙，确保该代理软件在“允许应用通过防火墙”的列表中，或者暂时关闭防火墙测试。
 
 ![image-compressed.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/uploads/1765964250713-1wljpm-image-compressed.png)
 
@@ -56,17 +56,17 @@ WSL2 对 Windows 来说是外部设备，所以必须开启“允许局域网连
 
 在 WSL 终端中操作：
 
-1.  **编辑 Shell 配置文件**
-    如果你用的是 `zsh` (Ubuntu 默认推荐)：
-    ```bash
+1.  <strong>编辑 Shell 配置文件</strong>
+    如果你用的是 <code>zsh</code> (Ubuntu 默认推荐)：
+    ``<code>bash
     nano ~/.zshrc
-    ```
-    *(如果你用的是 bash，请编辑 `~/.bashrc`)*
+    </code>`<code>
+    </em>(如果你用的是 bash，请编辑 </code>~/.bashrc<code>)<em>
 
-2.  **添加自动配置脚本**
+2.  <strong>添加自动配置脚本</strong>
     在文件末尾追加以下内容：
 
-    ```bash
+    </code>`<code>bash
     # ====================================================
     # WSL2 Proxy Auto-Configuration
     # ====================================================
@@ -87,22 +87,22 @@ WSL2 对 Windows 来说是外部设备，所以必须开启“允许局域网连
     # echo "-> Proxy points to Windows Host: ${hostip}:${PROXY_PORT}"
     
     # ====================================================
-    ```
+    </code>`<code>
     
     ![image-compressed.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/uploads/1765964419953-mw7ric-image-compressed.png)
 
-3.  **保存并生效**
-    * 按 `Ctrl + O` 保存，`Ctrl + X` 退出编辑器。
+3.  <strong>保存并生效</strong>
+    </em> 按 </code>Ctrl + O<code> 保存，</code>Ctrl + X<code> 退出编辑器。
     * 执行命令使配置生效：
-        ```bash
+        </code>`<code>bash
         source ~/.zshrc
-        ```
+        </code>`<code>
 
 ---
 
 ## 3. 验证连接
 
-配置完成后，使用 `curl` 命令测试连通性（建议测试 Google 或 GitHub）：
+配置完成后，使用 </code>curl<code> 命令测试连通性（建议测试 Google 或 GitHub）：
 
-```bash
+</code>``bash
 curl -I [https://www.google.com](https://www.google.com)

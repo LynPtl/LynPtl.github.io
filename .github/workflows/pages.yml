@@ -30,6 +30,12 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Check for broken links
+        run: |
+          echo "Checking for broken links..."
+          npm install -g markdown-link-check
+          find src/content/blog -name "*.md" -exec cat {} \; | grep -oE 'https?://[^)"<> ]+' | sort -u > /tmp/links.txt
+          echo "Found $(wc -l < /tmp/links.txt) links to check"
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

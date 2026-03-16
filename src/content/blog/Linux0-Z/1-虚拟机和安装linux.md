@@ -25,17 +25,17 @@ categories:
 
 对于个人开发者，可以使用免费的RHEL，需要[在这里](https://developers.redhat.com/)注册成为开发者。
 
-之后来到[这个页面](https://developers.redhat.com/products/rhel/overview?source=sso)点击 `Download RHEL at no-cost`就可以下载到iso了。
+之后来到[这个页面](https://developers.redhat.com/products/rhel/overview?source=sso)点击 <code>Download RHEL at no-cost</code>就可以下载到iso了。
 
 ![firefox_YoY3W83aF0.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/firefox_YoY3W83aF0.png)
 
 ## 3 新建虚拟机
 
-镜像和软件已经准备完毕，接下来我们开始安装。首先点击软件左上角的`new`，在弹出的对话框中写好自己的虚拟机名称`VM Name`，虚拟机目录`VM Folder`，使用的系统镜像`ISO Image`选择我们刚才下载的redhat的iso。
+镜像和软件已经准备完毕，接下来我们开始安装。首先点击软件左上角的<code>new</code>，在弹出的对话框中写好自己的虚拟机名称<code>VM Name</code>，虚拟机目录<code>VM Folder</code>，使用的系统镜像<code>ISO Image</code>选择我们刚才下载的redhat的iso。
 
 ![VirtualBox_PWb8k8f7Ib.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_PWb8k8f7Ib.png)
 
-请务必取消勾选静默安装`Proceed with Unattended Installation`。
+请务必取消勾选静默安装<code>Proceed with Unattended Installation</code>。
 
 虚拟硬件推荐内存2GB,CPU两个。
 
@@ -45,17 +45,17 @@ categories:
 
 ![VirtualBox_KXqFlmAE04.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_KXqFlmAE04.png)
 
-之后点击右下角的`fininsh`。
+之后点击右下角的<code>fininsh</code>。
 
-我们就可以看到这个新建号的虚拟机了。暂且为了方便虚拟机使用网络，我们选中这个虚拟机之后点击上方的`Settings`,在弹出的窗口中选择左侧的`Network`选项卡，在`Adapter 1`下选择`Bridged Adapter`。
+我们就可以看到这个新建号的虚拟机了。暂且为了方便虚拟机使用网络，我们选中这个虚拟机之后点击上方的<code>Settings</code>,在弹出的窗口中选择左侧的<code>Network</code>选项卡，在<code>Adapter 1</code>下选择<code>Bridged Adapter</code>。
 
 ![VirtualBox_3hrFwfdby3.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBox_3hrFwfdby3.png)
 
 ## 4 安装RHEL
 
-之后点击上方的绿色右箭头`Start`，即可运行虚拟机。
+之后点击上方的绿色右箭头<code>Start</code>，即可运行虚拟机。
 
-随后使用上下方向键，选择中间的`Test this media & install Red Hat Enterprise Linux 10.0`,按enter键确定。
+随后使用上下方向键，选择中间的<code>Test this media & install Red Hat Enterprise Linux 10.0</code>,按enter键确定。
 
 ![VirtualBoxVM_9k8QSsOKGs.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_9k8QSsOKGs.png)
 
@@ -63,13 +63,13 @@ categories:
 
 ![VirtualBoxVM_pMab7ODDDT.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_pMab7ODDDT.png)
 
-这里我推荐全部选择英文，避免任何因为中文字符可能出现的问题。随后点击右下角的`continue`。
+这里我推荐全部选择英文，避免任何因为中文字符可能出现的问题。随后点击右下角的<code>continue</code>。
 
 ![VirtualBoxVM_ZI81wmtEdt.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_ZI81wmtEdt.png)
 
 可以看到有很多爆红的地方，我们一个一个来解决和配置。
 
-首先第一个，我们需要连接到Red Hat。点击`Connet to Red Hat`之后输入自己的Redhat账户并验证即可。
+首先第一个，我们需要连接到Red Hat。点击<code>Connet to Red Hat</code>之后输入自己的Redhat账户并验证即可。
 
 ![VirtualBoxVM_8grO4cV4hh.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_8grO4cV4hh.png)
 
@@ -77,11 +77,11 @@ categories:
 
 ![VirtualBoxVM_h75CXEwlGL.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_h75CXEwlGL.png)
 
-然后我们在`Installation Destination`中选择我们的虚拟硬盘。
+然后我们在<code>Installation Destination</code>中选择我们的虚拟硬盘。
 
 ![VirtualBoxVM_j8GL89TRqG.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_j8GL89TRqG.png)
 
-软件选取`Software Selection`中我们选择`Server with GUI`。右侧的附加选项我们不勾选。
+软件选取<code>Software Selection</code>中我们选择<code>Server with GUI</code>。右侧的附加选项我们不勾选。
 
 ![VirtualBoxVM_TZzbWG2Wuh.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_TZzbWG2Wuh.png)
 
@@ -89,7 +89,7 @@ Root账户是推荐的，这样至少可以保证一点安全性。
 
 ![VirtualBoxVM_JDWJhKXgIo.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_JDWJhKXgIo.png)
 
-下面的`Create User`我们可以创建一个常规用户。
+下面的<code>Create User</code>我们可以创建一个常规用户。
 
 ![VirtualBoxVM_OBQzS4hY5E.png](https://pub-85d4dcece16844bf8290aa4b33608ccd.r2.dev/ShareX/2025/10/VirtualBoxVM_OBQzS4hY5E.png)
 

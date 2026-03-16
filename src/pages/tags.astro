@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+// Get all unique tags
+const tags = [...new Set(posts.flatMap(post => post.data.tags || []))].sort();
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>标签 | LynPtl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="/" class="logo">LynPtl</a>
+        <nav>
+          <a href="/">博客</a>
+          <a href="/tags">标签</a>
+          <a href="/categories">分类</a>
+          <a href="/friends">友链</a>
+        </nav>
+      </header>
+      
+      <main>
+        <h1>标签</h1>
+        <div class="tags-cloud">
+          {tags.map(tag => (
+            <a href={`/tags/${tag}`} class="tag">{tag}</a>
+          ))}
+        </div>
+      </main>
+      
+      <footer>
+        <p>&copy; {new Date().getFullYear()} LynPtl. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root { --primary: #e11d48; --bg: #fafafa; --text: #18181b; --text-light: #71717a; --border: #e4e4e7; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Serif SC', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+  .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; }
+  nav { display: flex; gap: 1.5rem; }
+  nav a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+  nav a:hover { color: var(--primary); }
+  h1 { font-size: 2rem; margin-bottom: 2rem; }
+  .tags-cloud { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .tag { display: inline-block; padding: 0.5rem 1rem; background: #fff; border: 1px solid var(--border); border-radius: 999px; color: var(--text); text-decoration: none; font-size: 0.95rem; transition: all 0.2s; }
+  .tag:hover { border-color: var(--primary); color: var(--primary); }
+  footer { padding: 3rem 0; text-align: center; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+</style>
+

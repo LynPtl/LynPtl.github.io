@@ -1,0 +1,72 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const categories = [...new Set(posts.flatMap(post => post.data.categories || []))].sort();
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>分类 | LynPtl</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="/" class="logo">LynPtl</a>
+        <nav>
+          <a href="/">博客</a>
+          <a href="/tags">标签</a>
+          <a href="/categories">分类</a>
+          <a href="/friends">友链</a>
+        </nav>
+      </header>
+      
+      <main>
+        <h1>分类</h1>
+        <ul class="category-list">
+          {categories.map(category => {
+            const count = posts.filter(p => (p.data.categories || []).includes(category)).length;
+            return (
+              <li>
+                <a href={`/categories/${category}`}>
+                  <span class="name">{category}</span>
+                  <span class="count">{count} 篇</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </main>
+      
+      <footer>
+        <p>&copy; {new Date().getFullYear()} LynPtl. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root { --primary: #e11d48; --bg: #fafafa; --text: #18181b; --text-light: #71717a; --border: #e4e4e7; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Serif SC', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; }
+  nav { display: flex; gap: 1.5rem; }
+  nav a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+  nav a:hover { color: var(--primary); }
+  h1 { font-size: 2rem; margin-bottom: 2rem; }
+  .category-list { list-style: none; }
+  .category-list li { margin-bottom: 0.5rem; }
+  .category-list a { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: #fff; border-radius: 12px; text-decoration: none; color: var(--text); transition: all 0.2s; }
+  .category-list a:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .category-list .name { font-size: 1.1rem; font-weight: 600; }
+  .category-list .count { color: var(--text-light); font-size: 0.9rem; }
+  footer { padding: 2rem 0; text-align: center; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>

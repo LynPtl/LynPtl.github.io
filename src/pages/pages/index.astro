@@ -1,0 +1,523 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+// Sort by date string (YYYY-MM-DD format)
+const sortedPosts = posts.sort((a, b) => {
+  const dateA = typeof a.data.date === 'string' ? a.data.date : a.data.date.toISOString().split('T')[0];
+  const dateB = typeof b.data.date === 'string' ? b.data.date : b.data.date.toISOString().split('T')[0];
+  return dateB.localeCompare(dateA);
+});
+
+// Format date helper - pre-format all dates
+function formatDateShort(dateRaw: string | Date) {
+  const dateStr = typeof dateRaw === 'string' ? dateRaw : dateRaw.toISOString().split('T')[0];
+  const [, month, day] = dateStr.split(/[- ]/);
+  return `${month}月${parseInt(day)}日`;
+}
+
+// Pre-format dates for all posts
+const postsWithPreview = sortedPosts.map(post => {
+  const formattedDate = formatDateShort(post.data.date);
+  // Clean markdown symbols from preview
+  const rawBody = post.body || '';
+  const withoutFrontmatter = rawBody.replace(/^---[\s\S]*?---\n/, '');
+  
+  // Remove code blocks completely
+  let cleanText = withoutFrontmatter.replace(/```[\s\S]*?```/g, '');
+  // Remove inline code markers
+  cleanText = cleanText.replace(/`/g, '');
+  // Remove bold/italic markers
+  cleanText = cleanText.replace(/\*\*/g, '');
+  cleanText = cleanText.replace(/\*/g, '');
+  cleanText = cleanText.replace(/_/g, '');
+  // Remove headers
+  cleanText = cleanText.replace(/^#{1,6}\s+/gm, '');
+  // Remove links but keep text
+  cleanText = cleanText.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+  // Remove images
+  cleanText = cleanText.replace(/!\[[^\]]*\]\([^)]+\)/g, '');
+  // Remove blockquotes
+  cleanText = cleanText.replace(/^>\s?/gm, '');
+  // Remove list markers
+  cleanText = cleanText.replace(/^[-*+]\s+/gm, '');
+  cleanText = cleanText.replace(/^\d+\.\s+/gm, '');
+  // Clean up whitespace
+  cleanText = cleanText.replace(/\n{3,}/g, '\n\n');
+  cleanText = cleanText.trim();
+  
+  const preview = cleanText.slice(0, 120) + (cleanText.length > 120 ? '...' : '');
+  
+  // Count words from the raw content
+  const chineseChars = (withoutFrontmatter.match(/[\u4e00-\u9fa5]/g) || []).length;
+  const englishWords = (withoutFrontmatter.match(/[a-zA-Z]+/g) || []).length;
+  const wordCount = chineseChars + englishWords;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 300));
+  
+  return { ...post, preview, wordCount, readingTime, formattedDate };
+});
+
+// Group by year - but show newest year first
+const postsByYear = postsWithPreview.reduce((acc, post) => {
+  const dateStr = typeof post.data.date === 'string' ? post.data.date : post.data.date.toISOString().split('T')[0];
+  const year = dateStr.split('-')[0];
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {});
+
+// Sort years in descending order (newest first)
+const sortedYears = Object.keys(postsByYear).sort((a, b) => b - a);
+
+// For search
+const searchData = sortedPosts.map(post => {
+  const { headings } = post.render();
+  const headingTexts = headings?.map(h => h.slug + ' ' + h.text).join(' ') || '';
+  
+  // Get plain text content for search
+  const rawBody = post.body || '';
+  const withoutFrontmatter = rawBody.replace(/^---[\s\S]*?---\n/, '');
+  const withoutCode = withoutFrontmatter.replace(/```[\s\S]*?```/g, '');
+  const plainText = withoutCode
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/[*_~`#]/g, '')
+    .replace(/>\s?/g, '')
+    .replace(/[-+=]+\s/g, '')
+    .replace(/\d+\.\s/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  
+  return {
+    title: post.data.title,
+    slug: post.slug,
+    tags: post.data.tags || [],
+    categories: post.data.categories || [],
+    date: post.data.date.toISOString(),
+    formattedDate: formatDateShort(post.data.date),
+    content: plainText.slice(0, 500), // First 500 chars for search
+    headings: headingTexts
+  };
+});
+
+// Get stats
+const totalPosts = posts.length;
+const totalTags = [...new Set(posts.flatMap(post => post.data.tags || []))].length;
+const totalCategories = [...new Set(posts.flatMap(post => post.data.categories || []))].length;
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="由于 Bug 过于可爱，我决定给它们建个博客，顺便混个 UNSW 文凭�? />
+    <title>LynPtl's Blog</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Reading progress bar -->
+    <div class="progress-bar"></div>
+    
+    <div class="container">
+      <header>
+        <a href="/" class="logo">LynPtl</a>
+        <nav>
+          <a href="/">博客</a>
+          <a href="/tags">标签</a>
+          <a href="/categories">分类</a>
+          <a href="/friends">友链</a>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"/></svg>
+            <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+          </button>
+        </nav>
+      </header>
+      
+      <main>
+        <!-- About Section -->
+        <section class="about-section">
+          <img src="/avatar.png" alt="Lyn Ptl" class="avatar" loading="lazy" />
+          <div class="about-info">
+            <h1 class="site-title">LynPtl's Blog</h1>
+            <p class="description">由于 Bug 过于可爱，我决定给它们建个博客，顺便混个 UNSW 文凭。</p>
+            <div class="social-links">
+              <a href="https://github.com/LynPtl" target="_blank" rel="noopener" title="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+              <a href="mailto:ptlantern@gmail.com" title="Email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
+              </a>
+              <a href="tencent://message/?uin=2763909063" title="QQ">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 2c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8zm2.5 5.5c-.667 0-1.5-.667-2 0 .5.333 1.167 1 1.5 1 .5-.333.833-.667 1.5-1.5zm-4.5 1c-.667 0-1.5-.667-2 0 .5.333 1.167 1 1.5 1 .5-.333.833-.667 1.5-1.5z"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Stats -->
+        <section class="stats">
+          <div class="stat-item">
+            <span class="stat-number">{totalPosts}</span>
+            <span class="stat-label">文章</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{totalCategories}</span>
+            <span class="stat-label">分类</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{totalTags}</span>
+            <span class="stat-label">标签</span>
+          </div>
+        </section>
+        
+        <section class="search-section">
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="搜索文章标题或内容..." 
+            autocomplete="off"
+          />
+          <div id="search-results" class="search-results"></div>
+        </section>
+        
+        <div id="post-content">
+          {sortedYears.map(year => (
+            <section class="year-section">
+              <h2 class="year">{year}</h2>
+              <ul class="post-list">
+                {postsByYear[year].map(post => (
+                  <li class="post-item">
+                    <a href={`/blog/${post.slug}`} class="post-link">
+                      <div class="post-main">
+                        <span class="date">{post.formattedDate}</span>
+                        <span class="title">{post.data.title}</span>
+                      </div>
+                      <p class="preview">{post.preview}</p>
+                      <div class="post-meta">
+                        <span class="word-count">{post.wordCount} 字</span>
+                        <span class="reading-time">约 {post.readingTime} 分钟</span>
+                        {post.data.categories && post.data.categories.length > 0 && (
+                          <span class="post-category">{post.data.categories[0]}</span>
+                        )}
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </main>
+      
+      <footer>
+        <p>&copy; {new Date().getFullYear()} LynPtl. All rights reserved.</p>
+      </footer>
+    </div>
+    
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l-12 12h8v12h8v-12h8z"/></svg>
+    </button>
+    
+    <script define:vars={{ searchData }}>
+      // Back to top
+      const backToTopBtn = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add('show');
+        } else {
+          backToTopBtn.classList.remove('show');
+        }
+      });
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      
+      // Reading progress bar
+      const progressBar = document.querySelector('.progress-bar');
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + '%';
+      });
+      
+      // Theme toggle
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+      
+      themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+      
+      // Search functionality
+      const input = document.getElementById('search-input');
+      const results = document.getElementById('search-results');
+      const postContent = document.getElementById('post-content');
+      
+      // Press "/" to focus search
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== input) {
+          e.preventDefault();
+          input.focus();
+        }
+      });
+      
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+      
+      function highlightMatch(text, query) {
+        if (!query) return escapeHtml(text);
+        const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return escapeHtml(text).replace(regex, '<mark>$1</mark>');
+      }
+      
+      input.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        
+        if (!query) {
+          results.innerHTML = '';
+          postContent.style.display = 'block';
+          return;
+        }
+        
+        const filtered = searchData.filter(post => {
+          const titleMatch = post.title.toLowerCase().includes(query);
+          const tagMatch = post.tags.some(tag => tag.toLowerCase().includes(query));
+          const catMatch = post.categories.some(cat => cat.toLowerCase().includes(query));
+          const headingMatch = post.headings.toLowerCase().includes(query);
+          const contentMatch = post.content.toLowerCase().includes(query);
+          return titleMatch || tagMatch || catMatch || headingMatch || contentMatch;
+        }).slice(0, 10);
+        
+        if (filtered.length === 0) {
+          results.innerHTML = '<div class="no-results">没有找到匹配的文章</div>';
+          postContent.style.display = 'none';
+          return;
+        }
+        
+        results.innerHTML = filtered.map(post => {
+          let matchInfo = '';
+          if (post.title.toLowerCase().includes(query)) {
+            matchInfo = `<span class="match-tag title-match">标题匹配</span>`;
+          } else if (post.content.toLowerCase().includes(query)) {
+            // Extract content snippet around the match
+            const contentLower = post.content.toLowerCase();
+            const matchIndex = contentLower.indexOf(query);
+            const start = Math.max(0, matchIndex - 30);
+            const end = Math.min(post.content.length, matchIndex + query + 30);
+            const snippet = (start > 0 ? '...' : '') + post.content.slice(start, end) + (end < post.content.length ? '...' : '');
+            matchInfo = `<span class="match-tag">内容: ...${snippet}...</span>`;
+          } else if (post.headings.toLowerCase().includes(query)) {
+            const headings = post.headings.split(' ');
+            const matchedHeading = headings.find(h => h.toLowerCase().includes(query));
+            if (matchedHeading) {
+              matchInfo = `<span class="match-tag">包含: ${matchedHeading}</span>`;
+            }
+          } else if (post.tags.some(t => t.toLowerCase().includes(query))) {
+            const matchedTag = post.tags.find(t => t.toLowerCase().includes(query));
+            matchInfo = `<span class="match-tag">标签: ${matchedTag}</span>`;
+          } else if (post.categories.some(c => c.toLowerCase().includes(query))) {
+            const matchedCat = post.categories.find(c => c.toLowerCase().includes(query));
+            matchInfo = `<span class="match-tag">分类: ${matchedCat}</span>`;
+          }
+          
+          return `
+            <a href="/blog/${post.slug}" class="result-item">
+              <div class="result-main">
+                <span class="result-date">${post.formattedDate}</span>
+                <span class="result-title">${highlightMatch(post.title, query)}</span>
+              </div>
+              ${matchInfo ? `<div class="match-info">${matchInfo}</div>` : ''}
+            </a>
+          `;
+        }).join('');
+        postContent.style.display = 'none';
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !results.contains(e.target)) {
+          results.innerHTML = '';
+          postContent.style.display = 'block';
+          input.value = '';
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --primary: #e11d48;
+    --bg: #fafafa;
+    --text: #18181b;
+    --text-light: #71717a;
+    --border: #e4e4e7;
+    --card-bg: #fff;
+  }
+  [data-theme="dark"] {
+    --bg: #18181b;
+    --text: #e4e4e7;
+    --text-light: #a1a1aa;
+    --border: #3f3f46;
+    --card-bg: #27272a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Serif SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+  .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; }
+  nav { display: flex; gap: 1.5rem; align-items: center; }
+  nav a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+  nav a:hover { color: var(--primary); }
+  
+  .theme-toggle { background: none; border: none; cursor: pointer; color: var(--text-light); padding: 0.25rem; display: flex; align-items: center; justify-content: center; }
+  .theme-toggle:hover { color: var(--primary); }
+  [data-theme="dark"] .sun-icon { display: none; }
+  [data-theme="dark"] .moon-icon { display: block; }
+  .sun-icon { display: block; }
+  .moon-icon { display: none; }
+  
+  /* About Section */
+  .about-section { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+  .about-info { flex: 1; }
+  .site-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .description { color: var(--text-light); font-size: 0.95rem; margin-bottom: 0.75rem; }
+  .social-links { display: flex; gap: 1rem; }
+  .social-links a { color: var(--text-light); transition: color 0.2s; }
+  .social-links a:hover { color: var(--primary); }
+  
+  /* Stats */
+  .stats { display: flex; gap: 2rem; margin-bottom: 2.5rem; padding: 1rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .stat-item { display: flex; flex-direction: column; align-items: center; }
+  .stat-number { font-size: 1.25rem; font-weight: 700; }
+  .stat-label { font-size: 0.8rem; color: var(--text-light); }
+  
+  .search-section { margin-bottom: 2rem; position: relative; }
+  #search-input {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+  #search-input:focus { outline: none; border-color: var(--primary); }
+  #search-input::placeholder { color: var(--text-light); }
+  
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    max-height: 500px;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  .result-item { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.875rem 1.25rem; text-decoration: none; color: var(--text); transition: background 0.15s; }
+  .result-item:hover { background: var(--bg); }
+  .result-item:not(:last-child) { border-bottom: 1px solid var(--border); }
+  .result-main { display: flex; align-items: baseline; gap: 1rem; }
+  .result-date { font-size: 0.8rem; color: var(--text-light); font-family: 'JetBrains Mono', monospace; min-width: 45px; }
+  .result-title { flex: 1; font-size: 0.95rem; }
+  .result-title :global(mark) { background: #fef08a; color: var(--text); padding: 0 2px; border-radius: 2px; }
+  .match-info { padding-left: 3.25rem; }
+  .match-tag { font-size: 0.8rem; color: var(--primary); }
+  .match-tag.title-match { color: var(--text-light); }
+  .no-results { padding: 1.25rem; text-align: center; color: var(--text-light); }
+  
+  /* Post List with Preview */
+  .year-section { margin-bottom: 2rem; }
+  .year { font-size: 1rem; font-weight: 600; color: var(--text-light); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .post-list { list-style: none; }
+  .post-item { margin-bottom: 0.75rem; }
+  .post-link {
+    display: block;
+    padding: 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .post-link:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .post-main { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.5rem; }
+  .date { font-size: 0.85rem; color: var(--text-light); font-family: 'JetBrains Mono', monospace; min-width: 50px; }
+  .title { flex: 1; font-size: 1.05rem; font-weight: 600; }
+  .preview { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.75rem; line-height: 1.6; }
+  .post-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--text-light); }
+  .post-category { color: var(--primary); }
+  
+  footer { padding: 2rem 0; text-align: center; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+  .footer-links { margin-bottom: 1rem; }
+  .footer-links a { color: var(--text-light); text-decoration: none; }
+  .footer-links a:hover { color: var(--primary); }
+  .footer-links span { margin-right: 0.5rem; }
+  
+  /* Back to top button */
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .back-to-top.show { opacity: 1; visibility: visible; }
+  .back-to-top:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  
+  /* Reading progress bar */
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0; z-index: 1000; transition: width 0.1s; }
+</style>
+

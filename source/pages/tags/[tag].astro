@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = [...new Set(posts.flatMap(post => post.data.tags || []))];
+  
+  return tags.map(tag => ({
+    params: { tag },
+    props: { tag }
+  }));
+}
+
+const { tag } = Astro.props;
+const posts = await getCollection('blog');
+const tagPosts = posts
+  .filter(post => (post.data.tags || []).includes(tag))
+  .sort((a, b) => {
+    const dateA = typeof a.data.date === 'string' ? a.data.date : a.data.date.toISOString().split('T')[0];
+    const dateB = typeof b.data.date === 'string' ? b.data.date : b.data.date.toISOString().split('T')[0];
+    return dateB.localeCompare(dateA);
+  });
+
+// Format date helper
+function formatDateShort(dateRaw: string | Date) {
+  const dateStr = typeof dateRaw === 'string' ? dateRaw : dateRaw.toISOString().split('T')[0];
+  const [, month, day] = dateStr.split(/[- ]/);
+  return `${month}月${parseInt(day)}日`;
+}
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>#{tag} | LynPtl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="/" class="logo">LynPtl</a>
+        <nav>
+          <a href="/">博客</a>
+          <a href="/tags">标签</a>
+          <a href="/categories">分类</a>
+          <a href="/friends">友链</a>
+        </nav>
+      </header>
+      
+      <main>
+        <a href="/tags" class="back">← 返回标签</a>
+        <h1>#{tag}</h1>
+        <p class="count">{tagPosts.length} 篇文章</p>
+        
+        <ul class="post-list">
+          {tagPosts.map(post => (
+            <li>
+              <a href={`/blog/${post.slug}`}>
+                <span class="date">{formatDateShort(post.data.date)}</span>
+                <span class="title">{post.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </main>
+      
+      <footer>
+        <p>&copy; {new Date().getFullYear()} LynPtl. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root { --primary: #e11d48; --bg: #fafafa; --text: #18181b; --text-light: #71717a; --border: #e4e4e7; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Serif SC', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+  .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; }
+  nav { display: flex; gap: 1.5rem; }
+  nav a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+  nav a:hover { color: var(--primary); }
+  .back { display: inline-block; color: var(--text-light); text-decoration: none; font-size: 0.9rem; margin-bottom: 1rem; }
+  .back:hover { color: var(--primary); }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .count { color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; }
+  .post-list { list-style: none; }
+  .post-list li { margin-bottom: 0.25rem; }
+  .post-list a { display: flex; align-items: baseline; gap: 1rem; padding: 0.75rem 1rem; border-radius: 8px; text-decoration: none; color: var(--text); transition: background 0.2s; }
+  .post-list a:hover { background: #fff; }
+  .post-list .date { font-size: 0.85rem; color: var(--text-light); font-family: 'JetBrains Mono', monospace; min-width: 50px; }
+  .post-list .title { flex: 1; font-size: 1rem; }
+  footer { padding: 3rem 0; text-align: center; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+</style>

@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynptl Image Uploader</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script
+        src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.1/dist/browser-image-compression.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2rem;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .back-link:hover {
+            color: #007bff;
+        }
+
+        #dropZone {
+            border: 2px dashed #ccc;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        #dropZone.dragover {
+            background-color: #e9f5ff;
+            border-color: #007bff;
+        }
+
+        #selectButton {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        #options {
+            text-align: left;
+            margin-top: 1rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        #result textarea {
+            width: 100%;
+            box-sizing: border-box;
+            height: 150px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .copy-buttons {
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .copy-buttons button {
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        #status {
+            margin-top: 1rem;
+            font-weight: bold;
+            min-height: 1.2em;
+        }
+
+        #history {
+            text-align: left;
+        }
+
+        #history h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #clearHistoryButton {
+            font-size: 0.8rem;
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        #historyList {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #historyList li {
+            background: #f9f9f9;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #historyList li input {
+            flex-grow: 1;
+            border: 1px solid #ddd;
+            padding: 0.2rem;
+        }
+
+        #historyList li .delete-item {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container uploader">
+        <a href="https://lynptl.github.io" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Back to Blog
+        </a>
+        <h1>Image Uploader</h1>
+        <div id="dropZone">
+            <p>Drag & Drop files here, or paste an image anywhere on the page.</p>
+            <button id="selectButton">Click to Select Files</button>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" multiple>
+        </div>
+        <div id="options">
+            <label>
+                <input type="checkbox" id="compressCheckbox"> Compress images before uploading (max 1MB)
+            </label>
+        </div>
+        <div id="result" style="display: none;">
+            <p>✅ Success! Markdown links:</p>
+            <textarea id="markdownLinks" readonly></textarea>
+            <div class="copy-buttons">
+                <button id="clearResultsButton">Clear</button>
+                <div>
+                    <button id="copyBatchButton">Copy Batch</button>
+                    <button id="copyLastButton">Copy Latest</button>
+                </div>
+            </div>
+        </div>
+        <div id="status"></div>
+    </div>
+
+    <div class="container" id="history">
+        <h2>
+            <span>Upload History</span>
+            <button id="clearHistoryButton">(Clear All)</button>
+        </h2>
+        <ul id="historyList"></ul>
+    </div>
+
+    <script>
+        // verify
+        (function () {
+            const SECRET_TOKEN = '01998bfb-7555-7c41-bccb-ddcb26889252'
+            const urlParams = new URLSearchParams(window.location.search)
+            if (urlParams.get('access_token') != SECRET_TOKEN) {
+                document.body.innerHTML = '<h1 style="font-family: sans-serif; text-align: center; margin-top: 2rem;">Access Denied</h1>';
+                throw new Error('Incalid or missing access token.')
+            }
+        })();
+        const WORKER_URL = 'https://imageuploader.ptlantern.workers.dev';
+
+        // DOM Elements
+        const selectButton = document.getElementById('selectButton');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const resultDiv = document.getElementById('result');
+        const markdownLinksTextarea = document.getElementById('markdownLinks');
+        const statusDiv = document.getElementById('status');
+        const copyBatchButton = document.getElementById('copyBatchButton');
+        const copyLastButton = document.getElementById('copyLastButton');
+        const clearResultsButton = document.getElementById('clearResultsButton');
+        const compressCheckbox = document.getElementById('compressCheckbox');
+        const historyList = document.getElementById('historyList');
+        const clearHistoryButton = document.getElementById('clearHistoryButton');
+
+        let lastUploadBatch = [];
+
+        // --- History Logic ---
+        function getHistory() {
+            return JSON.parse(localStorage.getItem('uploadHistory')) || [];
+        }
+
+        function saveHistory(history) {
+            localStorage.setItem('uploadHistory', JSON.stringify(history));
+        }
+
+        function renderHistory() {
+            const history = getHistory();
+            historyList.innerHTML = '';
+            history.forEach(item => {
+                const li = document.createElement('li');
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = item.markdown;
+                input.readOnly = true;
+                input.onclick = () => input.select();
+
+                const timestamp = document.createElement('span');
+                timestamp.textContent = new Date(item.timestamp).toLocaleTimeString();
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '✖';
+                deleteBtn.className = 'delete-item';
+                deleteBtn.title = 'Delete this item';
+                deleteBtn.onclick = () => deleteHistoryItem(item.timestamp);
+
+                li.appendChild(input);
+                li.appendChild(timestamp);
+                li.appendChild(deleteBtn);
+                historyList.prepend(li); // Add new items to the top
+            });
+        }
+
+        function saveToHistory(newItem) {
+            let history = getHistory();
+            history.push(newItem);
+            if (history.length > 50) {
+                history = history.slice(history.length - 50);
+            }
+            saveHistory(history);
+            renderHistory();
+        }
+
+        function deleteHistoryItem(timestamp) {
+            let history = getHistory();
+            const updatedHistory = history.filter(item => item.timestamp !== timestamp);
+            saveHistory(updatedHistory);
+            renderHistory();
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to delete all upload history? This cannot be undone.')) {
+                localStorage.removeItem('uploadHistory');
+                renderHistory();
+            }
+        }
+
+        // --- Event Listeners ---
+        window.addEventListener('DOMContentLoaded', renderHistory);
+        selectButton.addEventListener('click', () => fileInput.click());
+        clearHistoryButton.addEventListener('click', clearHistory);
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+
+        window.addEventListener('paste', (e) => {
+            const files = Array.from(e.clipboardData.files).filter(file => file.type.startsWith('image/'));
+            if (files.length > 0) {
+                handleFiles(files);
+            }
+        });
+
+        copyBatchButton.addEventListener('click', () => {
+            if (lastUploadBatch.length > 0) {
+                navigator.clipboard.writeText(lastUploadBatch.join('\n'));
+                statusDiv.textContent = `Copied ${lastUploadBatch.length} link(s) from the last batch!`;
+            }
+        });
+
+        copyLastButton.addEventListener('click', () => {
+            if (lastUploadBatch.length > 0) {
+                navigator.clipboard.writeText(lastUploadBatch[lastUploadBatch.length - 1]);
+                statusDiv.textContent = 'Copied the latest link!';
+            }
+        });
+
+        clearResultsButton.addEventListener('click', () => {
+            markdownLinksTextarea.value = '';
+            resultDiv.style.display = 'none';
+            statusDiv.textContent = 'Results cleared.';
+        });
+
+        // --- Core Upload Logic ---
+        async function handleFiles(files) {
+            if (files.length === 0) return;
+
+            statusDiv.textContent = `Preparing ${files.length} file(s)...`;
+            lastUploadBatch = [];
+
+            const compressionOptions = { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true };
+            const shouldCompress = compressCheckbox.checked;
+            let filesToUpload = Array.from(files);
+
+            if (shouldCompress) {
+                statusDiv.textContent = `Compressing ${files.length} file(s)...`;
+                try {
+                    const compressionPromises = filesToUpload.map(async (file) => {
+                        const compressedBlob = await imageCompression(file, compressionOptions);
+                        const originalName = file.name.substring(0, file.name.lastIndexOf('.'));
+                        const extension = file.name.substring(file.name.lastIndexOf('.') + 1);
+                        const newFileName = `${originalName}-compressed.${extension}`;
+                        return new File([compressedBlob], newFileName, { type: compressedBlob.type, lastModified: Date.now() });
+                    });
+                    filesToUpload = await Promise.all(compressionPromises);
+                } catch (error) {
+                    statusDiv.textContent = `Error during compression: ${error.message}`;
+                    return;
+                }
+            }
+
+            statusDiv.textContent = `Uploading ${filesToUpload.length} file(s)...`;
+
+            const uploadPromises = filesToUpload.map(file => {
+                const formData = new FormData();
+                formData.append('file', file);
+                return fetch(WORKER_URL, { method: 'POST', body: formData })
+                    .then(response => {
+                        if (!response.ok) { return response.text().then(text => { throw new Error(`Upload failed for ${file.name}: ${text}`) }); }
+                        return response.json();
+                    });
+            });
+
+            const results = await Promise.allSettled(uploadPromises);
+            let successfulUploads = [];
+            let failedUploads = [];
+
+            results.forEach(result => {
+                if (result.status === 'fulfilled') {
+                    const newItem = { markdown: result.value.markdown, url: result.value.url, timestamp: Date.now() };
+                    successfulUploads.push(newItem);
+                    saveToHistory(newItem);
+                } else {
+                    failedUploads.push(result.reason.message);
+                }
+            });
+
+            lastUploadBatch = successfulUploads.map(item => item.markdown);
+
+            if (successfulUploads.length > 0) {
+                resultDiv.style.display = 'block';
+                const existingLinks = markdownLinksTextarea.value;
+                const separator = existingLinks ? '\n' : '';
+                markdownLinksTextarea.value += separator + lastUploadBatch.join('\n');
+                markdownLinksTextarea.scrollTop = markdownLinksTextarea.scrollHeight;
+            }
+
+            if (failedUploads.length > 0) {
+                statusDiv.textContent = `Completed with ${failedUploads.length} error(s).`;
+                console.error(failedUploads.join('\n'));
+            } else if (successfulUploads.length > 0) {
+                statusDiv.textContent = `Successfully uploaded ${successfulUploads.length} file(s)!`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

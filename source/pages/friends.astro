@@ -1,0 +1,114 @@
+---
+const title = '友链';
+const friends = [
+  {
+    name: 'index',
+    url: 'https://shouw.blog/',
+    avatar: 'https://shouw.blog/avatar.jpg',
+    desc: 'the daybreak will never come again'
+  },
+  {
+    name: '内卷地狱',
+    url: 'https://involutionhell.com/',
+    avatar: 'https://involutionhell.com/logo/logoInLight.svg',
+    desc: 'involutionhell.com'
+  },
+  {
+    name: '发哥的云计算课堂',
+    url: 'https://space.bilibili.com/2051805852',
+    avatar: 'https://ui-avatars.com/api/?name=发哥&background=random',
+    desc: 'Bilibili Space'
+  },
+  {
+    name: '黑兔由帝',
+    url: 'https://space.bilibili.com/351510324',
+    avatar: 'https://ui-avatars.com/api/?name=黑兔&background=random',
+    desc: 'Bilibili Space'
+  }
+];
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title} | LynPtl</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="/" class="logo">LynPtl</a>
+        <nav>
+          <a href="/">博客</a>
+          <a href="/tags">标签</a>
+          <a href="/categories">分类</a>
+          <a href="/friends">友链</a>
+        </nav>
+      </header>
+      
+      <main>
+        <h1>友链</h1>
+        
+        <div class="friends-grid">
+          {friends.map(friend => (
+            <a href={friend.url} target="_blank" rel="noopener" class="friend-card">
+              <img src={friend.avatar} alt={friend.name} class="avatar" />
+              <div class="info">
+                <span class="name">{friend.name}</span>
+                <span class="desc">{friend.desc}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        
+        <div class="apply-section">
+          <h2>申请友链</h2>
+          <p>欢迎交换友链！请按以下格式发送邮件或在评论区留言：</p>
+          <ul>
+            <li><strong>名称:</strong> Your Name</li>
+            <li><strong>主页:</strong> https://your.site</li>
+            <li><strong>头像:</strong> https://your.site/avatar.png</li>
+            <li><strong>描述:</strong> 一句话介绍</li>
+          </ul>
+        </div>
+      </main>
+      
+      <footer>
+        <p>&copy; {new Date().getFullYear()} LynPtl. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root { --primary: #e11d48; --bg: #fafafa; --text: #18181b; --text-light: #71717a; --border: #e4e4e7; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Serif SC', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; }
+  nav { display: flex; gap: 1.5rem; }
+  nav a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+  nav a:hover { color: var(--primary); }
+  h1 { font-size: 2rem; margin-bottom: 2rem; }
+  
+  .friends-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+  .friend-card { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #fff; border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: var(--text); transition: all 0.2s; }
+  .friend-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-color: var(--primary); }
+  .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+  .info { display: flex; flex-direction: column; }
+  .name { font-weight: 600; font-size: 1rem; }
+  .desc { font-size: 0.85rem; color: var(--text-light); }
+  
+  .apply-section { padding-top: 2rem; border-top: 1px solid var(--border); }
+  .apply-section h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+  .apply-section p { margin-bottom: 1rem; }
+  .apply-section ul { list-style: none; padding: 0; }
+  .apply-section li { padding: 0.5rem 0; }
+  
+  footer { padding: 2rem 0; text-align: center; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>

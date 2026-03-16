@@ -18,7 +18,8 @@ const tagPosts = posts
   .sort((a, b) => {
     const dateA = typeof a.data.date === 'string' ? a.data.date.split(' ')[0] : a.data.date.toISOString().split('T')[0];
     const dateB = typeof b.data.date === 'string' ? b.data.date.split(' ')[0] : b.data.date.toISOString().split('T')[0];
-    return dateB.localeCompare(dateA);
+    if (dateB !== dateA) return dateB.localeCompare(dateA);
+    return b.data.title.localeCompare(a.data.title);
   });
 
 function formatDateShort(dateRaw: string | Date) {
@@ -67,7 +68,7 @@ function formatDateShort(dateRaw: string | Date) {
         
         <ul class="post-list" id="post-list">
           {tagPosts.map(post => (
-            <li data-date={typeof post.data.date === 'string' ? post.data.date : post.data.date.toISOString().split('T')[0]}>
+            <li data-date={typeof post.data.date === 'string' ? post.data.date.split(' ')[0] : post.data.date.toISOString().split('T')[0]} data-title={post.data.title}>
               <a href={`/blog/${post.slug}`}>
                 <span class="date">{formatDateShort(post.data.date)}</span>
                 <span class="title">{post.data.title}</span>
@@ -92,7 +93,13 @@ function formatDateShort(dateRaw: string | Date) {
         items.sort((a, b) => {
           const dateA = a.dataset.date;
           const dateB = b.dataset.date;
-          return newestFirst ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
+          // First compare by date, then by title
+          if (dateB !== dateA) {
+            return newestFirst ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
+          }
+          const titleA = a.dataset.title;
+          const titleB = b.dataset.title;
+          return newestFirst ? titleB.localeCompare(titleA) : titleA.localeCompare(titleB);
         });
         items.forEach(item => postList.appendChild(item));
       }

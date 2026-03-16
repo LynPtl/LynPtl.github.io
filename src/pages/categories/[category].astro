@@ -21,7 +21,6 @@ const categoryPosts = posts
     return dateB.localeCompare(dateA);
   });
 
-// Format date helper
 function formatDateShort(dateRaw: string | Date) {
   const dateStr = typeof dateRaw === 'string' ? dateRaw : dateRaw.toISOString().split('T')[0];
   const [, month, day] = dateStr.split(/[- ]/);
@@ -34,6 +33,7 @@ function formatDateShort(dateRaw: string | Date) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{category} | LynPtl</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -51,13 +51,23 @@ function formatDateShort(dateRaw: string | Date) {
       </header>
       
       <main>
-        <a href="/categories" class="back">← 返回分类</a>
-        <h1>{category}</h1>
+        <a href="/categories" class="back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11h-12.17l5.59-5.59-1.42-1.41-8 8 8 8 1.41-1.41-5.59-5.59h12.17v-2z"/></svg>
+          返回
+        </a>
+        
+        <div class="header-row">
+          <h1>{category}</h1>
+          <button class="sort-btn" id="sort-btn" title="切换排序">
+            <svg class="sort-icon-new" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l-7 7h14l-7-7zm0 14l7-7H5l7 7z"/></svg>
+            <svg class="sort-icon-old" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M12 19l7-7h-14l7 7zm-7 6h14l-7-7-7 7z"/></svg>
+          </button>
+        </div>
         <p class="count">{categoryPosts.length} 篇文章</p>
         
-        <ul class="post-list">
+        <ul class="post-list" id="post-list">
           {categoryPosts.map(post => (
-            <li>
+            <li data-date={typeof post.data.date === 'string' ? post.data.date : post.data.date.toISOString().split('T')[0]}>
               <a href={`/blog/${post.slug}`}>
                 <span class="date">{formatDateShort(post.data.date)}</span>
                 <span class="title">{post.data.title}</span>
@@ -71,6 +81,29 @@ function formatDateShort(dateRaw: string | Date) {
         <p>&copy; {new Date().getFullYear()} LynPtl. All rights reserved.</p>
       </footer>
     </div>
+    
+    <script>
+      const sortBtn = document.getElementById('sort-btn');
+      const postList = document.getElementById('post-list');
+      const items = Array.from(postList.querySelectorAll('li'));
+      let newestFirst = true;
+      
+      function sortPosts() {
+        items.sort((a, b) => {
+          const dateA = a.dataset.date;
+          const dateB = b.dataset.date;
+          return newestFirst ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
+        });
+        items.forEach(item => postList.appendChild(item));
+      }
+      
+      sortBtn.addEventListener('click', () => {
+        newestFirst = !newestFirst;
+        sortPosts();
+        sortBtn.querySelector('.sort-icon-new').style.display = newestFirst ? 'block' : 'none';
+        sortBtn.querySelector('.sort-icon-old').style.display = newestFirst ? 'none' : 'block';
+      });
+    </script>
   </body>
 </html>
 
@@ -79,14 +112,20 @@ function formatDateShort(dateRaw: string | Date) {
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Noto Serif SC', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
   .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
-  header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
   .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; }
   nav { display: flex; gap: 1.5rem; }
   nav a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
   nav a:hover { color: var(--primary); }
-  .back { display: inline-block; color: var(--text-light); text-decoration: none; font-size: 0.9rem; margin-bottom: 1rem; }
+  
+  .back { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--text-light); text-decoration: none; font-size: 0.9rem; margin-bottom: 1.5rem; transition: color 0.2s; }
   .back:hover { color: var(--primary); }
-  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  
+  .header-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+  h1 { font-size: 2rem; }
+  .sort-btn { display: flex; align-items: center; justify-content: center; padding: 0.5rem; background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--text-light); cursor: pointer; transition: all 0.2s; }
+  .sort-btn:hover { border-color: var(--primary); color: var(--primary); }
+  
   .count { color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; }
   .post-list { list-style: none; }
   .post-list li { margin-bottom: 0.25rem; }
@@ -94,5 +133,5 @@ function formatDateShort(dateRaw: string | Date) {
   .post-list a:hover { background: #fff; }
   .post-list .date { font-size: 0.85rem; color: var(--text-light); font-family: 'JetBrains Mono', monospace; min-width: 50px; }
   .post-list .title { flex: 1; font-size: 1rem; }
-  footer { padding: 3rem 0; text-align: center; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  footer { padding: 2rem 0; text-align: center; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 3rem; }
 </style>

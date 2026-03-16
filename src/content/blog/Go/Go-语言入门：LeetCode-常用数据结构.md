@@ -22,9 +22,9 @@ categories:
 
 ### 标准输出
 
-Go 的 <code>fmt</code> 包提供了丰富的函数用于格式化和输出数据。<code>fmt.Println</code> 和 <code>fmt.Printf</code> 是最常用的两个。
+Go 的 `fmt` 包提供了丰富的函数用于格式化和输出数据。`fmt.Println` 和 `fmt.Printf` 是最常用的两个。
 
-``<code>go
+```go
 package main
 
 import (
@@ -49,13 +49,13 @@ func main() {
 	// 输出：abc 10
 	fmt.Printf("%s %d\n", s, a)
 }
-</code>`<code>
+```
 
 ### 条件判断
 
-Go 的 </code>if-else<code> 结构与其它语言类似，但条件不需要用括号括起来。
+Go 的 `if-else` 结构与其它语言类似，但条件不需要用括号括起来。
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -74,13 +74,13 @@ func main() {
 	}
 	// 输出：a > 5
 }
-</code>`<code>
+```
 
 ### 循环
 
-Go 只有一个循环关键字 </code>for<code>，但它能实现多种循环方式。
+Go 只有一个循环关键字 `for`，但它能实现多种循环方式。
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -102,7 +102,7 @@ func main() {
 	}
 	fmt.Println()
 }
-</code>`<code>
+```
 ## 核心数据结构
 
 掌握以下数据结构是刷 LeetCode 的基础。
@@ -113,7 +113,7 @@ Go 的切片（Slice）是对底层数组的封装，提供了更强大、灵活
 
 #### 初始化
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -151,11 +151,11 @@ func main() {
 
 	fmt.Println(dp)
 }
-</code>`<code>
+```
 
 #### 常用操作
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -210,13 +210,13 @@ func main() {
 	}
 	fmt.Println()
 }
-</code>`<code>
+```
 
 ### 栈
 
 Go 没有内置的栈结构，但可以用切片（Slice）轻松实现。栈遵循“后进先出”（LIFO）的原则。
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -247,13 +247,13 @@ func main() {
 	// 输出新的栈顶元素：20
 	fmt.Println(s[len(s)-1])
 }
-</code>`<code>
+```
 
 ### 队列
 
-队列遵循“先进先出”（FIFO）的原则。Go 的标准库 </code>container/list<code> 提供了一个双向链表，可以高效地实现队列。
+队列遵循“先进先出”（FIFO）的原则。Go 的标准库 `container/list` 提供了一个双向链表，可以高效地实现队列。
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -288,15 +288,15 @@ func main() {
 	newFront := q.Front().Value.(int)
 	fmt.Println(newFront)
 }
-</code>`<code>
+```
 
 ### 哈希表（Map）
 
-Go 内置了 </code>map<code> 类型来实现哈希表，用于存储键值对。
+Go 内置了 `map` 类型来实现哈希表，用于存储键值对。
 
 #### 初始化
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -317,11 +317,11 @@ func main() {
 
 	fmt.Println(hashmap)
 }
-</code>`<code>
+```
 
 #### 常用操作
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -379,13 +379,13 @@ func main() {
 		fmt.Printf("%d -> %s\n", key, value)
 	}
 }
-</code>`<code>
+```
 
 ### 哈希集合 (Set)
 
-Go 没有内置的集合类型，但可以用 </code>map[T]struct{}<code> 巧妙地实现。</code>struct{}<code> 是一个空结构体，不占用任何内存空间，非常适合用作集合的值。
+Go 没有内置的集合类型，但可以用 `map[T]struct{}` 巧妙地实现。`struct{}` 是一个空结构体，不占用任何内存空间，非常适合用作集合的值。
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -437,13 +437,13 @@ func main() {
 		fmt.Println(element)
 	}
 }
-</code>`<code>
+```
 
 ### 双向链表
 
-Go 的 </code>container/list<code> 包提供了一个功能完备的双向链表实现。
+Go 的 `container/list` 包提供了一个功能完备的双向链表实现。
 
-</code>`<code>go
+```go
 package main
 
 import (
@@ -497,4 +497,4 @@ func main() {
 	}
 	fmt.Println()
 }
-</code>``
+```

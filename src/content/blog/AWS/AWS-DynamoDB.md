@@ -13,12 +13,12 @@ categories:
 
 ## 第一章：核心定义与本质
 
-<strong>Amazon DynamoDB</strong> 是一种完全托管的 NoSQL 数据库服务，提供快速、可预测的性能和无缝的扩展性。
+**Amazon DynamoDB** 是一种完全托管的 NoSQL 数据库服务，提供快速、可预测的性能和无缝的扩展性。
 
-<em> <strong>无服务器 (Serverless)：</strong> 你无需管理服务器、安装补丁或维护底层基础设施。
-</em> <strong>高可用性：</strong> 数据自动在区域内的多个可用区（AZ）之间进行同步复制。
-<em> <strong>性能：</strong> 无论数据规模如何，都能提供稳定、个位数毫秒级的响应延迟。
-</em> <strong>安全性：</strong> 提供默认的静态加密（Encryption at Rest），并与 IAM 集成进行细粒度的访问控制。
+* **无服务器 (Serverless)：** 你无需管理服务器、安装补丁或维护底层基础设施。
+* **高可用性：** 数据自动在区域内的多个可用区（AZ）之间进行同步复制。
+* **性能：** 无论数据规模如何，都能提供稳定、个位数毫秒级的响应延迟。
+* **安全性：** 提供默认的静态加密（Encryption at Rest），并与 IAM 集成进行细粒度的访问控制。
 
 ---
 
@@ -26,16 +26,16 @@ categories:
 
 ### 1. 基础结构
 
-<em> <strong>表 (Tables)：</strong> 数据的集合。DynamoDB 的表是无模式（Schema-less）的，除了主键外，不需要预先定义属性。
-</em> <strong>项目 (Items)：</strong> 表中的单条记录（类似于行）。每个项目的大小上限为 400 KB。
-<em> <strong>属性 (Attributes)：</strong> 项目中的基本数据元素（类似于列）。支持标量、集合及嵌套的文档类型（List 和 Map），嵌套深度可达 32 层。
+* **表 (Tables)：** 数据的集合。DynamoDB 的表是无模式（Schema-less）的，除了主键外，不需要预先定义属性。
+* **项目 (Items)：** 表中的单条记录（类似于行）。每个项目的大小上限为 400 KB。
+* **属性 (Attributes)：** 项目中的基本数据元素（类似于列）。支持标量、集合及嵌套的文档类型（List 和 Map），嵌套深度可达 32 层。
 
 ### 2. 主键 (Primary Key)
 
 主键必须在创建表时定义，且必须是标量类型（String, Number, Binary）。
 
-</em> <strong>分区键 (Partition Key/Hash Key)：</strong> 决定数据存储在哪个物理分区。
-<em> <strong>排序键 (Sort Key/Range Key)：</strong> 可选。与分区键结合形成“复合主键”，允许在相同分区键下进行范围查询和排序。
+* **分区键 (Partition Key/Hash Key)：** 决定数据存储在哪个物理分区。
+* **排序键 (Sort Key/Range Key)：** 可选。与分区键结合形成“复合主键”，允许在相同分区键下进行范围查询和排序。
 
 ---
 
@@ -45,11 +45,11 @@ categories:
 
 | 特性 | 本地二级索引 (LSI) | 全局二级索引 (GSI) |
 | --- | --- | --- |
-| <strong>分区键 (PK)</strong> | 必须与原表的分区键相同 | 可以与原表不同 |
-| <strong>排序键 (SK)</strong> | 必须与原表不同 | 可以与原表不同 |
-| <strong>创建时机</strong> | 仅限在建表时创建 | 可以在建表后随时创建、修改或删除 |
-| <strong>范围限制</strong> | 仅限于单个分区键值内（本地） | 跨越表的所有分区（全局） |
-| <strong>读一致性</strong> | 支持强一致性或最终一致性 | 仅支持最终一致性 |
+| **分区键 (PK)** | 必须与原表的分区键相同 | 可以与原表不同 |
+| **排序键 (SK)** | 必须与原表不同 | 可以与原表不同 |
+| **创建时机** | 仅限在建表时创建 | 可以在建表后随时创建、修改或删除 |
+| **范围限制** | 仅限于单个分区键值内（本地） | 跨越表的所有分区（全局） |
+| **读一致性** | 支持强一致性或最终一致性 | 仅支持最终一致性 |
 
 ---
 
@@ -57,35 +57,35 @@ categories:
 
 ### 1. 读一致性模型
 
-</em> <strong>最终一致性 (Eventually Consistent)：</strong> 默认模式，性能最高。响应可能包含过时数据，但通常在 1 秒内达到一致。
-<em> <strong>强一致性 (Strongly Consistent)：</strong> 返回最准确的数据。但在网络延迟或故障时可用性略低，且不支持跨区域读取。
+* **最终一致性 (Eventually Consistent)：** 默认模式，性能最高。响应可能包含过时数据，但通常在 1 秒内达到一致。
+* **强一致性 (Strongly Consistent)：** 返回最准确的数据。但在网络延迟或故障时可用性略低，且不支持跨区域读取。
 
 ### 2. 吞吐量单位计算
 
-</em> <strong>写入 (WCU)：</strong> 1 个 WCU = 每秒 1 次写入（项大小不超过 1 KB）。
-<em> <strong>读取 (RCU)：</strong> 1 个 RCU = 每秒 1 次强一致性读取，或每秒 2 次最终一致性读取（项大小不超过 4 KB）。
+* **写入 (WCU)：** 1 个 WCU = 每秒 1 次写入（项大小不超过 1 KB）。
+* **读取 (RCU)：** 1 个 RCU = 每秒 1 次强一致性读取，或每秒 2 次最终一致性读取（项大小不超过 4 KB）。
 
 ---
 
 ## 第五章：容量管理模式
 
-</em> <strong>预置模式 (Provisioned)：</strong> 你指定固定的 RCU 和 WCU。适合流量平稳、可预测的场景。
-<em> <strong>Auto Scaling：</strong> 开启后，DynamoDB 会根据实际流量自动调整预置的容量，防止因请求超限导致的 Throttling（节流）。
+* **预置模式 (Provisioned)：** 你指定固定的 RCU 和 WCU。适合流量平稳、可预测的场景。
+* **Auto Scaling：** 开启后，DynamoDB 会根据实际流量自动调整预置的容量，防止因请求超限导致的 Throttling（节流）。
 
 
-</em> <strong>按需模式 (On-Demand)：</strong> 按请求付费，无需容量规划。适合流量不可预测或有突发尖峰的负载。
+* **按需模式 (On-Demand)：** 按请求付费，无需容量规划。适合流量不可预测或有突发尖峰的负载。
 
 ---
 
 ## 第六章：查询操作 (Query vs Scan)
 
-<em> <strong>Query (查询)：</strong> 基于主键值定位。必须指定分区键的等值条件。性能极高且消耗吞吐量低。
-</em> <strong>Scan (扫描)：</strong> 读取表或索引中的<strong>所有项目</strong>，然后进行过滤。
-<em> <strong>注意：</strong> 对于大表，Scan 非常慢且非常昂贵，因为它会消耗大量的 RCU。
-</em> <strong>优化：</strong> 尽可能使用 Query；如必须 Scan，可尝试“并行扫描 (Parallel Scan)”。
+* **Query (查询)：** 基于主键值定位。必须指定分区键的等值条件。性能极高且消耗吞吐量低。
+* **Scan (扫描)：** 读取表或索引中的**所有项目**，然后进行过滤。
+* **注意：** 对于大表，Scan 非常慢且非常昂贵，因为它会消耗大量的 RCU。
+* **优化：** 尽可能使用 Query；如必须 Scan，可尝试“并行扫描 (Parallel Scan)”。
 
 
-<em> <strong>数据限制：</strong> 单次 Query 或 Scan 操作返回的数据上限为 <strong>1 MB</strong>。
+* **数据限制：** 单次 Query 或 Scan 操作返回的数据上限为 **1 MB**。
 
 ---
 
@@ -95,27 +95,27 @@ categories:
 
 捕获表的增删改操作。
 
-</em> 记录保留 <strong>24 小时</strong>。
-<em> 常用于触发 <strong>AWS Lambda</strong>，实现数据同步、实时分析或跨区域复制。
+* 记录保留 **24 小时**。
+* 常用于触发 **AWS Lambda**，实现数据同步、实时分析或跨区域复制。
 
 ### 2. DAX (DynamoDB Accelerator)
 
-专为 DynamoDB 设计的<strong>内存中缓存</strong>集群。
+专为 DynamoDB 设计的**内存中缓存**集群。
 
-</em> 提供<strong>微秒级</strong>的响应速度。
-<em> 主要针对频繁读取、重复读取的场景，但不适合需要强一致性读的应用。
+* 提供**微秒级**的响应速度。
+* 主要针对频繁读取、重复读取的场景，但不适合需要强一致性读的应用。
 
 ### 3. 全球表 (Global Tables)
 
 提供全托管、多区域、多活跃（Multi-active）的复制方案。
 
-</em> 允许在多个 AWS 区域提供极低延迟的读写。
-<em> 依赖 DynamoDB Streams 实现。
+* 允许在多个 AWS 区域提供极低延迟的读写。
+* 依赖 DynamoDB Streams 实现。
 
 ### 4. 其他核心特性
 
-</em> <strong>TTL (生存时间)：</strong> 自动删除过期项目。系统自动执行，不消耗吞吐量。
-<em> <strong>Transactions (事务)：</strong> 提供原子性、一致性、隔离性和持久性（ACID）。单次事务最多处理 25 个项目（4 MB）。
+* **TTL (生存时间)：** 自动删除过期项目。系统自动执行，不消耗吞吐量。
+* **Transactions (事务)：** 提供原子性、一致性、隔离性和持久性（ACID）。单次事务最多处理 25 个项目（4 MB）。
 
 ---
 
@@ -123,18 +123,18 @@ categories:
 
 ### 1. 热点分区 (Hot Partitions)
 
-</em> <strong>原因：</strong> 如果大量请求集中在同一个分区键（例如热门产品 ID），会导致该物理分区达到 RCU/WCU 上限，产生节流错误。
-<em> <strong>对策：</strong>
-</em> <strong>高基数键：</strong> 选择具有大量唯一值的分区键（如 UserID 而非 Gender）。
-<em> <strong>写入分片 (Write Sharding)：</strong> 在分区键末尾添加随机后缀，将压力分散到多个分区。
-</em> <strong>利用缓存：</strong> 使用 DAX 处理读取热点。
+* **原因：** 如果大量请求集中在同一个分区键（例如热门产品 ID），会导致该物理分区达到 RCU/WCU 上限，产生节流错误。
+* **对策：**
+* **高基数键：** 选择具有大量唯一值的分区键（如 UserID 而非 Gender）。
+* **写入分片 (Write Sharding)：** 在分区键末尾添加随机后缀，将压力分散到多个分区。
+* **利用缓存：** 使用 DAX 处理读取热点。
 
 
 
 ### 2. 节流处理 (Throttling)
 
-<em> 当请求被节流时，客户端会收到 <strong>HTTP 400 (ProvisionedThroughputExceededException)</strong> 错误。
-</em> <strong>解决方案：</strong> 增加预置容量、开启 Auto Scaling 或切换到按需模式。
+* 当请求被节流时，客户端会收到 **HTTP 400 (ProvisionedThroughputExceededException)** 错误。
+* **解决方案：** 增加预置容量、开启 Auto Scaling 或切换到按需模式。
 
 ---
 
@@ -142,8 +142,8 @@ categories:
 
 | 需求 | 推荐方案 |
 | --- | --- |
-| 关系型数据、多表 Join、复杂 SQL | 选择 <strong>RDS</strong> 或 <strong>Aurora</strong> |
-| 超高性能、毫秒级响应、键值对存储 | 选择 <strong>DynamoDB</strong> |
-| 微秒级读取延迟 | 在 DynamoDB 前端部署 <strong>DAX</strong> |
-| 事件驱动、数据库变动触发逻辑 | 使用 <strong>DynamoDB Streams + Lambda</strong> |
-| 存储大文件（如图片） | 将文件存入 <strong>S3</strong>，仅在 DynamoDB 存入 URL |
+| 关系型数据、多表 Join、复杂 SQL | 选择 **RDS** 或 **Aurora** |
+| 超高性能、毫秒级响应、键值对存储 | 选择 **DynamoDB** |
+| 微秒级读取延迟 | 在 DynamoDB 前端部署 **DAX** |
+| 事件驱动、数据库变动触发逻辑 | 使用 **DynamoDB Streams + Lambda** |
+| 存储大文件（如图片） | 将文件存入 **S3**，仅在 DynamoDB 存入 URL |

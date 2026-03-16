@@ -22,17 +22,21 @@ const postsWithPreview = sortedPosts.map(post => {
   const rawBody = post.body || '';
   const withoutFrontmatter = rawBody.replace(/^---[\s\S]*?---\n/, '');
   const withoutCode = withoutFrontmatter.replace(/```[\s\S]*?```/g, '');
-  // Remove all markdown syntax
-  const cleanText = withoutCode
+  // Remove all markdown syntax and HTML tags
+  let cleanText = withoutCode
     .replace(/!\[[^\]]*\]\([^)]+\)/g, '') // images
     .replace(/\[[^\]]*\]\([^)]+\)/g, '') // links
     .replace(/[*_~`#]/g, '') // markdown symbols
-    .replace(/>\s?/g, '') // blockquotes
     .replace(/[-+=]+\s/g, '') // list markers
     .replace(/\d+\.\s/g, '') // numbered lists
-    .replace(/<[^>]*>/g, '') // HTML tags
-    .replace(/\s+/g, ' ') // multiple spaces
-    .trim();
+    .replace(/\s+/g, ' '); // multiple spaces
+  
+  // Remove ALL HTML tags more aggressively
+  cleanText = cleanText.replace(/<[^>]+>/g, ' ');
+  cleanText = cleanText.replace(/<\/[^>]+>/g, ' ');
+  cleanText = cleanText.replace(/&[a-zA-Z]+;/g, ' '); // HTML entities
+  cleanText = cleanText.trim();
+  
   const preview = cleanText.slice(0, 120) + (cleanText.length > 120 ? '...' : '');
   
   // Count words

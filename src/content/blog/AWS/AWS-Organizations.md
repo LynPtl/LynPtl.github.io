@@ -89,27 +89,27 @@ AWS Organizations 是一项账户管理服务，使你能够将多个 AWS 账户
 
 结合模拟题和常见考点，以下是应对多账号管理相关题目的决策断言：
 
-{% note info "治理 vs 权限控制" %}
+<blockquote class="note"><strong>治理 vs 权限控制</strong>
 * **SCP (服务控制策略)** 是用来“限制”最大权限的边界（例如禁止所有人修改 CloudTrail，或者限制特定区域）。**它不授予权限**。
 * **IAM Policy** 是用来“授予”实际操作权限的。
 * **决策断言**：如果题目问“如何确保组织内没有任何账户（包括 root 用户）能绕过安全策略关闭 CloudTrail”，核心方案必然是 **SCP**，仅仅修改 IAM 是防不住 Root 的。
-{% endnote %}
+</blockquote>
 
-{% note info "多账户架构的最佳实践" %}
+<blockquote class="note"><strong>多账户架构的最佳实践</strong>
 * **环境隔离**：将 Prod（生产）和 Dev（开发）账户放在不同的 Organizational Unit (OU) 中，对 Prod OU 应用更严格的 SCP，对 Dev OU 应用较宽松的 SCP。
 * **最小化爆炸半径 (Blast Radius)**：如果某个成员账户遭到入侵，其他账户不受影响，实现了物理级别的资源隔离。
-{% endnote %}
+</blockquote>
 
-{% note info "管理现有/收购账户 (Scenario)" %}
+<blockquote class="note"><strong>管理现有/收购账户 (Scenario)</strong>
 * **场景**：公司收购了另一家公司，面临多个现有的 AWS 账户，需要集中管理并获得 Admin 权限。
 * **正确步骤**：
   1. 从管理账户发送 **邀请 (Invite)**。
   2. 成员账户接受邀请。
   3. **(关键考点)**：由于是邀请进来的旧账户，必须在成员账户中**手动创建 IAM Role** (通常命名为 `OrganizationAccountAccessRole`)，并信任（授予 AssumeRole 权限给）管理账户。
-{% endnote %}
+</blockquote>
 
-{% note info "成本优化与服务集成" %}
+<blockquote class="note"><strong>成本优化与服务集成</strong>
 * **成本合并**：当遇到“有多个独立账户”、“面临账单分散管理困难”、“想要通过使用量叠加享受批量定价折扣 (Volume Discounts)” -> 请选择 **AWS Organizations Consolidated Billing**。
 * **AWS Control Tower**：如果需求是“一键式”建立符合最佳实践的多账户自动化环境（Landing Zone），且要求开箱即用（包含预配置的 Organizations、IAM Identity Center (SSO)、Logging 等），请选择 **AWS Control Tower**（它是 Organizations 的上层编排封装）。
 * **AWS RAM (Resource Access Manager)**：如果考题是要在账户间共享**具体的资源级对象**（如 VPC Subnets, Transit Gateway），请用 **AWS RAM**，而不是用 Organizations（Organizations 管账户结构，RAM 管资源共享）。
-{% endnote %}
+</blockquote>

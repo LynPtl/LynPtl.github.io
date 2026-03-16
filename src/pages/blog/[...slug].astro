@@ -234,6 +234,15 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
       const lightboxImg = lightbox.querySelector('img');
       const lightboxClose = lightbox.querySelector('.lightbox-close');
       
+      // Make external links open in new tab
+      document.querySelectorAll('.content a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener');
+        }
+      });
+      
       document.querySelectorAll('.content img').forEach(img => {
         img.style.cursor = 'zoom-in';
         img.addEventListener('click', () => {
@@ -365,6 +374,18 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
   .post-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
   .tag { color: var(--text-light); text-decoration: none; font-size: 0.8rem; background: var(--card-bg); padding: 0.3rem 0.65rem; border-radius: 4px; transition: all 0.2s; }
   .tag:hover { background: var(--primary); color: #fff; }
+  
+  /* Blockquote styling */
+  .content blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid var(--primary);
+    background: var(--card-bg);
+    color: var(--text-light);
+    border-radius: 0 8px 8px 0;
+  }
+  .content blockquote p { margin-bottom: 0.5rem; }
+  .content blockquote p:last-child { margin-bottom: 0; }
   
   /* Table of Contents */
   .toc { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem; }

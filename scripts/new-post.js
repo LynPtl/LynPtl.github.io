@@ -8,9 +8,9 @@ if (args.length === 0) {
   process.exit(1);
 }
 
-const title = args.join('-');
-const date = new Date().toISOString().split('T')[0];
-const filename = `${date}-${title}.md`;
+const title = args.join(' ');
+const date = new Date().toISOString().replace('T', ' ').slice(0, 19);
+const filename = `${title}.md`;
 const filepath = path.join('src/content/blog', filename);
 
 const template = `---
@@ -21,26 +21,7 @@ tags:
 categories:
   - 
 ---
-
-在这里写你的文章内容...
-
-## 二级标题
-
-正文内容...
-
-### 三级标题
-
-更多内容...
-
-\`\`\`javascript
-// 代码示例
-console.log('Hello World');
-\`\`\`
-
-$O(N)$ 行内公式
-
-$$E = mc^2$$ 块级公式
 `;
 
 fs.writeFileSync(filepath, template);
-console.log(`✅ 已创建: ${filepath}`);
+console.log(`✓ 已创建 ${filepath}`);

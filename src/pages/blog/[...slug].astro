@@ -218,7 +218,7 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+      // 直接执行，因为当脚本加载时 DOM 已解析完成
       // Reading progress bar
       const progressBar = document.querySelector('.progress-bar');
       window.addEventListener('scroll', () => {
@@ -377,7 +377,6 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
           });
         });
       }
-    });
     </script>
   </body>
 </html>

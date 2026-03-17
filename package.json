@@ -13,7 +13,7 @@
     "new": "node scripts/new-post.js"
   },
   "dependencies": {
-    "astro": "^4.16.19",
+    "astro": "^6.0.5",
     "katex": "^0.16.38",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0"

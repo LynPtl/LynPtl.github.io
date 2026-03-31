@@ -1,0 +1,17 @@
+---
+title: 2041-20T2-Q1
+date: 2026-03-31 21:30:49
+tags:
+categories:
+  - 2041_review
+---
+
+要用学号和名字一起来去重。
+
+cut和python的split方法不一样的地方在于cut -d选项只能放一个字符，所以用逗号分割之后，后半段的名字会以空格开头，因此最后用空格分割去找第一个名字的时候需要用第二个。
+
+```shell
+#!/bin/dash
+
+cut -d "|" -f 2,3 | sort -u | cut -d "," -f 2 | sort | cut -d " " -f 2
+```
